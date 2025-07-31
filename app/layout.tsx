@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pretendard.className} antialiased h-screen`}>
+      <body className={`${pretendard.className} antialiased h-dvh`}>
         {children}
       </body>
     </html>
