@@ -35,7 +35,7 @@ export default function Onboarding() {
             className="flex-grow-0 flex-shrink-0 w-[359px] h-[46px]"
           >
             <div className="flex justify-center items-center w-[359px] h-[46px] absolute left-0 top-28 gap-2.5 px-[63px] py-2.5 rounded-[5px] bg-white/90">
-              <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center text-[#412a2a]">
+              <p className="flex-grow-0 flex-shrink-0 text-xl font-bold text-center text-theme">
                 회원가입
               </p>
             </div>
@@ -54,6 +54,14 @@ export default function Onboarding() {
       </div>
     </div>
   );
+}
+
+type ButtonProps = {
+  children: React.ReactNode;
+};
+
+function Button({ children }: ButtonProps) {
+  return <button>{children}</button>;
 }
 
 function GoogleIcon() {

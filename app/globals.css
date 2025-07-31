@@ -3,11 +3,13 @@
 :root {
   --background: #ffffff;
   --theme: #412a2a; /* 앱 테마색 */
+  --theme-gray: #808080;
 }
 
 @theme {
   --color-background: var(--background);
   --color-theme: var(--theme);
+  --color-theme-gray: var(--theme-gray);
 }
 
 /* @theme inline {
@@ -32,4 +34,8 @@ body {
 
 button {
   cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
 }
