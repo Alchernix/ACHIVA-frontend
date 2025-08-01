@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TextLogo } from "@/components/Logo";
 import { AppleIcon, GoogleIcon } from "@/components/Icons";
 import Container from "@/features/auth/Container";
 import LoginForm from "@/features/auth/LoginForm";
@@ -7,9 +8,7 @@ export default function Page() {
   return (
     <div className="flex flex-col gap-3">
       <Container classes="h-130">
-        <h1 className="w-[362px] text-4xl font-bold text-center text-theme">
-          ACHIVA
-        </h1>
+        <TextLogo />
         <LoginForm />
         <Span>비밀번호 찾기</Span>
         <div className="flex flex-col gap-2">
