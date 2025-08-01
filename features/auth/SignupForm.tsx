@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { z } from "zod";
+import { email, z } from "zod";
 import { UserSchema } from "./schima";
 import { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
 
@@ -72,7 +72,11 @@ export default function SignupForm() {
         error={!isEditing ? errors.email : ""}
         required
         button={
-          <Button classes="w-20 text-sm text-white" type="button">
+          <Button
+            disabled={!enteredValues.email || !!errors.email}
+            classes="w-20 text-sm text-white disabled:bg-[#e6e6e6] disabled:text-[#a6a6a6]"
+            type="button"
+          >
             중복확인
           </Button>
         }
@@ -136,7 +140,11 @@ export default function SignupForm() {
           }}
           error={!isEditing ? errors.nickname : ""}
           button={
-            <Button classes="w-20 text-sm" type="button">
+            <Button
+              classes="w-20 text-sm text-white disabled:bg-[#e6e6e6] disabled:text-[#a6a6a6]"
+              type="button"
+              disabled={!enteredValues.nickname || !!errors.nickname}
+            >
               중복확인
             </Button>
           }
@@ -147,7 +155,19 @@ export default function SignupForm() {
           영문 소문자·대문자, 숫자, 밑줄(_) 사용 가능
         </p>
       </div>
-      <Button classes="w-full px-3 py-1.5">가입하기</Button>
+      <Button
+        classes="w-full px-3 py-1.5 disabled:bg-theme-gray"
+        disabled={
+          // 하나라도 빈 칸 있거나
+          !Object.values(enteredValues).every((v) => v.trim() !== "") ||
+          // 편집 중이거나
+          isEditing ||
+          // 에러가 하나라도 있으면
+          Object.values(errors).some((e) => e !== "")
+        }
+      >
+        가입하기
+      </Button>
     </form>
   );
 }
