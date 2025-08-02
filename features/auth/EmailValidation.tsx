@@ -28,9 +28,19 @@ export default function EmailValidationForm() {
   }
 
   function handleBack(e: KeyboardEvent<HTMLInputElement>, idx: number) {
-    if (e.key === "Backspace") {
-      inputRefs.current[idx - 1]?.focus();
+    if (e.key !== "Backspace") return;
+
+    // 1) 현재 칸에 값이 있으면, 지우고 커서 이동 막기
+    if (code[idx] !== "") {
+      e.preventDefault(); // 브라우저 기본 Backspace 동작 막고
+      const newCode = [...code];
+      newCode[idx] = "";
+      setCode(newCode);
+      return;
     }
+
+    // 2) 이미 빈 칸이면 이전 인풋으로 포커스
+    inputRefs.current[idx - 1]?.focus();
   }
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
