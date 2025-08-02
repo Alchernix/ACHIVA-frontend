@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import { NextStepButton } from "./Buttons";
 import { CheckIcon } from "@/components/Icons";
+import { useSignupStepStore } from "@/store/SignupStore";
 
 export default function Terms() {
+  const handleNextStep = useSignupStepStore.use.handleNextStep();
   const [agreements, setAgreements] = useState(Array(5).fill(false));
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const titles = [
@@ -154,7 +156,9 @@ export default function Terms() {
             }
           />
         ))}
-        <NextStepButton disabled={!isAllAgreed}>다음</NextStepButton>
+        <NextStepButton disabled={!isAllAgreed} onClick={handleNextStep}>
+          다음
+        </NextStepButton>
       </div>
     </div>
   );
