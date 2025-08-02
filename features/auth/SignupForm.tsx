@@ -1,10 +1,14 @@
 "use client";
-import { useState } from "react";
-import { email, z } from "zod";
+import { useState, FormEvent } from "react";
+import { z } from "zod";
 import { UserSchema } from "./schima";
 import { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from "react";
+import { useSignupStepStore, useSignupInfoStore } from "@/store/SignupStore";
+import { NextStepButton } from "./Buttons";
 
 export default function SignupForm() {
+  const handleNextStep = useSignupStepStore.use.handleNextStep();
+  const setUser = useSignupInfoStore.use.setUser();
   const [enteredValues, setEnteredValues] = useState({
     email: "",
     password: "",
@@ -53,8 +57,18 @@ export default function SignupForm() {
     }
   }
 
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setUser({
+      email: enteredValues.email,
+      password: enteredValues.password,
+      nickname: enteredValues.nickname,
+    });
+    handleNextStep();
+  }
+
   return (
-    <form className="w-full flex flex-col gap-6" action="">
+    <form className="w-full flex flex-col gap-6" onSubmit={handleSubmit}>
       <Input
         label="이메일"
         name="email"
@@ -155,8 +169,7 @@ export default function SignupForm() {
           영문 소문자·대문자, 숫자, 밑줄(_) 사용 가능
         </p>
       </div>
-      <Button
-        classes="w-full px-3 py-1.5 disabled:bg-theme-gray"
+      <NextStepButton
         disabled={
           // 하나라도 빈 칸 있거나
           !Object.values(enteredValues).every((v) => v.trim() !== "") ||
@@ -167,7 +180,7 @@ export default function SignupForm() {
         }
       >
         가입하기
-      </Button>
+      </NextStepButton>
     </form>
   );
 }
