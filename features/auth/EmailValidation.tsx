@@ -7,8 +7,10 @@ import {
   FormEvent,
 } from "react";
 import { NextStepButton } from "./Buttons";
+import { useSignupStepStore } from "@/store/SignupStore";
 
 export default function EmailValidationForm() {
+  const handleNextStep = useSignupStepStore.use.handleNextStep();
   const [code, setCode] = useState<string[]>(["", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -45,6 +47,7 @@ export default function EmailValidationForm() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    handleNextStep();
   }
 
   return (

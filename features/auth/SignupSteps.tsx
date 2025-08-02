@@ -4,6 +4,7 @@ import { TextLogo } from "@/components/Logo";
 import SignupForm from "@/features/auth/SignupForm";
 import EmailValidationForm from "./EmailValidation";
 import { useSignupInfoStore } from "@/store/SignupStore";
+import Terms from "./Terms";
 
 export function BasicInfo() {
   return (
@@ -44,6 +45,21 @@ export function EmailValidation() {
         </div>
         <EmailValidationForm />
       </div>
+    </Container>
+  );
+}
+
+export function ToS() {
+  return (
+    <Container classes="h-151">
+      <TextLogo />
+      <div className="w-full text-left">
+        <p className="font-semibold text-lg">아래 약관에 동의해주세요</p>
+        <p className="font-light text-sm text-theme-gray">
+          가입을 위해 약관에 동의가 필요합니다
+        </p>
+      </div>
+      <Terms />
     </Container>
   );
 }
