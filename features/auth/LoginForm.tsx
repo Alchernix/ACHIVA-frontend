@@ -44,6 +44,7 @@ export default function LoginForm() {
         placeholder="이메일 입력"
         type="email"
         value={enteredValues.email}
+        name="email"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setIsEditing(true);
           setEnteredValues((prev) => ({ ...prev, email: e.target.value }));
@@ -52,11 +53,13 @@ export default function LoginForm() {
           setIsEditing(false);
           handleBlur("email");
         }}
+        required
         error={!isEditing ? errors.email : ""}
       />
       <Input
         placeholder="비밀번호 입력"
         type="password"
+        name="password"
         value={enteredValues.password}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setIsEditing(true);
@@ -66,6 +69,7 @@ export default function LoginForm() {
           setIsEditing(false);
           handleBlur("password");
         }}
+        required
         error={!isEditing ? errors.password : ""}
       />
       <button
@@ -88,7 +92,7 @@ function Input({ error, ...props }: InputProps) {
       <input
         className={`text-sm w-full border ${
           error ? "border-theme-red" : "border-theme-gray"
-        } rounded-[5px] px-3 py-1.5 placeholder:text-theme-gray placeholder:font-light`}
+        } rounded-[5px] px-3 py-2 placeholder:text-theme-gray placeholder:font-light`}
         {...props}
       />
       <p className="mt-0.5 text-theme-red text-xs font-light">{error}</p>
