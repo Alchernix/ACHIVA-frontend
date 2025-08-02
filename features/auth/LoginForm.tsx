@@ -69,7 +69,7 @@ export default function LoginForm() {
         error={!isEditing ? errors.password : ""}
       />
       <button
-        className="text-white bg-theme rounded-[5px] px-3 py-1.5 disabled:bg-theme-gray"
+        className="font-medium text-white bg-theme rounded-[5px] px-3 py-1.5 disabled:bg-theme-gray"
         disabled={isInvalid}
       >
         로그인
