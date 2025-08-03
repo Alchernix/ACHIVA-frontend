@@ -115,50 +115,58 @@ export default function Terms() {
   }
 
   return (
-    <div className="w-full">
-      <button
-        className={`w-full font-medium ${
-          isAllAgreed ? "bg-theme text-white" : "bg-[#e6e6e6] text-[#a6a6a6]"
-        } rounded-sm px-3 py-1.5`}
-        onClick={() => {
-          setAgreements(Array(5).fill(true));
-          handleScroll();
-        }}
-      >
-        <div className="relative w-full h-full">
-          <div className="absolute top-1/2 -translate-y-1/2 left-1 scale-90">
-            <CheckIcon fill="white" />
+    <div className="flex flex-col gap-5">
+      <div className="w-full text-left">
+        <p className="font-semibold text-lg">아래 약관에 동의해주세요</p>
+        <p className="font-light text-sm text-theme-gray">
+          가입을 위해 약관에 동의가 필요합니다
+        </p>
+      </div>
+      <div className="w-full">
+        <button
+          className={`w-full font-medium ${
+            isAllAgreed ? "bg-theme text-white" : "bg-[#e6e6e6] text-[#a6a6a6]"
+          } rounded-sm px-3 py-1.5`}
+          onClick={() => {
+            setAgreements(Array(5).fill(true));
+            handleScroll();
+          }}
+        >
+          <div className="relative w-full h-full">
+            <div className="absolute top-1/2 -translate-y-1/2 left-1 scale-90">
+              <CheckIcon fill="white" />
+            </div>
+            <p>전체 약관에 동의합니다</p>
           </div>
-          <p>전체 약관에 동의합니다</p>
+        </button>
+        <div
+          ref={scrollContainerRef}
+          className="flex flex-col gap-4 sm:h-80 overflow-y-scroll mt-6 [&::-webkit-scrollbar]:hidden"
+        >
+          {/* 이 영역 스크롤 */}
+          {contents.map((content, idx) => (
+            <Term
+              key={idx}
+              title={titles[idx]}
+              content={content}
+              isAgreed={agreements[idx]}
+              handleAgreement={() =>
+                setAgreements((prev) =>
+                  prev.map((agreement, i) => {
+                    if (i === idx) {
+                      return !agreement;
+                    } else {
+                      return agreement;
+                    }
+                  })
+                )
+              }
+            />
+          ))}
+          <NextStepButton disabled={!isAllAgreed} onClick={handleNextStep}>
+            다음
+          </NextStepButton>
         </div>
-      </button>
-      <div
-        ref={scrollContainerRef}
-        className="flex flex-col gap-4 h-80 overflow-y-scroll mt-6 [&::-webkit-scrollbar]:hidden"
-      >
-        {/* 이 영역 스크롤 */}
-        {contents.map((content, idx) => (
-          <Term
-            key={idx}
-            title={titles[idx]}
-            content={content}
-            isAgreed={agreements[idx]}
-            handleAgreement={() =>
-              setAgreements((prev) =>
-                prev.map((agreement, i) => {
-                  if (i === idx) {
-                    return !agreement;
-                  } else {
-                    return agreement;
-                  }
-                })
-              )
-            }
-          />
-        ))}
-        <NextStepButton disabled={!isAllAgreed} onClick={handleNextStep}>
-          다음
-        </NextStepButton>
       </div>
     </div>
   );

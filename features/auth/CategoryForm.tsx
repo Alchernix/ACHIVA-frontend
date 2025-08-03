@@ -68,7 +68,7 @@ function Button({ isSelected, children, ...props }: ButtonProps) {
       className={`px-3 py-2 rounded-sm font-semibold border  ${
         isSelected
           ? "text-white bg-theme border-theme"
-          : "text-theme border-[#d9d9d9]"
+          : "text-theme border-[#d9d9d9] hover:bg-[#a69595] hover:border-theme"
       }`}
     >
       {children}

@@ -12,7 +12,7 @@ export default function Page() {
   const currentStep = useSignupStepStore.use.currentStep();
 
   return (
-    <div className="flex flex-col gap-3 items-center justify-center">
+    <div className="w-full h-full flex flex-col gap-3 items-center justify-start sm:justify-center overflow-x-hidden overflow-y-auto">
       {currentStep === 0 && <BasicInfo />}
       {currentStep === 1 && <EmailValidation />}
       {currentStep === 2 && <ToS />}
