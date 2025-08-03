@@ -1,6 +1,8 @@
+"use client";
 import { useSignupInfoStore } from "@/store/SignupStore";
 import { ButtonHTMLAttributes } from "react";
 import { NextStepButton } from "./Buttons";
+import { motion } from "motion/react";
 
 export default function CategoryForm() {
   const user = useSignupInfoStore.use.user();
@@ -65,15 +67,21 @@ function Button({ isSelected, children, ...props }: ButtonProps) {
   return (
     <button
       {...props}
-      className={`px-3 py-2 rounded-sm font-semibold   ${
+      className={`relative px-3 py-2 rounded-sm font-semibold overflow-hidden border ${
         isSelected
-          ? ""
-          : "border text-theme border-[#d9d9d9] hover:bg-[#a69595] hover:border-theme"
+          ? "border-transparent text-white"
+          : "text-theme border-[#d9d9d9]"
       }`}
     >
-      {children}
+      <span className="relative z-10">{children}</span>
+      {isSelected && (
+        <motion.div
+          initial={{ scale: 0.7 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.2 }}
+          className="absolute inset-0 border text-white bg-theme border-theme"
+        ></motion.div>
+      )}
     </button>
   );
 }
-
-// text-white bg-theme border-theme
