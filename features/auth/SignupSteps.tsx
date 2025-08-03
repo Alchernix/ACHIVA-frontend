@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Container from "@/features/auth/Container";
 import { MobileContainer } from "@/features/auth/Container";
 import { TextLogo } from "@/components/Logo";
 import SignupForm from "@/features/auth/SignupForm";
@@ -12,7 +13,7 @@ export function BasicInfo() {
   return (
     <>
       <MobileHeader>회원가입</MobileHeader>
-      <MobileContainer classes="min-h-135">
+      <MobileContainer motionKey="BasicInfo" classes="min-h-135">
         <div className="hidden sm:block">
           <TextLogo />
         </div>
@@ -25,7 +26,7 @@ export function BasicInfo() {
         <SignupForm />
       </MobileContainer>
       <div className="hidden sm:flex">
-        <MobileContainer classes="h-20">
+        <Container classes="h-20">
           <p className="flex justify-center gap-2">
             <span className="font-light text-center text-black">
               계정이 있으신가요?
@@ -37,7 +38,7 @@ export function BasicInfo() {
               로그인
             </Link>
           </p>
-        </MobileContainer>
+        </Container>
       </div>
     </>
   );
@@ -49,7 +50,7 @@ export function EmailValidation() {
   return (
     <>
       <MobileHeader>회원가입</MobileHeader>
-      <MobileContainer classes="h-151">
+      <MobileContainer motionKey="EmailValidation" classes="h-151">
         <div className="hidden sm:block">
           <TextLogo />
         </div>
@@ -74,7 +75,7 @@ export function ToS() {
   return (
     <>
       <MobileHeader>회원가입</MobileHeader>
-      <MobileContainer classes="min-h-151">
+      <MobileContainer motionKey="ToS" classes="min-h-151">
         <div className="hidden sm:block mb-5">
           <TextLogo />
         </div>
@@ -88,7 +89,7 @@ export function Category() {
   return (
     <>
       <MobileHeader>회원가입</MobileHeader>
-      <MobileContainer classes="h-151">
+      <MobileContainer motionKey="Category" classes="h-151">
         <div className="hidden sm:block">
           <TextLogo />
         </div>
