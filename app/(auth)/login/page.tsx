@@ -12,10 +12,7 @@ export default function Page() {
       <Container classes="h-130">
         <TextLogo />
         <LoginForm />
-        <div className="hidden sm:block">
-          <Span>비밀번호 찾기</Span>
-        </div>
-        <div className="flex gap-3 mb-25 sm:hidden">
+        <div className="flex gap-3 mb-25 sm:mb-0">
           <Span>비밀번호를 잊으셨나요?</Span>
           <span className="text-sm font-medium">비밀번호 찾기</span>
         </div>
