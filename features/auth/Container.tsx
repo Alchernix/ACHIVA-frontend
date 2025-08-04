@@ -25,7 +25,7 @@ type Props2 = {
 export function MobileContainer({ motionKey, classes, children }: Props2) {
   return (
     <div
-      className={`w-screen sm:w-90 ${classes} shrink-0 rounded-[15px] sm:border sm:border-theme px-10 py-7 mt-15 sm:mt-0`}
+      className={`max-w-screen sm:w-90 ${classes} shrink-0 rounded-[15px] sm:border sm:border-theme px-10 py-7 mt-15 sm:mt-0`}
     >
       <motion.div
         initial={

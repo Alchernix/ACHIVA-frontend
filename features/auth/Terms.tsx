@@ -112,6 +112,11 @@ export default function Terms() {
       top: scrollContainerRef.current.scrollHeight,
       behavior: "smooth",
     });
+    window.scrollTo({
+      top: document.documentElement.scrollHeight, // 문서 전체 높이
+      left: 0,
+      behavior: "smooth", // 부드럽게 스크롤 (원하면 'auto'로 변경)
+    });
   }
 
   return (
@@ -163,6 +168,7 @@ export default function Terms() {
               }
             />
           ))}
+
           <NextStepButton disabled={!isAllAgreed} onClick={handleNextStep}>
             다음
           </NextStepButton>
