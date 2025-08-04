@@ -7,6 +7,7 @@ import EmailValidationForm from "./EmailValidation";
 import { useSignupInfoStore } from "@/store/SignupStore";
 import Terms from "./Terms";
 import CategoryForm from "./CategoryForm";
+import BirthdayForm from "./BirthdayForm";
 import MobileHeader from "./MobileHeader";
 
 export function BasicInfo() {
@@ -94,6 +95,20 @@ export function Category() {
           <TextLogo />
         </div>
         <CategoryForm />
+      </MobileContainer>
+    </>
+  );
+}
+
+export function Birthday() {
+  return (
+    <>
+      <MobileHeader>회원가입</MobileHeader>
+      <MobileContainer motionKey="Birthday" classes="h-151">
+        <div className="hidden sm:block">
+          <TextLogo />
+        </div>
+        <BirthdayForm />
       </MobileContainer>
     </>
   );

@@ -1,10 +1,11 @@
 "use client";
-import { useSignupInfoStore } from "@/store/SignupStore";
+import { useSignupInfoStore, useSignupStepStore } from "@/store/SignupStore";
 import { ButtonHTMLAttributes } from "react";
 import { NextStepButton } from "./Buttons";
 import { motion } from "motion/react";
 
 export default function CategoryForm() {
+  const handleNextStep = useSignupStepStore.use.handleNextStep();
   const user = useSignupInfoStore.use.user();
   const setUser = useSignupInfoStore.use.setUser();
   const categories = [
@@ -49,6 +50,7 @@ export default function CategoryForm() {
           ))}
         </div>
         <NextStepButton
+          onClick={handleNextStep}
           disabled={user.categories.length < 1 || user.categories.length > 5}
         >
           다음
