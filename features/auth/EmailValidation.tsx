@@ -1,17 +1,44 @@
 import {
   useRef,
   useState,
+  useEffect,
   Ref,
   ChangeEvent,
   KeyboardEvent,
   FormEvent,
 } from "react";
 import { NextStepButton } from "./Buttons";
-import { useSignupStepStore } from "@/store/SignupStore";
+import { useSignupStepStore, useSignupInfoStore } from "@/store/SignupStore";
+import { LoadingIcon } from "@/components/Icons";
 
 export default function EmailValidationForm() {
+  const email = useSignupInfoStore.use.user().email;
+
+  useEffect(() => {
+    async function sendVerificationCode() {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/send-verification-code?email=${email}`,
+          { method: "POST" }
+        );
+        if (!response.ok) {
+          throw new Error("이메일 검증 중 서버 에러");
+        }
+        await response.json();
+      } catch (err) {
+        console.error(err);
+        alert(
+          "네트워크 혹은 서버 오류가 발생했습니다. 재전송 버튼을 눌러주세요."
+        );
+      }
+    }
+    sendVerificationCode();
+  }, [email]);
+
   const handleNextStep = useSignupStepStore.use.handleNextStep();
   const [code, setCode] = useState<string[]>(["", "", "", ""]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   function handleChange(e: ChangeEvent<HTMLInputElement>, idx: number) {
@@ -45,9 +72,31 @@ export default function EmailValidationForm() {
     inputRefs.current[idx - 1]?.focus();
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    handleNextStep();
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${
+          process.env.NEXT_PUBLIC_SERVER_URL
+        }/api/auth/verify-code?email=${email}&code=${code.join("")}`,
+        { method: "POST" }
+      );
+      if (!response.ok) {
+        throw new Error("인증번호 검증 중 서버 에러");
+      }
+      const result = await response.json();
+      console.log(result);
+      if (result.status === "success") {
+        handleNextStep();
+      } else {
+        alert("인증번호가 틀렸습니다.");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("코드가 유효하지 않습니다. 새 코드를 요청하세요.");
+    }
+    setIsLoading(false);
   }
 
   return (
@@ -65,7 +114,11 @@ export default function EmailValidationForm() {
           />
         ))}
       </div>
-      <NextStepButton disabled={code.some((digit) => digit === "")}>
+      {error && <p className="text-sm font-light text-theme-red">{error}</p>}
+      <NextStepButton
+        isLoading={isLoading}
+        disabled={code.some((digit) => digit === "")}
+      >
         인증하기
       </NextStepButton>
     </form>

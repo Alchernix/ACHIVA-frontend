@@ -1,16 +1,22 @@
+import { LoadingIcon } from "@/components/Icons";
 import { ButtonHTMLAttributes } from "react";
 
 type ButtonProps = {
+  isLoading?: boolean;
   children: React.ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function NextStepButton({ children, ...props }: ButtonProps) {
+export function NextStepButton({
+  isLoading = false,
+  children,
+  ...props
+}: ButtonProps) {
   return (
     <button
       {...props}
-      className="w-full font-medium text-white bg-theme rounded-sm px-3 py-1.5 disabled:bg-[#e6e6e6] disabled:text-[#a6a6a6]"
+      className="flex items-center justify-center w-full font-medium text-white bg-theme rounded-sm px-3 py-1.5 h-9 disabled:bg-[#e6e6e6] disabled:text-[#a6a6a6]"
     >
-      {children}
+      {isLoading ? <LoadingIcon /> : children}
     </button>
   );
 }
