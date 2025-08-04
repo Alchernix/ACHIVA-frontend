@@ -7,6 +7,7 @@ type SignupStepState = {
   currentStep: number;
   handlePrevStep: () => void;
   handleNextStep: () => void;
+  resetStep: () => void;
 };
 
 const useSignupStepStoreBase = create<SignupStepState>()((set) => ({
@@ -15,6 +16,7 @@ const useSignupStepStoreBase = create<SignupStepState>()((set) => ({
     set((state) => ({ currentStep: state.currentStep - 1 })),
   handleNextStep: () =>
     set((state) => ({ currentStep: state.currentStep + 1 })),
+  resetStep: () => set({ currentStep: 0 }),
 }));
 
 export const useSignupStepStore = createSelectors(useSignupStepStoreBase);

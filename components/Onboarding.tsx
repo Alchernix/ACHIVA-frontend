@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SocialLoginBtn, SignupButton } from "@/features/onboarding/Button";
 
 export default function Onboarding() {
   return (
@@ -14,36 +15,9 @@ export default function Onboarding() {
       </div>
       <div className="flex flex-col justify-start items-center w-[359px] relative gap-5">
         <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
-          <button className="flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[46px] gap-2.5 px-[93px] py-2.5 rounded-[5px] border border-white/50">
-            <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative">
-              <div className="scale-90">
-                <GoogleIcon />
-              </div>
-              <p className="flex-grow-0 flex-shrink-0 w-[139px] h-[25px] opacity-[0.85] font-light text-center text-white">
-                구글로 시작하기
-              </p>
-            </div>
-          </button>
-          <button className="flex flex-col justify-center items-center self-stretch flex-grow-0 flex-shrink-0 h-[46px] gap-2.5 px-[93px] py-2.5 rounded-[5px] border border-white/50">
-            <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 relative opacity-[0.85]">
-              <div className="scale-90">
-                <AppleIcon />
-              </div>
-              <p className="flex-grow-0 flex-shrink-0 w-[139px] h-[25px] font-light text-center text-white">
-                애플로 시작하기
-              </p>
-            </div>
-          </button>
-          <Link
-            href="/signup"
-            className="flex-grow-0 flex-shrink-0 w-[359px] h-[46px]"
-          >
-            <div className="flex justify-center items-center w-[359px] h-[46px] absolute left-0 top-28 gap-2.5 px-[63px] py-2.5 rounded-[5px] bg-white/90">
-              <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-center text-theme">
-                회원가입
-              </p>
-            </div>
-          </Link>
+          <SocialLoginBtn icon={<GoogleIcon />} content="구글로 시작하기" />
+          <SocialLoginBtn icon={<AppleIcon />} content="애플로 시작하기" />
+          <SignupButton />
         </div>
         <p className="self-stretch flex-grow-0 flex-shrink-0 w-[359px] h-[23px] text-base text-center flex justify-center items-center gap-2">
           <span className=" text-sm text-center text-white/50">
@@ -58,14 +32,6 @@ export default function Onboarding() {
       </div>
     </div>
   );
-}
-
-type ButtonProps = {
-  children: React.ReactNode;
-};
-
-function Button({ children }: ButtonProps) {
-  return <button>{children}</button>;
 }
 
 function GoogleIcon() {
