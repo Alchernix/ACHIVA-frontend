@@ -65,9 +65,9 @@ export default function SignupForm() {
   async function handleCheckEmail() {
     setIsEmailCheckLoding(true);
     try {
-      console.log(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-email?email=${enteredValues.email}`
-      );
+      // console.log(
+      //   `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-email?email=${enteredValues.email}`
+      // );
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-email?email=${enteredValues.email}`
       );
@@ -91,6 +91,35 @@ export default function SignupForm() {
       );
     } finally {
       setIsEmailCheckLoding(false);
+    }
+  }
+
+  async function handleCheckNickName() {
+    setIsNickNameCheckLoding(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-nickname?nickname=${enteredValues.nickName}`
+      );
+      if (!response.ok) {
+        throw new Error("닉네임 중복 체크 중 서버 에러");
+      }
+      const { data } = await response.json();
+      const isAvailable = data.available;
+      if (isAvailable) {
+        setIsNickNameOk(true);
+      } else {
+        setErrors({
+          ...errors,
+          nickName: "사용할 수 없는 닉네임입니다.",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      alert(
+        "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      );
+    } finally {
+      setIsNickNameCheckLoding(false);
     }
   }
 
@@ -185,8 +214,10 @@ export default function SignupForm() {
           placeholder="닉네임"
           required
           value={enteredValues.nickName}
+          isAvailable={isNickNameOk ? "사용할 수 있는 닉네임입니다." : ""}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setIsEditing(true);
+            setIsNickNameOk(false);
             setEnteredValues((prev) => ({ ...prev, nickName: e.target.value }));
           }}
           onBlur={() => {
@@ -196,6 +227,7 @@ export default function SignupForm() {
           error={!isEditing ? errors.nickName : ""}
           button={
             <Button
+              onClick={handleCheckNickName}
               classes="w-20 text-sm text-white disabled:bg-[#e6e6e6] disabled:text-[#a6a6a6]"
               type="button"
               isLoading={isNickNameCheckLoading}
@@ -218,7 +250,10 @@ export default function SignupForm() {
           // 편집 중이거나
           isEditing ||
           // 에러가 하나라도 있으면
-          Object.values(errors).some((e) => e !== "")
+          Object.values(errors).some((e) => e !== "") ||
+          // 이메일이나 닉네임이 중복이거나 아직 중복체크를 하지 않았으면
+          !isEmailOk ||
+          !isNickNameOk
         }
       >
         가입하기
