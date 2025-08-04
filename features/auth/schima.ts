@@ -15,7 +15,7 @@ export const UserSchema = z.object({
         message: "비밀번호는 영어, 숫자, 특수문자를 모두 포함해야 합니다.",
       }
     ),
-  nickname: z
+  nickName: z
     .string()
     .min(2, { message: "닉네임은 최소 2자 이상이어야 합니다." })
     .max(15, { message: "닉네임은 최대 15자 이하여야 합니다." })

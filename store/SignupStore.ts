@@ -30,7 +30,7 @@ type EnteredInfoState = {
 const initialUser: User = {
   email: "",
   password: "",
-  nickname: "",
+  nickName: "",
   profileImg: undefined,
   birth: undefined,
   gender: undefined,

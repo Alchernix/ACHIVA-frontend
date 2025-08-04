@@ -7,24 +7,29 @@ import { useSignupStepStore, useSignupInfoStore } from "@/store/SignupStore";
 import { NextStepButton } from "./Buttons";
 
 export default function SignupForm() {
+  const [isEmailOk, setIsEmailOk] = useState(false);
+  const [isEmailCheckLoading, setIsEmailCheckLoding] = useState(false);
+  const [isNickNameOk, setIsNickNameOk] = useState(false);
+  const [isNickNameCheckLoading, setIsNickNameCheckLoding] = useState(false);
+
   const handleNextStep = useSignupStepStore.use.handleNextStep();
   const setUser = useSignupInfoStore.use.setUser();
   const [enteredValues, setEnteredValues] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    nickname: "",
+    nickName: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     confirmPassword: "",
-    nickname: "",
+    nickName: "",
   });
 
   function handleBlur(
-    field: "email" | "password" | "confirmPassword" | "nickname"
+    field: "email" | "password" | "confirmPassword" | "nickName"
   ) {
     if (field === "confirmPassword") {
       if (enteredValues.password !== enteredValues.confirmPassword) {
@@ -57,12 +62,44 @@ export default function SignupForm() {
     }
   }
 
+  async function handleCheckEmail() {
+    setIsEmailCheckLoding(true);
+    try {
+      console.log(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-email?email=${enteredValues.email}`
+      );
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-email?email=${enteredValues.email}`
+      );
+      if (!response.ok) {
+        throw new Error("이메일 중복 체크 중 서버 에러");
+      }
+      const { data } = await response.json();
+      const isAvailable = data.available;
+      if (isAvailable) {
+        setIsEmailOk(true);
+      } else {
+        setErrors({
+          ...errors,
+          email: "사용할 수 없는 이메일입니다.",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      alert(
+        "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      );
+    } finally {
+      setIsEmailCheckLoding(false);
+    }
+  }
+
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setUser({
       email: enteredValues.email,
       password: enteredValues.password,
-      nickname: enteredValues.nickname,
+      nickName: enteredValues.nickName,
     });
     handleNextStep();
   }
@@ -75,8 +112,10 @@ export default function SignupForm() {
         type="email"
         placeholder="이메일"
         value={enteredValues.email}
+        isAvailable={isEmailOk ? "사용할 수 있는 이메일입니다." : ""}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setIsEditing(true);
+          setIsEmailOk(false);
           setEnteredValues((prev) => ({ ...prev, email: e.target.value }));
         }}
         onBlur={() => {
@@ -87,7 +126,9 @@ export default function SignupForm() {
         required
         button={
           <Button
+            onClick={handleCheckEmail}
             disabled={!enteredValues.email || !!errors.email}
+            isLoading={isEmailCheckLoading}
             classes="w-20 text-sm text-white disabled:bg-[#e6e6e6] disabled:text-[#a6a6a6]"
             type="button"
           >
@@ -139,25 +180,26 @@ export default function SignupForm() {
       <div className="flex flex-col gap-2">
         <Input
           label="닉네임"
-          name="nickname"
-          type="nickname"
+          name="nickName"
+          type="nickName"
           placeholder="닉네임"
           required
-          value={enteredValues.nickname}
+          value={enteredValues.nickName}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setIsEditing(true);
-            setEnteredValues((prev) => ({ ...prev, nickname: e.target.value }));
+            setEnteredValues((prev) => ({ ...prev, nickName: e.target.value }));
           }}
           onBlur={() => {
             setIsEditing(false);
-            handleBlur("nickname");
+            handleBlur("nickName");
           }}
-          error={!isEditing ? errors.nickname : ""}
+          error={!isEditing ? errors.nickName : ""}
           button={
             <Button
               classes="w-20 text-sm text-white disabled:bg-[#e6e6e6] disabled:text-[#a6a6a6]"
               type="button"
-              disabled={!enteredValues.nickname || !!errors.nickname}
+              isLoading={isNickNameCheckLoading}
+              disabled={!enteredValues.nickName || !!errors.nickName}
             >
               중복확인
             </Button>
@@ -188,12 +230,39 @@ export default function SignupForm() {
 type ButtonProps = {
   classes: string; // width, disabled 시 설정 필요
   children: React.ReactNode;
+  isLoading: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-function Button({ classes, children, ...props }: ButtonProps) {
+function Button({ classes, children, isLoading, ...props }: ButtonProps) {
   return (
-    <button className={`text-white rounded-sm ${classes} bg-theme`} {...props}>
-      {children}
+    <button
+      className={`flex items-center justify-center text-white rounded-sm ${classes} bg-theme`}
+      {...props}
+    >
+      {isLoading ? (
+        <svg
+          className="size-5 animate-spin text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          ></circle>
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      ) : (
+        children
+      )}
     </button>
   );
 }
@@ -203,9 +272,17 @@ type InputProps = {
   name: string;
   error: string;
   button?: ReactNode;
+  isAvailable?: string; // 이메일, 닉네임 사용가능 시 클래스 위해
 } & InputHTMLAttributes<HTMLInputElement>;
 
-function Input({ label, name, button, error, ...props }: InputProps) {
+function Input({
+  label,
+  name,
+  button,
+  error,
+  isAvailable = "",
+  ...props
+}: InputProps) {
   return (
     <div className="flex flex-col gap-2 w-full">
       {label && (
@@ -217,13 +294,16 @@ function Input({ label, name, button, error, ...props }: InputProps) {
         <input
           className={`flex-1 min-w-0 text-sm bg-[#f2f2f2] rounded-sm placeholder:text-[#b3b3b3] px-3 py-2 ${
             error ? "border border-theme-red" : ""
-          }`}
+          } ${isAvailable ? "border border-[#29cc52]" : ""}`}
           name={name}
           {...props}
         />
         {button}
       </div>
-      <p className="text-theme-red text-xs font-light">{error}</p>
+      {error && <p className="text-theme-red text-xs font-light">{error}</p>}
+      {isAvailable && (
+        <p className="text-[#29cc52] text-xs font-light">{isAvailable}</p>
+      )}
     </div>
   );
 }
