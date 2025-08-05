@@ -1,10 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { InputHTMLAttributes, useState } from "react";
+import { FormEvent, InputHTMLAttributes, useState } from "react";
 import { UserSchema } from "@/features/auth/schima";
+import { NextStepButton } from "./Buttons";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [enteredValues, setEnteredValues] = useState({
     email: "",
     password: "",
@@ -14,6 +17,7 @@ export default function LoginForm() {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleBlur(field: "email" | "password") {
     if (field === "email") {
@@ -32,6 +36,38 @@ export default function LoginForm() {
           [field]: "",
         });
       }
+    } else {
+      setErrors({
+        ...errors,
+        [field]: "",
+      });
+    }
+  }
+
+  async function handleLogin(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: enteredValues.email,
+          password: enteredValues.password,
+        }),
+      });
+      if (!response.ok) {
+        setErrors({
+          ...errors,
+          password: "잘못된 비밀번호입니다. 다시 확인하세요.",
+        });
+        return;
+      }
+      router.push("/");
+    } catch (err) {
+      alert("알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -39,7 +75,7 @@ export default function LoginForm() {
     !!errors.email || !enteredValues.password || !!errors.password || isEditing;
 
   return (
-    <form className="flex flex-col gap-2.5 w-full">
+    <form className="flex flex-col gap-2.5 w-full" onSubmit={handleLogin}>
       <Input
         placeholder="이메일 입력"
         type="email"
@@ -72,12 +108,15 @@ export default function LoginForm() {
         required
         error={!isEditing ? errors.password : ""}
       />
-      <button
+      {/* <button
         className="font-medium text-white bg-theme rounded-[5px] px-3 py-1.5 disabled:bg-theme-gray"
         disabled={isInvalid}
       >
         로그인
-      </button>
+      </button> */}
+      <NextStepButton disabled={isInvalid} isLoading={isLoading}>
+        로그인
+      </NextStepButton>
     </form>
   );
 }

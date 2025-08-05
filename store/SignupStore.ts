@@ -1,7 +1,7 @@
 // 회원가입 단계와 입력한 정보
 import { create } from "zustand";
 import createSelectors from "./createSelectors";
-import type { User } from "@/types/User";
+import type { SignupUser } from "@/types/User";
 
 type SignupStepState = {
   currentStep: number;
@@ -22,12 +22,12 @@ const useSignupStepStoreBase = create<SignupStepState>()((set) => ({
 export const useSignupStepStore = createSelectors(useSignupStepStoreBase);
 
 type EnteredInfoState = {
-  user: User;
-  setUser: (updates: Partial<User>) => void;
+  user: SignupUser;
+  setUser: (updates: Partial<SignupUser>) => void;
   resetUser: () => void;
 };
 
-const initialUser: User = {
+const initialUser: SignupUser = {
   email: "",
   password: "",
   nickName: "",
