@@ -1,10 +1,11 @@
 import { FormEvent, useEffect, useState } from "react";
 import { getYear, getMonth, getDate, differenceInYears } from "date-fns";
 import { NextStepButton } from "./Buttons";
-import { useSignupInfoStore } from "@/store/SignupStore";
+import { useSignupInfoStore, useSignupStepStore } from "@/store/SignupStore";
 
 export default function BirthdayForm() {
   const setUser = useSignupInfoStore.use.setUser();
+  const handleNextStep = useSignupStepStore.use.handleNextStep();
   const today = new Date();
   const [year, setYear] = useState(getYear(today));
   const [month, setMonth] = useState(getMonth(today) + 1);
@@ -98,7 +99,12 @@ export default function BirthdayForm() {
           </select>
         </div>
         {error && <p className="text-sm font-light text-theme-red">{error}</p>}
-        <NextStepButton disabled={!!error || !isEdited}>다음</NextStepButton>
+        <NextStepButton
+          onClick={handleNextStep}
+          disabled={!!error || !isEdited}
+        >
+          다음
+        </NextStepButton>
       </form>
     </div>
   );

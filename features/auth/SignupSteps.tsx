@@ -9,6 +9,7 @@ import Terms from "./Terms";
 import CategoryForm from "./CategoryForm";
 import BirthdayForm from "./BirthdayForm";
 import MobileHeader from "./MobileHeader";
+import ProfileImageUploader from "./ProfileImageUploader";
 
 export function BasicInfo() {
   return (
@@ -109,6 +110,17 @@ export function Birthday() {
           <TextLogo />
         </div>
         <BirthdayForm />
+      </MobileContainer>
+    </>
+  );
+}
+
+export function Oath() {
+  return (
+    <>
+      <MobileHeader>회원가입</MobileHeader>
+      <MobileContainer motionKey="Birthday" classes="h-151">
+        <ProfileImageUploader />
       </MobileContainer>
     </>
   );

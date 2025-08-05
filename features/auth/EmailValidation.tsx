@@ -9,7 +9,6 @@ import {
 } from "react";
 import { NextStepButton } from "./Buttons";
 import { useSignupStepStore, useSignupInfoStore } from "@/store/SignupStore";
-import { LoadingIcon } from "@/components/Icons";
 
 export default function EmailValidationForm() {
   const email = useSignupInfoStore.use.user().email;

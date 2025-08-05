@@ -7,6 +7,7 @@ import {
   ToS,
   Category,
   Birthday,
+  Oath,
 } from "@/features/auth/SignupSteps";
 import { useSignupStepStore } from "@/store/SignupStore";
 
@@ -21,6 +22,7 @@ export default function Page() {
         {currentStep === 2 && <ToS />}
         {currentStep === 3 && <Category />}
         {currentStep === 4 && <Birthday />}
+        {currentStep === 5 && <Oath />}
       </div>
     </AnimatePresence>
   );
