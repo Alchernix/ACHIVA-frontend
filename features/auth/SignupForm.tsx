@@ -66,24 +66,27 @@ export default function SignupForm() {
   async function handleCheckEmail() {
     setIsEmailCheckLoding(true);
     try {
-      // console.log(
-      //   `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-email?email=${enteredValues.email}`
-      // );
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-email?email=${enteredValues.email}`
       );
-      if (!response.ok) {
-        throw new Error("이메일 중복 체크 중 서버 에러");
-      }
-      const { data } = await response.json();
-      const isAvailable = data.available;
-      if (isAvailable) {
-        setIsEmailOk(true);
-      } else {
+      if (response.ok) {
+        const { data } = await response.json();
+        const isAvailable = data.available;
+        if (isAvailable) {
+          setIsEmailOk(true);
+        } else {
+          setErrors({
+            ...errors,
+            email: "이미 사용 중인 이메일입니다.",
+          });
+        }
+      } else if (response.status === 400) {
         setErrors({
           ...errors,
-          email: "사용할 수 없는 이메일입니다.",
+          email: "이미 사용 중인 이메일입니다.",
         });
+      } else {
+        throw new Error("이메일 중복 체크 중 서버 에러");
       }
     } catch (err) {
       console.error(err);
@@ -101,18 +104,24 @@ export default function SignupForm() {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/check-nickname?nickname=${enteredValues.nickName}`
       );
-      if (!response.ok) {
-        throw new Error("닉네임 중복 체크 중 서버 에러");
-      }
-      const { data } = await response.json();
-      const isAvailable = data.available;
-      if (isAvailable) {
-        setIsNickNameOk(true);
-      } else {
+      if (response.ok) {
+        const { data } = await response.json();
+        const isAvailable = data.available;
+        if (isAvailable) {
+          setIsNickNameOk(true);
+        } else {
+          setErrors({
+            ...errors,
+            nickName: "이미 사용 중인 닉네임입니다.",
+          });
+        }
+      } else if (response.status === 400) {
         setErrors({
           ...errors,
-          nickName: "사용할 수 없는 닉네임입니다.",
+          nickName: "이미 사용 중인 닉네임입니다.",
         });
+      } else {
+        throw new Error("닉네임 중복 체크 중 서버 에러");
       }
     } catch (err) {
       console.error(err);
@@ -145,6 +154,10 @@ export default function SignupForm() {
         isAvailable={isEmailOk ? "사용할 수 있는 이메일입니다." : ""}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setIsEditing(true);
+          setErrors({
+            ...errors,
+            email: "",
+          });
           setIsEmailOk(false);
           setEnteredValues((prev) => ({ ...prev, email: e.target.value }));
         }}
@@ -218,6 +231,10 @@ export default function SignupForm() {
           isAvailable={isNickNameOk ? "사용할 수 있는 닉네임입니다." : ""}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setIsEditing(true);
+            setErrors({
+              ...errors,
+              nickName: "",
+            });
             setIsNickNameOk(false);
             setEnteredValues((prev) => ({ ...prev, nickName: e.target.value }));
           }}
