@@ -2,10 +2,12 @@ import { NextStepButton } from "./Buttons";
 import { useSignupInfoStore } from "@/store/SignupStore";
 import { format } from "date-fns";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function OathForm() {
   const user = useSignupInfoStore.use.user();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   async function handleSignUp() {
     setIsLoading(true);
@@ -22,7 +24,7 @@ export default function OathForm() {
       categories: user.categories,
       // 임시 기본 프로필
     };
-    console.log(JSON.stringify(payload));
+    // console.log(JSON.stringify(payload));
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`,
@@ -37,11 +39,25 @@ export default function OathForm() {
       if (!response.ok) {
         throw new Error("회원가입 중 서버 에러");
       }
-      await response.json();
-      // todo: 회원가입 이후 라우팅, 로그인 등
+      // 회원가입 후 자동 로그인
+      const loginResponse = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          password: user.password,
+        }),
+      });
+      if (loginResponse.ok) {
+        router.push("/");
+      } else {
+        throw new Error("로그인 중 서버 에러");
+      }
     } catch (err) {
       console.error(err);
-      alert("네트워크 혹은 서버 오류가 발생했습니다. 다시 시도해주세요.");
+      alert(
+        "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+      );
     }
     setIsLoading(false);
   }
