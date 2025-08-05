@@ -85,7 +85,7 @@ export default function EmailValidationForm() {
         throw new Error("인증번호 검증 중 서버 에러");
       }
       const result = await response.json();
-      console.log(result);
+
       if (result.status === "success") {
         handleNextStep();
       } else {

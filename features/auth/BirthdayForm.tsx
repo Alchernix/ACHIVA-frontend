@@ -39,6 +39,7 @@ export default function BirthdayForm() {
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setUser({ birth: new Date(year, month - 1, day) });
+    handleNextStep();
   }
 
   return (
@@ -99,12 +100,7 @@ export default function BirthdayForm() {
           </select>
         </div>
         {error && <p className="text-sm font-light text-theme-red">{error}</p>}
-        <NextStepButton
-          onClick={handleNextStep}
-          disabled={!!error || !isEdited}
-        >
-          다음
-        </NextStepButton>
+        <NextStepButton disabled={!!error || !isEdited}>다음</NextStepButton>
       </form>
     </div>
   );

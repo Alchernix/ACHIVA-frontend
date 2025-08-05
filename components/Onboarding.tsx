@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { SocialLoginBtn, SignupButton } from "@/features/onboarding/Button";
-import ProfileImageUploader from "@/features/auth/ProfileImageUploader";
 
 export default function Onboarding() {
   return (
@@ -31,7 +30,6 @@ export default function Onboarding() {
           </Link>
         </p>
       </div>
-      <ProfileImageUploader />
     </div>
   );
 }

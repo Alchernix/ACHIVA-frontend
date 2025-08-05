@@ -9,7 +9,7 @@ import Terms from "./Terms";
 import CategoryForm from "./CategoryForm";
 import BirthdayForm from "./BirthdayForm";
 import MobileHeader from "./MobileHeader";
-import ProfileImageUploader from "./ProfileImageUploader";
+import OathForm from "./OathForm";
 
 export function BasicInfo() {
   return (
@@ -119,8 +119,11 @@ export function Oath() {
   return (
     <>
       <MobileHeader>회원가입</MobileHeader>
-      <MobileContainer motionKey="Birthday" classes="h-151">
-        <ProfileImageUploader />
+      <MobileContainer motionKey="Oath" classes="h-151">
+        <div className="hidden sm:block">
+          <TextLogo />
+        </div>
+        <OathForm />
       </MobileContainer>
     </>
   );
