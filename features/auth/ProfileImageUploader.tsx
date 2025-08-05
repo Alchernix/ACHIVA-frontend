@@ -3,11 +3,13 @@
 import { useState } from "react";
 
 export default function ProfileImageUploader() {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
 
   // 1) 파일 선택
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
   };
 
   return (
