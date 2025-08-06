@@ -1,4 +1,5 @@
 "use client";
+// border + padding + 가운데 정렬 까지만!!
 import { motion } from "motion/react";
 
 type Props = {
@@ -8,7 +9,7 @@ type Props = {
 export default function Container({ classes, children }: Props) {
   return (
     <div
-      className={`w-screen sm:w-90 ${classes} rounded-[15px] sm:border sm:border-theme px-10 py-7 flex flex-col items-center justify-evenly`}
+      className={`w-screen sm:w-90 ${classes} rounded-[15px] sm:border sm:border-theme px-10 py-7 flex items-center justify-center`}
     >
       {children}
     </div>
@@ -25,7 +26,7 @@ type Props2 = {
 export function MobileContainer({ motionKey, classes, children }: Props2) {
   return (
     <div
-      className={`max-w-screen sm:w-90 ${classes} shrink-0 rounded-[15px] sm:border sm:border-theme px-10 py-7 mt-15 sm:mt-0`}
+      className={`w-screen sm:w-90 ${classes} rounded-[15px] sm:border sm:border-theme px-10 py-7 flex items-center justify-center`}
     >
       <motion.div
         initial={
@@ -41,7 +42,7 @@ export function MobileContainer({ motionKey, classes, children }: Props2) {
         exit={{
           opacity: 0,
         }}
-        className="w-full h-full flex flex-col items-center sm:justify-evenly"
+        className="w-full h-full flex flex-col items-center sm:justify-center"
       >
         {children}
       </motion.div>

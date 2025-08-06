@@ -3,7 +3,7 @@ import { SocialLoginBtn, SignupButton } from "@/features/onboarding/Button";
 
 export default function Onboarding() {
   return (
-    <div className="h-full bg-theme flex flex-col items-center p-10">
+    <div className="h-dvh bg-theme flex flex-col items-center p-10">
       <div className="my-auto">
         <h1 className="w-[196px] h-[55px] text-4xl font-bold text-center text-white">
           ACHIVA

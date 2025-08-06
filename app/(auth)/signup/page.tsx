@@ -16,7 +16,7 @@ export default function Page() {
 
   return (
     <AnimatePresence mode="wait">
-      <div className="w-full h-full flex flex-col gap-3 items-center justify-start sm:justify-center">
+      <div className="w-full min-h-dvh flex flex-col gap-3 items-center pt-15 sm:pt-0 justify-start sm:justify-center">
         {currentStep === 0 && <BasicInfo />}
         {currentStep === 1 && <EmailValidation />}
         {currentStep === 2 && <ToS />}

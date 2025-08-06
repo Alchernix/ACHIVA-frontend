@@ -50,7 +50,7 @@ export function EmailValidation() {
     <>
       <MobileHeader>회원가입</MobileHeader>
       <MobileContainer motionKey="EmailValidation" classes="h-151">
-        <div className="hidden sm:block">
+        <div className="hidden sm:block mb-15">
           <TextLogo />
         </div>
         <div className="w-full flex flex-col gap-7">
@@ -66,7 +66,7 @@ export function ToS() {
     <>
       <MobileHeader>회원가입</MobileHeader>
       <MobileContainer motionKey="ToS" classes="min-h-151">
-        <div className="hidden sm:block mb-5">
+        <div className="hidden sm:block mb-10">
           <TextLogo />
         </div>
         <Terms />
@@ -80,7 +80,7 @@ export function Category() {
     <>
       <MobileHeader>회원가입</MobileHeader>
       <MobileContainer motionKey="Category" classes="h-151">
-        <div className="hidden sm:block">
+        <div className="hidden sm:block mb-10">
           <TextLogo />
         </div>
         <CategoryForm />
@@ -94,7 +94,7 @@ export function Birthday() {
     <>
       <MobileHeader>회원가입</MobileHeader>
       <MobileContainer motionKey="Birthday" classes="h-151">
-        <div className="hidden sm:block">
+        <div className="hidden sm:block mb-10">
           <TextLogo />
         </div>
         <BirthdayForm />

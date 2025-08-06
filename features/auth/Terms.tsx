@@ -108,15 +108,20 @@ export default function Terms() {
   const isAllAgreed = agreements.every((v) => v === true);
 
   function handleScroll() {
-    scrollContainerRef.current?.scrollTo({
-      top: scrollContainerRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-    window.scrollTo({
-      top: document.documentElement.scrollHeight, // 문서 전체 높이
-      left: 0,
-      behavior: "smooth", // 부드럽게 스크롤 (원하면 'auto'로 변경)
-    });
+    const isMobile = window.innerWidth < 640;
+    console.log(isMobile);
+    if (!isMobile) {
+      scrollContainerRef.current?.scrollTo({
+        top: scrollContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight, // 문서 전체 높이
+        left: 0,
+        behavior: "smooth",
+      });
+    }
   }
 
   return (
