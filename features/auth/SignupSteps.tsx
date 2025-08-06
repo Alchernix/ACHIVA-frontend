@@ -4,7 +4,6 @@ import { MobileContainer } from "@/features/auth/Container";
 import { TextLogo } from "@/components/Logo";
 import SignupForm from "@/features/auth/SignupForm";
 import EmailValidationForm from "./EmailValidation";
-import { useSignupInfoStore } from "@/store/SignupStore";
 import Terms from "./Terms";
 import CategoryForm from "./CategoryForm";
 import BirthdayForm from "./BirthdayForm";
@@ -47,8 +46,6 @@ export function BasicInfo() {
 }
 
 export function EmailValidation() {
-  const user = useSignupInfoStore.use.user();
-
   return (
     <>
       <MobileHeader>회원가입</MobileHeader>
@@ -57,15 +54,6 @@ export function EmailValidation() {
           <TextLogo />
         </div>
         <div className="w-full flex flex-col gap-7">
-          <div className="flex flex-col gap-1">
-            <p className="text-lg font-semibold break-keep">
-              <span className="font-bold">{user.email}</span>으로 인증번호를
-              보냈습니다
-            </p>
-            <p className="font-light text-theme-gray text-sm">
-              이메일로 전송된 인증번호를 입력해주세요.
-            </p>
-          </div>
           <EmailValidationForm />
         </div>
       </MobileContainer>

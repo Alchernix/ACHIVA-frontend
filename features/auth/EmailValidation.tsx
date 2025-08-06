@@ -6,6 +6,7 @@ import {
   ChangeEvent,
   KeyboardEvent,
   FormEvent,
+  useCallback,
 } from "react";
 import { NextStepButton } from "./Buttons";
 import { useSignupStepStore, useSignupInfoStore } from "@/store/SignupStore";
@@ -13,26 +14,27 @@ import { useSignupStepStore, useSignupInfoStore } from "@/store/SignupStore";
 export default function EmailValidationForm() {
   const email = useSignupInfoStore.use.user().email;
 
-  useEffect(() => {
-    async function sendVerificationCode() {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/send-verification-code?email=${email}`,
-          { method: "POST" }
-        );
-        if (!response.ok) {
-          throw new Error("이메일 검증 중 서버 에러");
-        }
-        await response.json();
-      } catch (err) {
-        console.error(err);
-        alert(
-          "네트워크 혹은 서버 오류가 발생했습니다. 재전송 버튼을 눌러주세요."
-        );
+  const sendVerificationCode = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/send-verification-code?email=${email}`,
+        { method: "POST" }
+      );
+      if (!response.ok) {
+        throw new Error("이메일 검증 중 서버 에러");
       }
+      await response.json();
+    } catch (err) {
+      console.error(err);
+      alert(
+        "네트워크 혹은 서버 오류가 발생했습니다. 재전송 버튼을 눌러주세요."
+      );
     }
-    sendVerificationCode();
   }, [email]);
+
+  useEffect(() => {
+    sendVerificationCode();
+  }, [email, sendVerificationCode]);
 
   const handleNextStep = useSignupStepStore.use.handleNextStep();
   const [code, setCode] = useState<string[]>(["", "", "", ""]);
@@ -93,34 +95,50 @@ export default function EmailValidationForm() {
       }
     } catch (err) {
       console.error(err);
-      setError("코드가 유효하지 않습니다. 새 코드를 요청하세요.");
+      setError("인증번호가 일치하지 않습니다. 다시 시도하세요.");
     }
     setIsLoading(false);
   }
 
   return (
-    <form className="w-full flex flex-col gap-7" onSubmit={handleSubmit}>
-      <div className="flex gap-2">
-        {code.map((digit, idx) => (
-          <Input
-            ref={(el) => {
-              inputRefs.current[idx] = el;
-            }}
-            key={idx}
-            value={digit}
-            handleChange={(e) => handleChange(e, idx)}
-            handleBack={(e) => handleBack(e, idx)}
-          />
-        ))}
+    <>
+      <div className="flex flex-col gap-1">
+        <p className="text-lg font-semibold break-keep">
+          <span className="font-bold">{email}</span>으로 인증번호를 보냈습니다
+        </p>
+        <p className="font-light text-theme-gray text-sm">
+          이메일로 전송된 인증번호를 입력해주세요.{" "}
+          <button
+            className="text-black font-bold hover:underline inline"
+            onClick={sendVerificationCode}
+          >
+            코드 재전송
+          </button>
+        </p>
       </div>
-      {error && <p className="text-sm font-light text-theme-red">{error}</p>}
-      <NextStepButton
-        isLoading={isLoading}
-        disabled={code.some((digit) => digit === "")}
-      >
-        인증하기
-      </NextStepButton>
-    </form>
+      <form className="w-full flex flex-col gap-7" onSubmit={handleSubmit}>
+        <div className="flex gap-2">
+          {code.map((digit, idx) => (
+            <Input
+              ref={(el) => {
+                inputRefs.current[idx] = el;
+              }}
+              key={idx}
+              value={digit}
+              handleChange={(e) => handleChange(e, idx)}
+              handleBack={(e) => handleBack(e, idx)}
+            />
+          ))}
+        </div>
+        {error && <p className="text-sm font-light text-theme-red">{error}</p>}
+        <NextStepButton
+          isLoading={isLoading}
+          disabled={code.some((digit) => digit === "")}
+        >
+          인증하기
+        </NextStepButton>
+      </form>
+    </>
   );
 }
 
