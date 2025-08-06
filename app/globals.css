@@ -41,3 +41,7 @@ button {
 button:disabled {
   cursor: default;
 }
+
+input:focus {
+  outline-color: var(--color-theme);
+}
