@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { SocialLoginBtn, SignupButton } from "@/features/onboarding/Button";
 
-export default function Onboarding() {
+export default function Page() {
   return (
     <div className="h-dvh bg-theme flex flex-col items-center p-10">
       <div className="my-auto">

@@ -1,3 +1,5 @@
+"use client";
+import Link from "next/link";
 import { TextLogo } from "./Logo";
 import { HomeIcon, SearchIcon, PostIcon, NotificationIcon } from "./Icons";
 import { motion } from "motion/react";
@@ -16,9 +18,16 @@ export default function Sidebar() {
     { label: "프로필", Icon: ProfileImg },
   ];
   return (
-    <nav className="h-dvh fixed w-60 py-8 border-r border-r-[#d9d9d9]">
-      <div className="mb-15">
-        <TextLogo />
+    <nav className="h-dvh fixed lg:w-60 py-8 border-r border-r-[#d9d9d9]">
+      <div className="mb-15 lg:hidden">
+        <Link href="/">
+          <h1 className="text-4xl font-bold text-center text-theme">A</h1>
+        </Link>
+      </div>
+      <div className="mb-15 hidden lg:block">
+        <Link href="/">
+          <TextLogo />
+        </Link>
       </div>
       <ul className="flex flex-col gap-8">
         {MENU_ITEMS.map(({ label, Icon }) => {
@@ -42,7 +51,11 @@ export default function Sidebar() {
                   }
                 />
               )}
-              <span className={`text-lg ${selected ? "font-bold" : ""}`}>
+              <span
+                className={`hidden lg:inline text-lg ${
+                  selected ? "font-bold" : ""
+                }`}
+              >
                 {label}
               </span>
               {selected && (
