@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { Profile } from "@/features/user/Profile";
+import MobileProfile, { Profile } from "@/features/user/Profile";
 import type { User } from "@/types/User";
 import Footer from "@/components/Footer";
 import PointSection from "@/features/user/Point";
@@ -23,10 +23,11 @@ export default async function Page() {
     const { data } = await response.json();
     const user = data as User;
     return (
-      <div className="w-full flex flex-col pt-15 px-5">
+      <div className="w-full flex flex-col pb-22 sm:pb-0 sm:pt-15 px-5">
         <div className="mx-auto w-full max-w-160">
           <Profile user={user} />
-          <div className="flex gap-5 my-10">
+          <MobileProfile user={user} />
+          <div className="flex gap-5 my-5 sm:my-10">
             <PointSection label="성취 포인트" points={27} />
             <PointSection label="응원 포인트" points={27} />
           </div>
