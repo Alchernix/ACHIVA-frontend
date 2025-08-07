@@ -1,6 +1,7 @@
 import getAuthStatus from "@/lib/getAuthStatus";
 import AuthHydrator from "@/features/auth/AuthHydrator";
 import Sidebar from "@/components/Sidebar";
+import Footer from "@/components/Footer";
 
 export default async function Layout({
   children,
@@ -13,9 +14,10 @@ export default async function Layout({
       return (
         <>
           <AuthHydrator user={auth.user} />
-          <div className="flex">
-            <Sidebar />
-            <div className="sm:ml-20 lg:ml-60">{children}</div>
+          <Sidebar />
+          <div className="flex-col sm:ml-20 lg:ml-60">
+            <div className="">{children}</div>
+            {/* <Footer /> */}
           </div>
         </>
       );

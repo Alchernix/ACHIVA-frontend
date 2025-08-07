@@ -19,12 +19,12 @@ export default function OathForm() {
       profileImageUrl:
         "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb",
       birth: format(user.birth!, "yyyy-MM-dd"),
-      gender: "male", // 임시
-      region: "Seoul", // 임시
+      // gender: "male", // 임시
+      // region: "Seoul", // 임시
       categories: user.categories,
       // 임시 기본 프로필
     };
-    console.log(JSON.stringify(payload));
+    // console.log(JSON.stringify(payload));
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`,
