@@ -15,7 +15,7 @@ export default async function Layout({
           <AuthHydrator user={auth.user} />
           <div className="flex">
             <Sidebar />
-            <div className="ml-20 lg:ml-60">{children}</div>
+            <div className="sm:ml-20 lg:ml-60">{children}</div>
           </div>
         </>
       );

@@ -18,7 +18,7 @@ export default function Sidebar() {
     { label: "프로필", Icon: ProfileImg },
   ];
   return (
-    <nav className="h-dvh fixed lg:w-60 py-8 border-r border-r-[#d9d9d9]">
+    <nav className="h-dvh fixed hidden sm:block lg:w-60 py-8 border-r border-r-[#d9d9d9]">
       <div className="mb-15 lg:hidden">
         <Link href="/">
           <h1 className="text-4xl font-bold text-center text-theme">A</h1>

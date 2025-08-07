@@ -51,13 +51,14 @@ export default function LoginForm() {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // 쿠키 저장
         body: JSON.stringify({
           email: enteredValues.email,
           password: enteredValues.password,
         }),
       });
       if (response.ok) {
-        router.push("/");
+        router.replace("/");
       } else if (response.status === 401) {
         setErrors({
           ...errors,

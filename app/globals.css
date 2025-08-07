@@ -4,6 +4,7 @@
   --background: #ffffff;
   --theme: #412a2a; /* 앱 테마색 */
   --theme-gray: #808080;
+  --loading: #d9d9d9;
   --theme-red: #cc2929;
 }
 
@@ -12,6 +13,7 @@
   --color-theme: var(--theme);
   --color-theme-gray: var(--theme-gray);
   --color-theme-red: var(--theme-red);
+  --color-loading: var(--loading);
 }
 
 /* @theme inline {

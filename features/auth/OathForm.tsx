@@ -43,13 +43,14 @@ export default function OathForm() {
       const loginResponse = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include", // 쿠키 저장
         body: JSON.stringify({
           email: user.email,
           password: user.password,
         }),
       });
       if (loginResponse.ok) {
-        router.push("/");
+        router.replace("/"); // 미들웨어 실행(서버 요청)
       } else {
         throw new Error("로그인 중 서버 에러");
       }

@@ -16,7 +16,7 @@ export default function ProfileImg({ url, size }: ProfileImgProps) {
     >
       {!loaded && (
         <div>
-          <div className="bg-slate-200 absolute inset-0 animate-pulse"></div>
+          <div className="bg-loading absolute inset-0 animate-pulse"></div>
         </div>
       )}
       <Image
