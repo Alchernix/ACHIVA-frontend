@@ -58,7 +58,7 @@ export default function LoginForm() {
         }),
       });
       if (response.ok) {
-        router.replace("/");
+        window.location.href = "/";
       } else if (response.status === 401) {
         setErrors({
           ...errors,

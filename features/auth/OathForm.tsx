@@ -50,7 +50,7 @@ export default function OathForm() {
         }),
       });
       if (loginResponse.ok) {
-        router.replace("/"); // 미들웨어 실행(서버 요청)
+        window.location.href = "/"; // 미들웨어 실행(서버 요청)
       } else {
         throw new Error("로그인 중 서버 에러");
       }
