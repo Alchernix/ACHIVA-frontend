@@ -24,7 +24,7 @@ export default function OathForm() {
       categories: user.categories,
       // 임시 기본 프로필
     };
-    // console.log(JSON.stringify(payload));
+    console.log(JSON.stringify(payload));
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`,

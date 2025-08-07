@@ -30,26 +30,26 @@ export default function Sidebar() {
         <Link href="/">
           <ListItem
             label="홈"
-            icon={<HomeIcon />}
+            icon={<HomeIcon fill={selectedMenu === "홈"} />}
             selected={selectedMenu === "홈"}
             onClick={() => setSelectedMenu("홈")}
           />
         </Link>
         <ListItem
           label="검색"
-          icon={<SearchIcon />}
+          icon={<SearchIcon fill={selectedMenu === "검색"} />}
           selected={selectedMenu === "검색"}
           onClick={() => setSelectedMenu("검색")}
         />
         <ListItem
           label="글쓰기"
-          icon={<PostIcon />}
+          icon={<PostIcon fill={selectedMenu === "글쓰기"} />}
           selected={selectedMenu === "글쓰기"}
           onClick={() => setSelectedMenu("글쓰기")}
         />
         <ListItem
           label="응원함"
-          icon={<NotificationIcon />}
+          icon={<NotificationIcon fill={selectedMenu === "응원함"} />}
           selected={selectedMenu === "응원함"}
           onClick={() => setSelectedMenu("응원함")}
         />
