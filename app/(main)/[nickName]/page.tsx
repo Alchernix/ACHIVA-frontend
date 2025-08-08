@@ -4,9 +4,11 @@ import type { User } from "@/types/User";
 import Footer from "@/components/Footer";
 import PointSection from "@/features/user/Point";
 import Posts from "@/features/user/Posts";
+import getAuthStatus from "@/lib/getAuthStatus";
 
 export default async function Page() {
   try {
+    const currentUser = (await getAuthStatus()).user;
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
     const response = await fetch(
@@ -25,8 +27,8 @@ export default async function Page() {
     return (
       <div className="w-full flex flex-col pb-22 sm:pb-0 sm:pt-15 px-5">
         <div className="mx-auto w-full max-w-160">
-          <Profile user={user} />
-          <MobileProfile user={user} />
+          <Profile user={user} currentUser={currentUser} />
+          <MobileProfile user={user} currentUser={currentUser} />
           <div className="flex gap-5 my-5 sm:my-10">
             <PointSection label="성취 포인트" points={27} />
             <PointSection label="응원 포인트" points={27} />
