@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import getAuthStatus from "@/lib/getAuthStatus";
 
 export default async function Home() {
