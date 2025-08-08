@@ -17,6 +17,6 @@ export type User = {
   gender: string;
   region: string;
   categories: string[];
-  profileImageUrl?: string;
+  profileImageUrl: string;
   role?: string;
 };

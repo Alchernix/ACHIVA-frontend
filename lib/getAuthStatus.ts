@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
+import { cache } from "react";
 
-export default async function getAuthStatus() {
+// 서버 컴포넌트에서만 호출하는 함수!!!
+const getAuthStatus = cache(async function getAuthStatus() {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
@@ -16,7 +18,6 @@ export default async function getAuthStatus() {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-          cache: "no-store",
         },
       }
     );
@@ -35,4 +36,6 @@ export default async function getAuthStatus() {
     // 나중에 에러 페이지를 보여줘야...
     return { status: "error", error: err };
   }
-}
+});
+
+export default getAuthStatus;

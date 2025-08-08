@@ -1,7 +1,7 @@
-"use client";
-import { useCurrentUserInfoStore } from "@/store/userStore";
-export default function Home() {
-  const user = useCurrentUserInfoStore.use.user();
+import getAuthStatus from "@/lib/getAuthStatus";
 
-  return <div>어서오세요 {user?.nickName}!</div>;
+export default async function Home() {
+  const auth = await getAuthStatus();
+
+  return <div>어서오세요 {auth.user.nickName}!</div>;
 }

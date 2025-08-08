@@ -14,7 +14,7 @@ export default async function Layout({
       return (
         <>
           <AuthHydrator user={auth.user} />
-          <Sidebar />
+          <Sidebar user={auth.user} />
           <div className="flex-col sm:ml-20 lg:ml-60">
             <div className="">{children}</div>
             {/* <Footer /> */}
@@ -22,6 +22,7 @@ export default async function Layout({
         </>
       );
     case "unauthenticated":
+      // 로그인되지 않았을 시, 사이드바 띄우지 않고, 본문에 마진 적용 x!!
       return <div>{children}</div>;
     case "error":
     default:

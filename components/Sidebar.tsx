@@ -1,15 +1,14 @@
 "use client";
 import Link from "next/link";
+import type { User } from "@/types/User";
 import { usePathname } from "next/navigation";
 import { TextLogo } from "./Logo";
 import { HomeIcon, SearchIcon, PostIcon, NotificationIcon } from "./Icons";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { useCurrentUserInfoStore } from "@/store/userStore";
 import ProfileImg from "./ProfileImg";
 
-export default function Sidebar() {
-  const user = useCurrentUserInfoStore.use.user();
+export default function Sidebar({ user }: { user: User }) {
   const pathname = usePathname();
   const initialSelectedMenu = pathname === "/" ? "홈" : "프로필"; // 나중에 바꿔야함
   const [selectedMenu, setSelectedMenu] = useState(initialSelectedMenu);
@@ -57,15 +56,7 @@ export default function Sidebar() {
         <Link href={`/${user?.nickName ?? ""}`}>
           <ListItem
             label="프로필"
-            icon={
-              <ProfileImg
-                size={32}
-                url={
-                  user?.profileImageUrl ??
-                  "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb"
-                }
-              />
-            }
+            icon={<ProfileImg size={32} url={user.profileImageUrl} />}
             selected={selectedMenu === "프로필"}
             onClick={() => setSelectedMenu("프로필")}
           />
