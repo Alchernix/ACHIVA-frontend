@@ -3,7 +3,7 @@ import { TextLogo } from "@/components/Logo";
 import { AppleIcon, GoogleIcon } from "@/components/Icons";
 import Container from "@/features/auth/Container";
 import LoginForm from "@/features/auth/LoginForm";
-import MobileHeader from "@/features/auth/MobileHeader";
+import MobileHeader from "@/components/MobileHeader";
 
 export default function Page() {
   return (

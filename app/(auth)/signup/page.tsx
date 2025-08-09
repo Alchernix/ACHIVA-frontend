@@ -4,7 +4,7 @@ import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
 import { useSignupStepStore } from "@/store/SignupStore";
 import Link from "next/link";
-import MobileHeader from "@/features/auth/MobileHeader";
+import MobileHeader from "@/components/MobileHeader";
 import Container from "@/features/auth/Container";
 import { TextLogo } from "@/components/Logo";
 import SignupForm from "@/features/auth/SignupForm";

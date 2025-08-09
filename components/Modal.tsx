@@ -14,6 +14,11 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     if (!dialogRef.current?.open) {
       dialogRef.current?.showModal();
     }
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden"; // 뒷배경 스크롤 막기
+    return () => {
+      document.body.style.overflow = original; // 원상복구
+    };
   }, []);
 
   function onDismiss() {

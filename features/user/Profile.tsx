@@ -67,9 +67,18 @@ export default function MobileProfile({ user, currentUser }: Props) {
         <div className="flex flex-col justify-center">
           <h1 className="font-semibold text-2xl">{user.nickName}</h1>
           <p className="text-[#7F7F7F]">나를 소개하는 한 줄을 적었을 때</p>
-          <button className="self-start bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2">
-            프로필 수정
-          </button>
+          {user.nickName === currentUser.nickName ? (
+            <Link
+              href="/accounts/edit"
+              className="self-start bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2"
+            >
+              프로필 수정
+            </Link>
+          ) : (
+            <button className="self-start bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2">
+              친구 신청
+            </button>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-1.5">
