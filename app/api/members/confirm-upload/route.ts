@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { revalidateTag } from "next/cache";
 
 // 이미지 수정 프록시 api
+export const runtime = "nodejs";
 export async function PUT(req: NextRequest) {
   const { url } = await req.json();
   const cookieStore = await cookies();

@@ -87,8 +87,9 @@ export default function EditProfile({ user }: Props) {
             );
           }
         }
-        router.back();
-        router.refresh();
+        // router.refresh();
+        //router.back();
+        window.location.href = `/${nickName}`;
       }}
     >
       <h2 className="font-bold text-xl hidden sm:block">프로필 수정</h2>

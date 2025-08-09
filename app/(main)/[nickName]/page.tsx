@@ -24,7 +24,6 @@ export default async function Page({
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-          cache: "no-store",
         },
         next: {
           tags: [nickName === currentUser.nickName ? "me" : ""],

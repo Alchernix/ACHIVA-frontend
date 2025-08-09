@@ -12,13 +12,13 @@ type ModalProps = {
 
 // 패딩 없음... 모달과 닫기 버튼만 띄움...
 export default function Modal({ children }: ModalProps) {
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, []);
+  // useEffect(() => {
+  //   const prev = document.body.style.overflow;
+  //   document.body.style.overflow = "hidden";
+  //   return () => {
+  //     document.body.style.overflow = prev;
+  //   };
+  // }, []);
 
   const router = useRouter();
 
