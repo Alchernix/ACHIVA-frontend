@@ -1,42 +1,32 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { CloseIcon } from "./Icons";
+import { motion } from "motion/react";
 // import { createPortal } from "react-dom";
 
+type ModalProps = {
+  children: React.ReactNode;
+};
+
 // 패딩 없음... 모달과 닫기 버튼만 띄움...
-export default function Modal({ children }: { children: React.ReactNode }) {
+export default function Modal({ children }: ModalProps) {
   const router = useRouter();
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
-
-  useEffect(() => {
-    if (!dialogRef.current?.open) {
-      dialogRef.current?.showModal();
-    }
-    const original = document.body.style.overflow;
-    document.body.style.overflow = "hidden"; // 뒷배경 스크롤 막기
-    return () => {
-      document.body.style.overflow = original; // 원상복구
-    };
-  }, []);
-
-  function onDismiss() {
-    router.back();
-  }
+  document.body.style.overflow = "hidden";
 
   return (
-    <div>
-      <dialog
-        ref={dialogRef}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg"
-        onClose={onDismiss}
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50">
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        exit={{ y: 100 }}
+        className="relative rounded-lg bg-white"
       >
         {children}
-        <button onClick={onDismiss} className="absolute top-5 right-5">
+        <button onClick={router.back} className="absolute top-5 right-5">
           <CloseIcon />
         </button>
-      </dialog>
+      </motion.div>
     </div>
   );
 }

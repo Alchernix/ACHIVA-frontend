@@ -1,3 +1,4 @@
+import EditProfile from "@/features/user/EditProfile";
 import getAuthStatus from "@/lib/getAuthStatus";
 import { redirect } from "next/navigation";
 
@@ -6,5 +7,9 @@ export default async function Page() {
   if (!user) {
     redirect("/");
   }
-  return <div>Edit {user.nickName}</div>;
+  return (
+    <div className="w-full h-dvh flex items-center justify-center">
+      <EditProfile user={user} />
+    </div>
+  );
 }

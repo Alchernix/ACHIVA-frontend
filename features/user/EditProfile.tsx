@@ -5,8 +5,14 @@ import type { User } from "@/types/User";
 import ProfileImg from "@/components/ProfileImg";
 import { useState } from "react";
 import { UserSchema } from "../auth/schima";
+import { useRouter } from "next/navigation";
 
-export default function EditProfile({ user }: { user: User }) {
+type Props = {
+  user: User;
+};
+
+export default function EditProfile({ user }: Props) {
+  const router = useRouter();
   const [nickName, setNickName] = useState(user.nickName);
   const [isNickNameOk, setIsNickNameOk] = useState(true);
   const [isNickNameCheckLoading, setIsNickNameCheckLoding] = useState(false);
@@ -58,7 +64,10 @@ export default function EditProfile({ user }: { user: User }) {
   return (
     <form
       className="w-sm flex flex-col items-center gap-7"
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={(e) => {
+        e.preventDefault();
+        router.back();
+      }}
     >
       <h2 className="font-bold text-xl hidden sm:block">프로필 수정</h2>
       <ProfileImg url={user.profileImageUrl} size={120} />
