@@ -6,11 +6,17 @@ import PointSection from "@/features/user/Point";
 import Posts from "@/features/user/Posts";
 import getAuthStatus from "@/lib/getAuthStatus";
 
-export default async function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ nickName: string }>;
+}) {
   try {
-    const currentUser = (await getAuthStatus()).user;
+    const nickName = await params; // 이 페이지 유저 닉네임
+    const currentUser = (await getAuthStatus()).user; // 로그인 한 유저
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
+    // 나중에 멤버 가져오는 api 나오면 바꿔야...
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/me`,
       {
@@ -19,6 +25,9 @@ export default async function Page() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
           cache: "no-store",
+        },
+        next: {
+          tags: [nickName === currentUser.nickName ? "me" : ""],
         },
       }
     );

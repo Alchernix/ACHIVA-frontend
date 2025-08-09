@@ -13,7 +13,7 @@ export default async function Page() {
   }
   return (
     <>
-      <div className="fixed inset-0 bg-white flex items-center justify-center sm:hidden w-full h-dvh z-[9999] px-5">
+      <div className="fixed inset-0 bg-white flex items-center justify-center sm:hidden w-full h-dvh z-10 px-5">
         <MobileHeader>프로필 수정</MobileHeader>
         <EditProfile user={user} />
       </div>

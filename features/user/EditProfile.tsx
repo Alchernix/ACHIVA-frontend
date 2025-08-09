@@ -6,6 +6,7 @@ import ProfileImg from "@/components/ProfileImg";
 import { useState } from "react";
 import { UserSchema } from "../auth/schima";
 import { useRouter } from "next/navigation";
+import ImageUploader from "./ImageUploader";
 
 type Props = {
   user: User;
@@ -13,6 +14,7 @@ type Props = {
 
 export default function EditProfile({ user }: Props) {
   const router = useRouter();
+  const [profileImageUrl, setProfileImageUrl] = useState(user.profileImageUrl);
   const [nickName, setNickName] = useState(user.nickName);
   const [isNickNameOk, setIsNickNameOk] = useState(true);
   const [isNickNameCheckLoading, setIsNickNameCheckLoding] = useState(false);
@@ -64,13 +66,37 @@ export default function EditProfile({ user }: Props) {
   return (
     <form
       className="w-sm flex flex-col items-center gap-7"
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
+        if (profileImageUrl !== user.profileImageUrl) {
+          try {
+            const res = await fetch("/api/members/confirm-upload", {
+              method: "PUT",
+              body: JSON.stringify({ url: profileImageUrl }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            if (!res.ok) {
+              throw new Error("프로필 이미지 수정 중 에러");
+            }
+          } catch (err) {
+            console.log(err);
+            alert(
+              "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+            );
+          }
+        }
         router.back();
+        router.refresh();
       }}
     >
       <h2 className="font-bold text-xl hidden sm:block">프로필 수정</h2>
-      <ProfileImg url={user.profileImageUrl} size={120} />
+      <div className="relative w-auto h-auto">
+        <ProfileImg url={profileImageUrl} size={120} />
+        <ImageUploader setProfileImageUrl={setProfileImageUrl} />
+      </div>
+
       <div tabIndex={-1}></div>
       <div className="w-full flex flex-col gap-3">
         <InputSection label="닉네임">
