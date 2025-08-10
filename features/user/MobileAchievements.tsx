@@ -20,7 +20,7 @@ export default function MobileAchievements({ nickName, type }: Props) {
         </h2>
         <div className="flex flex-col gap-7">
           <SummarySection type={type} />
-          <BadgeSection type={type} />
+          <BadgeSection type={type} nickName={nickName} />
           <PointSection type={type} />
         </div>
       </div>
