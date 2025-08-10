@@ -31,7 +31,7 @@ export default function Modal({ children }: ModalProps) {
         className="relative rounded-lg bg-white"
       >
         {children}
-        <button onClick={router.back} className="absolute top-5 right-5">
+        <button onClick={router.back} className="absolute top-8 right-8">
           <CloseIcon />
         </button>
       </motion.div>

@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 // 이미지 수정 프록시 api
-export const runtime = "nodejs";
 export async function PUT(req: NextRequest) {
   const { url } = await req.json();
   const cookieStore = await cookies();
@@ -23,5 +22,7 @@ export async function PUT(req: NextRequest) {
     }
   );
   revalidateTag("me");
+  // revalidatePath("/[nickName]/layout");
+  // revalidatePath("/[nickName]/page");
   return res;
 }

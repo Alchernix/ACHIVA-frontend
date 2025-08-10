@@ -88,7 +88,7 @@ export default function EditProfile({ user }: Props) {
           }
         }
         // router.refresh();
-        //router.back();
+        // router.back();
         window.location.href = `/${nickName}`;
       }}
     >

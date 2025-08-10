@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import PointSection from "@/features/user/Point";
 import Posts from "@/features/user/Posts";
 import getAuthStatus from "@/lib/getAuthStatus";
+import Link from "next/link";
 
 export default async function Page({
   params,
@@ -12,7 +13,7 @@ export default async function Page({
   params: Promise<{ nickName: string }>;
 }) {
   try {
-    const nickName = await params; // 이 페이지 유저 닉네임
+    const { nickName } = await params; // 이 페이지 유저 닉네임
     const currentUser = (await getAuthStatus()).user; // 로그인 한 유저
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
@@ -26,7 +27,7 @@ export default async function Page({
           Authorization: `Bearer ${token}`,
         },
         next: {
-          tags: [nickName === currentUser.nickName ? "me" : ""],
+          tags: ["me"],
         },
       }
     );
@@ -38,8 +39,12 @@ export default async function Page({
           <Profile user={user} currentUser={currentUser} />
           <MobileProfile user={user} currentUser={currentUser} />
           <div className="flex gap-5 my-5 sm:my-10">
-            <PointSection label="성취 포인트" points={27} />
-            <PointSection label="응원 포인트" points={27} />
+            <Link href={`/${nickName}/achievements`} className="flex-1">
+              <PointSection label="성취 포인트" points={27} />
+            </Link>
+            <Link href={`/supports`} className="flex-1">
+              <PointSection label="응원 포인트" points={27} />
+            </Link>
           </div>
           <Posts postsCnt={12} />
         </div>
