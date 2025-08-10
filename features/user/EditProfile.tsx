@@ -68,24 +68,30 @@ export default function EditProfile({ user }: Props) {
       className="w-sm flex flex-col items-center gap-7"
       onSubmit={async (e) => {
         e.preventDefault();
-        if (profileImageUrl !== user.profileImageUrl) {
-          try {
-            const res = await fetch("/api/members/confirm-upload", {
-              method: "PUT",
-              body: JSON.stringify({ url: profileImageUrl }),
-              headers: {
-                "Content-Type": "application/json",
+        try {
+          const res = await fetch("/api/auth", {
+            method: "PUT",
+            body: JSON.stringify({
+              user: {
+                ...user,
+                nickName,
+                profileImageUrl,
+                // bio
               },
-            });
-            if (!res.ok) {
-              throw new Error("프로필 이미지 수정 중 에러");
-            }
-          } catch (err) {
-            console.log(err);
-            alert(
-              "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
-            );
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          console.log(user);
+          if (!res.ok) {
+            throw new Error("프로필 이미지 수정 중 에러");
           }
+        } catch (err) {
+          console.log(err);
+          alert(
+            "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+          );
         }
         // router.refresh();
         // router.back();

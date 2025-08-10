@@ -21,6 +21,8 @@ export async function middleware(req: NextRequest) {
     const token = req.cookies.get("token")?.value;
 
     if (!token) {
+      if (isMobile) {
+      }
       return NextResponse.rewrite(new URL("/onboarding", req.url));
     }
 
@@ -43,8 +45,11 @@ export async function middleware(req: NextRequest) {
         console.error("로그인 API 에러", apiRes.status);
         return NextResponse.next();
       }
-
-      return NextResponse.rewrite(new URL("/home", req.url));
+      if (isMobile) {
+        return NextResponse.rewrite(new URL("/m/home", req.url));
+      } else {
+        return NextResponse.rewrite(new URL("/home", req.url));
+      }
     } catch (err) {
       console.error("Fetch error in middleware:", err);
       return NextResponse.next();

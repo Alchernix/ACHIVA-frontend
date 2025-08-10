@@ -28,7 +28,7 @@ export default function Badge({ type, count }: BadgeProps) {
         boxShadow:
           "0 0 14.962px -9.974px rgba(0, 0, 0, 0.10), 18.951px 50.87px 14.962px 0 rgba(65, 42, 41, 0.00), 11.969px 32.916px 13.964px 0 rgba(65, 42, 41, 0.01), 6.982px 18.951px 11.969px 0 rgba(65, 42, 41, 0.03), 2.992px 7.98px 8.977px 0 rgba(65, 42, 41, 0.04), 0.997px 1.995px 4.987px 0 rgba(65, 42, 41, 0.05)",
       }}
-      className="flex-1 p-2 flex flex-col items-center"
+      className="flex-1 p-2 flex flex-col items-center bg-white rounded-sm"
     >
       {badgeIcon}
       <p className="font-bold -translate-y-2">{type}</p>

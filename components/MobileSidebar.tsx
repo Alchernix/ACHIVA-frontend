@@ -16,7 +16,9 @@ export default function Sidebar({ user }: { user: User }) {
 
   const isInvisible =
     /^\/[^/]+\/achievements$/.test(pathname) || // /[nickName]/achievements
+    /^\/[^/]+\/achievements\/detail$/.test(pathname) || // /[nickName]/achievements/detail
     /^\/[^/]+\/supports$/.test(pathname) || // /[nickName]/supports
+    /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
     pathname === "/accounts/edit";
 
   if (isInvisible) {

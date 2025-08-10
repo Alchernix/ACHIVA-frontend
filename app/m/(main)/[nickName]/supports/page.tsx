@@ -11,7 +11,7 @@ export default async function Page({
     <>
       <MobileHeader>응원기록</MobileHeader>
       <div className="pt-20 px-5">
-        <MobileAchievements nickName={nickName} type="응원" />;
+        <MobileAchievements nickName={nickName} type="응원" />
       </div>
     </>
   );
