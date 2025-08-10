@@ -19,7 +19,7 @@ export default function Achievements({ nickName, type }: Props) {
       </h2>
       <div className="flex-1 flex flex-col gap-5">
         <SummarySection type={type} />
-        <BadgeSection type={type} />
+        <BadgeSection type={type} nickName={nickName} />
       </div>
       <div className="flex-1">
         <PointSection type={type} />

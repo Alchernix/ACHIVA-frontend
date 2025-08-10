@@ -37,7 +37,6 @@ export default async function Page({
       <div className="w-full flex flex-col pb-22 sm:pb-0 sm:pt-15 px-5">
         <div className="mx-auto w-full max-w-160">
           <Profile user={user} currentUser={currentUser} />
-          <MobileProfile user={user} currentUser={currentUser} />
           <div className="flex gap-5 my-5 sm:my-10">
             <Link href={`/${nickName}/achievements`} className="flex-1">
               <PointSection label="성취 포인트" points={27} />

@@ -1,6 +1,7 @@
 import { BronzeMedallion } from "@/components/Badges";
 import Badge from "./Badge";
 import { EnergyIcon } from "@/components/Icons";
+import Link from "next/link";
 
 type SummarySectionProps = {
   type: "성취" | "응원";
@@ -31,15 +32,22 @@ export function SummarySection({ type }: SummarySectionProps) {
 
 type BadgeSectionProps = {
   type: "성취" | "응원";
+  nickName: string;
 };
 
-export function BadgeSection({ type }: BadgeSectionProps) {
+export function BadgeSection({ type, nickName }: BadgeSectionProps) {
   return (
     <div>
       <div className="flex justify-between mb-2">
         <p className="font-bold text-xl">{type} 뱃지</p>
         <div className="flex items-center gap-2">
-          <p className="text-sm font-medium text-[#808080]">더보기</p>
+          <Link
+            href={`/${nickName}/${
+              type === "성취" ? "achievements" : "supports"
+            }/detail`}
+          >
+            <p className="text-sm font-medium text-[#808080]">더보기</p>
+          </Link>
           <svg
             width={16}
             height={16}
