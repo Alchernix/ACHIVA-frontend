@@ -347,3 +347,28 @@ export function ProfileImgUploadIcon() {
     </svg>
   );
 }
+
+export function EnergyIcon() {
+  return (
+    <svg
+      width="43"
+      height="44"
+      viewBox="0 0 43 44"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <ellipse
+        cx="21.5"
+        cy="21.5477"
+        rx="21.5"
+        ry="21.4764"
+        fill="#412A2A"
+        fillOpacity="0.15"
+      />
+      <path
+        d="M20.0814 34.1426V25.3138H14.6938C13.9444 25.3138 13.4381 24.4608 13.8026 23.7571L21.2561 8.46674C21.7219 7.46444 23.16 7.82697 23.16 8.95722V17.8926H28.3045C29.0539 17.8926 29.54 18.7243 29.2159 19.428L22.0055 34.6117C21.5194 35.6354 20.0814 35.2728 20.0814 34.1426Z"
+        fill="#412A2A"
+      />
+    </svg>
+  );
+}

@@ -105,7 +105,8 @@ export default function Terms() {
 ※ 본 동의는 선택사항이며, 동의하지 않으셔도 서비스 이용은 가능합니다.
 `,
   ];
-  const isAllAgreed = agreements.every((v) => v === true);
+  const isAllAgreed =
+    agreements[0] && agreements[1] && agreements[2] && agreements[3];
 
   function handleScroll() {
     const isMobile = window.innerWidth < 640;

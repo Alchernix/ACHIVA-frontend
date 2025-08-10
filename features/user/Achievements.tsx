@@ -1,5 +1,6 @@
 import { BronzeMedallion } from "@/components/Badges";
 import Badge from "./Badge";
+import { EnergyIcon } from "@/components/Icons";
 
 type Props = {
   nickName: string;
@@ -8,13 +9,13 @@ type Props = {
 
 export default function Achievements({ nickName, type }: Props) {
   return (
-    <div className="flex gap-4 w-full">
+    <div className="flex gap-5 w-full">
       <h2 className="absolute top-8 left-8 text-lg text-[#808080] flex items-center gap-1.5">
         <span className="font-semibold text-2xl text-black">{nickName}</span>
         님의 {type}
         기록
       </h2>
-      <div className="flex-1 flex flex-col gap-8">
+      <div className="flex-1 flex flex-col gap-5">
         <SummarySection type="성취" />
         <BadgeSection type="성취" />
       </div>
@@ -93,9 +94,9 @@ type PointSectionProps = {
 
 function PointSection({ type }: PointSectionProps) {
   return (
-    <div>
+    <div className="h-full flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <p className="font-bold text-xl">성취 포인트</p>
+        <p className="font-bold text-xl">{type} 포인트</p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="25"
@@ -108,6 +109,29 @@ function PointSection({ type }: PointSectionProps) {
             fill="#808080"
           />
         </svg>
+      </div>
+      <div
+        style={{
+          boxShadow:
+            "0 0 14.962px -9.974px rgba(0, 0, 0, 0.10), 18.951px 50.87px 14.962px 0 rgba(65, 42, 41, 0.00), 11.969px 32.916px 13.964px 0 rgba(65, 42, 41, 0.01), 6.982px 18.951px 11.969px 0 rgba(65, 42, 41, 0.03), 2.992px 7.98px 8.977px 0 rgba(65, 42, 41, 0.04), 0.997px 1.995px 4.987px 0 rgba(65, 42, 41, 0.05)",
+        }}
+        className="px-7 py-8 flex-1 flex flex-col justify-center gap-6"
+      >
+        <div className="flex items-center gap-6">
+          <EnergyIcon />
+          <p className="font-bold text-lg text-theme">성취 게시물 점수</p>
+          <p className="ml-auto text-theme font-semibold">20 points</p>
+        </div>
+        <div className="flex items-center gap-6">
+          <EnergyIcon />
+          <p className="font-bold text-lg text-theme">성취 게시물 점수</p>
+          <p className="ml-auto text-theme font-semibold">20 points</p>
+        </div>
+        <div className="flex items-center gap-6">
+          <EnergyIcon />
+          <p className="font-bold text-lg text-theme">성취 게시물 점수</p>
+          <p className="ml-auto text-theme font-semibold">20 points</p>
+        </div>
       </div>
     </div>
   );

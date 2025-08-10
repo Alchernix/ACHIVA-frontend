@@ -30,7 +30,7 @@ export default function BirthdayForm() {
     const birthday = new Date(year, month - 1, day);
     const age = differenceInYears(new Date(), birthday);
     if (age < 13 && isEdited) {
-      setError("13세 미만은 서비스를 이용할 수 없습니다.");
+      setError("만 14세 이상만 회원 가입이 가능합니다.");
     } else {
       setError("");
     }
