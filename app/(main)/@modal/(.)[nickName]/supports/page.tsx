@@ -12,7 +12,7 @@ export default async function Page({
   return (
     <Modal>
       <div className="px-8 pt-20 pb-10 sm:w-2xl lg:w-4xl flex justify-center">
-        <Achievements nickName={nickName} type="성취" />
+        <Achievements nickName={nickName} type="응원" />
       </div>
     </Modal>
   );
