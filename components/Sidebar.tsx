@@ -14,7 +14,7 @@ export default function Sidebar({ user }: { user: User }) {
   const [selectedMenu, setSelectedMenu] = useState(initialSelectedMenu);
 
   return (
-    <nav className="w-screen shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] sm:shadow-none h-auto sm:w-auto sm:h-dvh fixed bottom-0 sm:top-0 flex sm:flex-col items-center lg:w-60 py-5 sm:py-8 sm:border-r sm:border-r-[#d9d9d9] bg-white">
+    <nav className="z-10 w-screen shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] sm:shadow-none h-auto sm:w-auto sm:h-dvh fixed bottom-0 sm:top-0 flex sm:flex-col items-center lg:w-60 py-5 sm:py-8 sm:border-r sm:border-r-[#d9d9d9] bg-white">
       <div className="hidden sm:block mb-15 lg:hidden">
         <Link href="/">
           <h1 className="text-4xl font-bold text-center text-theme">A</h1>

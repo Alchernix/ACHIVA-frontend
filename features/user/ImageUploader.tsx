@@ -135,7 +135,7 @@ export default function ImageUploader({
       {imageSrc && (
         <dialog
           ref={dialog}
-          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl z-20 w-lg p-5"
+          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 sm:rounded-xl z-20 max-w-none max-h-none w-screen h-dvh sm:w-lg sm:h-auto p-5 flex flex-col justify-center"
         >
           <div
             className="relative w-full bg-black/5 rounded-md overflow-hidden"

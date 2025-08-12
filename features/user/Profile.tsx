@@ -61,14 +61,16 @@ export default function MobileProfile({ user, currentUser }: Props) {
     <div className="sm:hidden">
       <div className="h-14 flex items-center justify-end gap-2">
         <BellIcon />
-        <FollowerIcon />
+        <Link href={`/${user.nickName}/friends`}>
+          <FollowerIcon />
+        </Link>
         <SettingIcon />
       </div>
       <div className="flex gap-5 mb-7">
         <ProfileImg url={user.profileImageUrl!} size={125} />
         <div className="flex flex-col justify-center">
           <h1 className="font-semibold text-2xl">{user.nickName}</h1>
-          <p className="text-[#7F7F7F]">나를 소개하는 한 줄을 적었을 때</p>
+          <p className="text-[#7F7F7F]">{user.description}</p>
           {user.nickName === currentUser.nickName ? (
             <Link
               href="/accounts/edit"
