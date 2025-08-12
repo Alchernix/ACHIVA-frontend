@@ -29,11 +29,11 @@ export function Profile({ user, currentUser }: Props) {
             </button>
           )}
           <div className="flex gap-4 items-center">
-            <BellIcon />
+            {user.nickName === currentUser.nickName && <BellIcon />}
             <Link href={`/${user.nickName}/friends`}>
               <FollowerIcon />
             </Link>
-            <SettingIcon />
+            {user.nickName === currentUser.nickName && <SettingIcon />}
           </div>
         </div>
         <p className="text-[#7F7F7F]">{user.description}</p>
@@ -60,11 +60,11 @@ export default function MobileProfile({ user, currentUser }: Props) {
   return (
     <div className="sm:hidden">
       <div className="h-14 flex items-center justify-end gap-2">
-        <BellIcon />
+        {user.nickName === currentUser.nickName && <BellIcon />}
         <Link href={`/${user.nickName}/friends`}>
           <FollowerIcon />
         </Link>
-        <SettingIcon />
+        {user.nickName === currentUser.nickName && <SettingIcon />}
       </div>
       <div className="flex gap-5 mb-7">
         <ProfileImg url={user.profileImageUrl!} size={125} />
