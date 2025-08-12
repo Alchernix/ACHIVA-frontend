@@ -34,7 +34,7 @@ export function Profile({ user, currentUser }: Props) {
             <SettingIcon />
           </div>
         </div>
-        <p className="text-[#7F7F7F]">나를 소개하는 한 줄을 적었을 때</p>
+        <p className="text-[#7F7F7F]">{user.description}</p>
         <div className="flex flex-col gap-1.5">
           <p className="font-bold text-lg">성취 카테고리</p>
           <div className="flex gap-2">

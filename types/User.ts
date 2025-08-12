@@ -19,4 +19,5 @@ export type User = {
   categories: string[];
   profileImageUrl: string;
   role?: string;
+  description?: string;
 };

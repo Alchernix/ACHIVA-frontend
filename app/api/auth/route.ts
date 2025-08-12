@@ -16,23 +16,29 @@ export async function PUT(req: NextRequest) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ user }),
+    body: JSON.stringify({
+      email: user.email,
+      nickName: user.nickName,
+      profileImageUrl: user.profileImageUrl,
+      birth: user.birth,
+      gender: user.gender || "",
+      region: user.region || "",
+      categories: user.categories,
+      description: user.description,
+    }),
   });
-  console.log(user);
-  //const { data } = await res.json();
-  //console.log(data);
-  const me = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/me`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  const meData = await me.json();
-  console.log(meData);
+  console.log({
+    email: user.email,
+    nickName: user.nickName,
+    profileImageUrl: user.profileImageUrl,
+    birth: user.birth,
+    gender: user.gender || "",
+    region: user.region || "",
+    categories: user.categories,
+    description: user.description,
+  });
+  const data = await res.json();
+  console.log(data);
   revalidateTag("me");
   // revalidatePath("/[nickName]/layout");
   // revalidatePath("/[nickName]/page");
