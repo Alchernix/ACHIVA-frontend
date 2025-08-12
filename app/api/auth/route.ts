@@ -21,24 +21,13 @@ export async function PUT(req: NextRequest) {
       nickName: user.nickName,
       profileImageUrl: user.profileImageUrl,
       birth: user.birth,
-      gender: user.gender || "",
+      gender: user.gender,
       region: user.region || "",
       categories: user.categories,
       description: user.description,
     }),
   });
-  console.log({
-    email: user.email,
-    nickName: user.nickName,
-    profileImageUrl: user.profileImageUrl,
-    birth: user.birth,
-    gender: user.gender || "",
-    region: user.region || "",
-    categories: user.categories,
-    description: user.description,
-  });
-  const data = await res.json();
-  console.log(data);
+
   revalidateTag("me");
   // revalidatePath("/[nickName]/layout");
   // revalidatePath("/[nickName]/page");

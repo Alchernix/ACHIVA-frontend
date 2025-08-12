@@ -14,7 +14,6 @@ type Props = {
 };
 
 export default function EditProfile({ user }: Props) {
-  const router = useRouter();
   const [profileImageUrl, setProfileImageUrl] = useState(user.profileImageUrl);
   const [nickName, setNickName] = useState(user.nickName);
   const [isNickNameOk, setIsNickNameOk] = useState(true);
@@ -125,7 +124,7 @@ export default function EditProfile({ user }: Props) {
           });
           if (!res.ok) {
             console.log(res);
-            throw new Error("프로필 이미지 수정 중 에러");
+            throw new Error("프로필 수정 중 에러");
           }
         } catch (err) {
           console.log(err);
@@ -133,8 +132,6 @@ export default function EditProfile({ user }: Props) {
             "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
           );
         }
-        // router.refresh();
-        // router.back();
         window.location.href = `/${nickName}`;
       }}
     >
@@ -155,7 +152,7 @@ export default function EditProfile({ user }: Props) {
             <PencilIcon />
           </div>
           <input
-            className="py-2 px-4 w-full h-full"
+            className="py-2 px-4 w-full h-12"
             type="text"
             value={nickName}
             onClick={() =>
@@ -175,7 +172,7 @@ export default function EditProfile({ user }: Props) {
             }}
           />
         </InputSection>
-        {!isEditing && nickNameError && (
+        {!isEditing.nickName && nickNameError && (
           <p className="font-light text-theme-red">{nickNameError}</p>
         )}
         <InputSection label="나를 소개하는 한 줄">
@@ -187,7 +184,7 @@ export default function EditProfile({ user }: Props) {
             <PencilIcon />
           </div>
           <input
-            className="py-2 px-4 w-full h-full"
+            className="py-2 px-4 w-full h-12"
             type="text"
             value={bio || ""}
             onClick={() => setIsEditing((prev) => ({ ...prev, bio: true }))}

@@ -31,7 +31,6 @@ export default function Modal({ children }: ModalProps) {
   }, []);
 
   const router = useRouter();
-  console.log("!!");
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/50">
       <motion.div

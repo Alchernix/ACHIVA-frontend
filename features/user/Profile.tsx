@@ -30,7 +30,9 @@ export function Profile({ user, currentUser }: Props) {
           )}
           <div className="flex gap-4 items-center">
             <BellIcon />
-            <FollowerIcon />
+            <Link href={`/${user.nickName}/friends`}>
+              <FollowerIcon />
+            </Link>
             <SettingIcon />
           </div>
         </div>
