@@ -43,7 +43,7 @@ export default function BirthdayForm() {
   }
 
   return (
-    <div className="flex flex-col gap-10 mb-15">
+    <div className="flex flex-col gap-15 mb-15">
       <div className="w-full text-left">
         <p className="font-semibold text-lg">생일을 입력해주세요</p>
         <p className="font-light text-sm text-theme-gray break-keep">
@@ -52,12 +52,12 @@ export default function BirthdayForm() {
         </p>
       </div>
       <form
-        className="flex flex-col items-center gap-10"
+        className="flex flex-col items-center gap-15"
         onSubmit={handleSubmit}
       >
         <div className="flex justify-center gap-2">
           <select
-            className="px-2 py-1 border border-[#d9d9d9] rounded-sm"
+            className="px-2 py-1 border border-theme rounded-sm"
             value={year}
             onChange={(e) => {
               setIsEdited(true);
@@ -71,7 +71,7 @@ export default function BirthdayForm() {
             ))}
           </select>
           <select
-            className="px-2 py-1 border border-[#d9d9d9] rounded-sm"
+            className="px-2 py-1 border border-theme rounded-sm"
             value={month}
             onChange={(e) => {
               setIsEdited(true);
@@ -85,7 +85,7 @@ export default function BirthdayForm() {
             ))}
           </select>
           <select
-            className="px-2 py-1 border border-[#d9d9d9] rounded-sm"
+            className="px-2 py-1 border border-theme rounded-sm"
             value={day}
             onChange={(e) => {
               setIsEdited(true);

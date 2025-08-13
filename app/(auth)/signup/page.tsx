@@ -78,7 +78,7 @@ export default function Page() {
     case 5: // 서약서
       content = (
         <>
-          <div className="hidden sm:block">
+          <div className="hidden sm:block mb-10">
             <TextLogo />
           </div>
           <OathForm />

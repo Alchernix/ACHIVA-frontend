@@ -28,7 +28,9 @@ export default function Settings() {
           const Icon = icons[i];
           return (
             <Link key={label} href={`/settings/${links[i]}`}>
-              <li className="flex items-center gap-5 sm:px-2.5 py-1.5 rounded-md hover:bg-[#E6E6E6]">
+              <li
+                className={`flex items-center gap-5 sm:px-2.5 py-1.5 rounded-md hover:bg-[#E6E6E6]`}
+              >
                 <Icon />
                 <p className="font-semibold text-lg">{label}</p>
                 <div className="ml-auto">

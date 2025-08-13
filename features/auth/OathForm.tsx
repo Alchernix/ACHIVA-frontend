@@ -2,12 +2,13 @@ import { NextStepButton } from "./Buttons";
 import { useSignupInfoStore } from "@/store/SignupStore";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import Oath from "./Oath";
+import { SignupBackIcon, SignupNextIcon } from "@/components/Icons";
 
 export default function OathForm() {
   const user = useSignupInfoStore.use.user();
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
 
   async function handleSignUp() {
     setIsLoading(true);
@@ -19,12 +20,9 @@ export default function OathForm() {
       profileImageUrl:
         "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb",
       birth: format(user.birth!, "yyyy-MM-dd"),
-      // gender: "male", // 임시
-      // region: "Seoul", // 임시
       categories: user.categories,
-      // 임시 기본 프로필
     };
-    // console.log(JSON.stringify(payload));
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`,
@@ -64,10 +62,40 @@ export default function OathForm() {
   }
   return (
     <div className="w-full text-center">
-      <div>서약서 들어갈 곳</div>
-      <NextStepButton isLoading={isLoading} onClick={handleSignUp}>
-        완료
-      </NextStepButton>
+      <div className="w-full text-left">
+        <p className="font-semibold text-lg">Achiva 문화에 참여해요</p>
+        <p className="font-light text-sm text-theme-gray">
+          게시물을 오른쪽으로 넘겨 다음 내용을 볼 수 있어요
+        </p>
+      </div>
+      <div className="relative mt-4 mb-7">
+        <Oath currentPage={currentPage} />
+        <div
+          className={`absolute top-1/2 -translate-y-1/2 -left-8 cursor-pointer ${
+            currentPage === 1 ? "hidden" : ""
+          }`}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          <SignupBackIcon />
+        </div>
+        <div
+          className={`absolute top-1/2 -translate-y-1/2 -right-8 cursor-pointer ${
+            currentPage === 4 ? "hidden" : ""
+          }`}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          <SignupNextIcon />
+        </div>
+      </div>
+      <div className="select-none">
+        <NextStepButton
+          disabled={currentPage !== 4}
+          isLoading={isLoading}
+          onClick={handleSignUp}
+        >
+          동의하고 시작하기
+        </NextStepButton>
+      </div>
     </div>
   );
 }
