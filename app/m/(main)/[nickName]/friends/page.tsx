@@ -12,7 +12,7 @@ export default async function Page({
   return (
     <>
       <MobileHeader>친구 목록</MobileHeader>
-      <div className="pt-20 px-5">
+      <div className="px-5">
         <Suspense fallback={<FriendsSkeleton />}>
           <Friends nickName={nickName} />
         </Suspense>

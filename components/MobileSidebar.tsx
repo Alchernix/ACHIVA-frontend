@@ -19,6 +19,7 @@ export default function Sidebar({ user }: { user: User }) {
     /^\/[^/]+\/achievements\/detail$/.test(pathname) || // /[nickName]/achievements/detail
     /^\/[^/]+\/supports$/.test(pathname) || // /[nickName]/supports
     /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
+    pathname === "/settings" ||
     pathname === "/accounts/edit";
 
   if (isInvisible) {

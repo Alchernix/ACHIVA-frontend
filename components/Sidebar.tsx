@@ -16,7 +16,14 @@ import ProfileImg from "./ProfileImg";
 
 export default function Sidebar({ user }: { user: User }) {
   const pathname = usePathname();
-  const initialSelectedMenu = pathname === "/" ? "홈" : "프로필"; // 나중에 바꿔야함
+  let initialSelectedMenu;
+  if (pathname === "/") {
+    initialSelectedMenu = "홈";
+  } else if (pathname.startsWith("/settings")) {
+    initialSelectedMenu = "설정";
+  } else {
+    initialSelectedMenu = "프로필";
+  }
   const [selectedMenu, setSelectedMenu] = useState(initialSelectedMenu);
 
   return (

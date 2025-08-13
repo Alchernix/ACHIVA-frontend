@@ -3,12 +3,10 @@ import { TextLogo } from "@/components/Logo";
 import { AppleIcon, GoogleIcon } from "@/components/Icons";
 import Container from "@/features/auth/Container";
 import LoginForm from "@/features/auth/LoginForm";
-import MobileHeader from "@/components/MobileHeader";
 
 export default function Page() {
   return (
     <div className="w-full h-full items-center justify-center flex flex-col gap-3">
-      <MobileHeader>로그인</MobileHeader> {/* 모바일에서만 보임 */}
       <Container classes="h-130">
         <div className="flex flex-col w-full items-center">
           <div className="mb-15 sm:mb-7">

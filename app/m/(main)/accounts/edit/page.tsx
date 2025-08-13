@@ -11,7 +11,7 @@ export default async function Page() {
   return (
     <>
       <MobileHeader>프로필 수정</MobileHeader>
-      <div className="w-full h-dvh flex justify-center pt-25 px-5">
+      <div className="w-full flex justify-center pt-10 px-5">
         <EditProfile user={user} />
       </div>
     </>

@@ -10,7 +10,7 @@ export default async function Page({
   return (
     <>
       <MobileHeader>성취기록</MobileHeader>
-      <div className="pt-20 px-5">
+      <div className="px-5">
         <MobileAchievements nickName={nickName} type="성취" />
       </div>
     </>

@@ -43,7 +43,6 @@ export default function Settings() {
           <span className="font-semibold text-lg">버전</span>
           <span>5.11.0</span>
         </div>
-
         <LogoutBtn />
       </div>
     </div>

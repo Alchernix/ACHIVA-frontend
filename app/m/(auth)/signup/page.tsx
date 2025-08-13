@@ -89,7 +89,9 @@ export default function Page() {
 
   return (
     <div className="w-full min-h-dvh flex flex-col gap-3 items-center pt-15 sm:pt-0 justify-start sm:justify-center">
-      <MobileHeader>회원가입</MobileHeader>
+      <div className="fixed top-0 left-0">
+        <MobileHeader>회원가입</MobileHeader>
+      </div>
       <Container classes={currentStep === 0 ? "min-h-135" : "h-151"}>
         <AnimatePresence mode="wait">
           <motion.div

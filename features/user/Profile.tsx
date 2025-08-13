@@ -33,7 +33,11 @@ export function Profile({ user, currentUser }: Props) {
             <Link href={`/${user.nickName}/friends`}>
               <FollowerIcon />
             </Link>
-            {user.nickName === currentUser.nickName && <SettingIcon />}
+            {user.nickName === currentUser.nickName && (
+              <Link href={`/settings`}>
+                <SettingIcon />
+              </Link>
+            )}
           </div>
         </div>
         <p className="text-[#7F7F7F]">{user.description}</p>
@@ -64,7 +68,11 @@ export default function MobileProfile({ user, currentUser }: Props) {
         <Link href={`/${user.nickName}/friends`}>
           <FollowerIcon />
         </Link>
-        {user.nickName === currentUser.nickName && <SettingIcon />}
+        {user.nickName === currentUser.nickName && (
+          <Link href={`/settings`}>
+            <SettingIcon />
+          </Link>
+        )}
       </div>
       <div className="flex gap-5 mb-7">
         <ProfileImg url={user.profileImageUrl!} size={125} />

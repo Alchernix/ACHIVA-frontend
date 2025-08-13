@@ -4,7 +4,6 @@ import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
 import { useSignupStepStore } from "@/store/SignupStore";
 import Link from "next/link";
-import MobileHeader from "@/components/MobileHeader";
 import Container from "@/features/auth/Container";
 import { TextLogo } from "@/components/Logo";
 import SignupForm from "@/features/auth/SignupForm";
@@ -89,7 +88,6 @@ export default function Page() {
 
   return (
     <div className="w-full min-h-dvh flex flex-col gap-3 items-center pt-15 sm:pt-0 justify-start sm:justify-center">
-      <MobileHeader>회원가입</MobileHeader>
       <Container classes={currentStep === 0 ? "min-h-135" : "h-151"}>
         <AnimatePresence mode="wait">
           <motion.div
