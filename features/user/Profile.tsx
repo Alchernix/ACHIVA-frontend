@@ -11,7 +11,7 @@ type Props = {
 // PC전용
 export function Profile({ user, currentUser }: Props) {
   return (
-    <div className="w-full hidden sm:flex gap-12">
+    <div className="w-full flex gap-12">
       <ProfileImg url={user.profileImageUrl!} size={160} />
       <div className="flex-1 flex flex-col items-start justify-center gap-3">
         <div className="w-full flex items-center gap-10">

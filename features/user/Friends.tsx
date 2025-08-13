@@ -37,6 +37,7 @@ export default async function Friends({ nickName }: Props) {
       }
     );
     const list = (await res.json()).data; // 친구신청 목록 배열
+    // const list = Array(10).fill(0);
     // 나중에 id 하나씩 조회하는 로직 추가해야 함...!!
     return (
       <>
