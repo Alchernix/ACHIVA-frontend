@@ -135,7 +135,6 @@ export default function EditProfile({ user }: Props) {
         window.location.href = `/${nickName}`;
       }}
     >
-      <h2 className="font-bold text-xl hidden sm:block">프로필 수정</h2>
       <div className="relative w-auto h-auto">
         <ProfileImg url={profileImageUrl} size={120} />
         <ImageUploader setProfileImageUrl={setProfileImageUrl} />

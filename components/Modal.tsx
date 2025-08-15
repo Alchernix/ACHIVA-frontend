@@ -7,11 +7,11 @@ import { useEffect } from "react";
 // import { createPortal } from "react-dom";
 
 type ModalProps = {
+  title?: React.ReactNode;
   children: React.ReactNode;
 };
 
-// 패딩 없음... 모달과 닫기 버튼만 띄움...
-export default function Modal({ children }: ModalProps) {
+export default function Modal({ title = null, children }: ModalProps) {
   useEffect(() => {
     // 현재 스크롤바 너비 계산
     const sbw = window.innerWidth - document.documentElement.clientWidth;
@@ -34,15 +34,22 @@ export default function Modal({ children }: ModalProps) {
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/50">
       <motion.div
+        layout
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         exit={{ y: 100 }}
-        className="relative rounded-lg bg-white"
+        className="relative rounded-lg bg-white p-8 flex flex-col"
       >
-        {children}
-        <button onClick={router.back} className="absolute top-8 right-8">
-          <CloseIcon />
-        </button>
+        <div className="flex items-center justify-center relative w-full">
+          <div className="font-bold text-xl w-full">{title}</div>
+          <button
+            onClick={router.back}
+            className="absolute right-0 top-1/2 -translate-y-1/2"
+          >
+            <CloseIcon />
+          </button>
+        </div>
+        <div className="flex-1 overflow-auto">{children}</div>
       </motion.div>
     </div>
   );

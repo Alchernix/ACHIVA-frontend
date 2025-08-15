@@ -12,7 +12,7 @@ type Props = {
 export default function Achievements({ nickName, type }: Props) {
   return (
     <div className="flex gap-5 w-full">
-      <h2 className="absolute top-8 left-8 text-lg text-[#808080] flex items-center gap-1.5">
+      <h2 className="sm:hidden absolute top-8 left-8 text-lg text-[#808080] flex items-center gap-1.5">
         <span className="font-semibold text-2xl text-black">{nickName}</span>
         님의 {type}
         기록

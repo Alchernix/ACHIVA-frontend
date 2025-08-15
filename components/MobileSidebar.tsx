@@ -16,6 +16,7 @@ export default function Sidebar({ user }: { user: User }) {
 
   const isInvisible =
     /^\/[^/]+\/achievements$/.test(pathname) || // /[nickName]/achievements
+    /^\/[^/]+\/friends$/.test(pathname) || // /[nickName]/friends
     /^\/[^/]+\/achievements\/detail$/.test(pathname) || // /[nickName]/achievements/detail
     /^\/[^/]+\/supports$/.test(pathname) || // /[nickName]/supports
     /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
@@ -27,7 +28,7 @@ export default function Sidebar({ user }: { user: User }) {
   }
 
   return (
-    <nav className="text-theme w-screen shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] h-auto fixed bottom-0 items-center lg:w-60 py-5 bg-white z-10">
+    <nav className="text-theme w-full shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] h-auto fixed bottom-0 items-center lg:w-60 py-5 bg-white z-10">
       <div className="hidden mb-15 lg:hidden">
         <Link href="/">
           <h1 className="text-4xl font-bold text-center text-theme">A</h1>

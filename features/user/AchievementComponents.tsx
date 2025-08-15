@@ -18,7 +18,7 @@ export function SummarySection({ type }: SummarySectionProps) {
         }}
       >
         <BronzeMedallion />
-        <p className="bg-[#d0c6aa]/20 text-[#a59e8e] text-sm font-semibold py-1 rounded-md">
+        <p className="bg-[#d0c6aa]/20 text-[#a59e8e] text-sm font-semibold py-1 px-2 rounded-md">
           Bronze Certified
         </p>
       </div>

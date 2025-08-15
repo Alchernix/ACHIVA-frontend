@@ -21,6 +21,8 @@ export default function Sidebar({ user }: { user: User }) {
     initialSelectedMenu = "홈";
   } else if (pathname.startsWith("/settings")) {
     initialSelectedMenu = "설정";
+  } else if (pathname === "/post/create") {
+    initialSelectedMenu = "글쓰기";
   } else {
     initialSelectedMenu = "프로필";
   }
@@ -53,12 +55,14 @@ export default function Sidebar({ user }: { user: User }) {
           selected={selectedMenu === "검색"}
           onClick={() => setSelectedMenu("검색")}
         />
-        <ListItem
-          label="글쓰기"
-          icon={<PostIcon fill={selectedMenu === "글쓰기"} />}
-          selected={selectedMenu === "글쓰기"}
-          onClick={() => setSelectedMenu("글쓰기")}
-        />
+        <Link href="/post/create">
+          <ListItem
+            label="글쓰기"
+            icon={<PostIcon fill={selectedMenu === "글쓰기"} />}
+            selected={selectedMenu === "글쓰기"}
+            onClick={() => setSelectedMenu("글쓰기")}
+          />
+        </Link>
         <ListItem
           label="응원함"
           icon={<NotificationIcon fill={selectedMenu === "응원함"} />}
