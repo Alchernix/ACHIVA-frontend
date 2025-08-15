@@ -1,6 +1,7 @@
 // import type { Metadata } from "next";
 import { pretendard } from "@/lib/fonts";
 import "./globals.css";
+import Script from "next/script";
 
 // export const metadata: Metadata = {
 //   title: "Create Next App",
@@ -14,8 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+        />
+      </head>
       <body className={`${pretendard.className} antialiased min-h-dvh`}>
         {children}
+        <Script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></Script>
       </body>
     </html>
   );

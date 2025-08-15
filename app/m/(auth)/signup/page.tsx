@@ -12,13 +12,15 @@ import EmailValidationForm from "@/features/auth/EmailValidation";
 import Terms from "@/features/auth/Terms";
 import CategoryForm from "@/features/auth/CategoryForm";
 import BirthdayForm from "@/features/auth/BirthdayForm";
-import OathForm from "@/features/auth/OathForm";
+import MobileOathForm from "@/features/auth/MobileOathForm";
 
 export default function Page() {
   const currentStep = useSignupStepStore.use.currentStep();
+  let containerHeight = "h-151";
   let content;
   switch (currentStep) {
     case 0: // 기본정보
+      containerHeight = "min-h-135";
       content = (
         <>
           <div className="hidden sm:block mb-5">
@@ -47,6 +49,7 @@ export default function Page() {
       );
       break;
     case 2: // 약관
+      containerHeight = "h-auto";
       content = (
         <>
           <div className="hidden sm:block mb-10">
@@ -82,17 +85,17 @@ export default function Page() {
           <div className="hidden sm:block">
             <TextLogo />
           </div>
-          <OathForm />
+          <MobileOathForm />
         </>
       );
   }
 
   return (
-    <div className="w-full min-h-dvh flex flex-col gap-3 items-center pt-15 sm:pt-0 justify-start sm:justify-center">
+    <div className="overflow-x-hidden w-full min-h-dvh flex flex-col gap-3 items-center pt-15 sm:pt-0 justify-start sm:justify-center">
       <div className="w-full fixed top-0 left-0">
         <MobileHeader>회원가입</MobileHeader>
       </div>
-      <Container classes={currentStep === 0 ? "min-h-135" : "h-151"}>
+      <Container classes={containerHeight}>
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
