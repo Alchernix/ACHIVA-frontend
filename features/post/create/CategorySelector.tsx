@@ -1,10 +1,9 @@
 import type { CategoryCount } from "@/types/Post";
-import { ButtonHTMLAttributes } from "react";
 import {
   useCreatePostStepStore,
   useDraftPostStore,
 } from "@/store/CreatePostStore";
-import { motion } from "motion/react";
+import { CategoryButton } from "@/components/Buttons";
 import { NextStepButton } from "./Buttons";
 
 export default function CategorySelector({
@@ -43,12 +42,13 @@ export default function CategorySelector({
                   isSelected={draft.category === category.category}
                   onClick={() => {
                     setPost({ category: category.category });
+                    setPost({ categoryCount: category.count });
                   }}
                 >
                   {category.category}
                 </CategoryButton>
                 <p className="font-light text-sm text-[#808080]">
-                  {category.count}번째 이야기
+                  {category.count + 1}번째 이야기
                 </p>
               </div>
             ))}
@@ -62,6 +62,7 @@ export default function CategorySelector({
               isSelected={draft.category === category.category}
               onClick={() => {
                 setPost({ category: category.category });
+                setPost({ categoryCount: category.count });
               }}
             >
               {category.category}
@@ -73,35 +74,5 @@ export default function CategorySelector({
         다음
       </NextStepButton>
     </div>
-  );
-}
-
-// 나중에 중복코드 합치자...
-
-type ButtonProps = {
-  isSelected: boolean;
-  children: React.ReactNode;
-} & ButtonHTMLAttributes<HTMLButtonElement>;
-
-function CategoryButton({ isSelected, children, ...props }: ButtonProps) {
-  return (
-    <button
-      {...props}
-      className={`relative px-5 py-1 text-lg rounded-sm font-semibold overflow-hidden border ${
-        isSelected
-          ? "border-transparent text-white"
-          : "text-theme border-[#d9d9d9]"
-      }`}
-    >
-      <span className="relative z-10">{children}</span>
-      {isSelected && (
-        <motion.div
-          initial={{ scale: 0.7 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.2 }}
-          className="absolute inset-0 border text-white bg-theme border-theme rounded-sm"
-        ></motion.div>
-      )}
-    </button>
   );
 }

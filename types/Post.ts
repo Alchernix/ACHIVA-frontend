@@ -9,7 +9,7 @@ export type Post = {
 };
 
 export type DraftPost = Partial<Post> & {
-  categoryCounts?: number;
+  categoryCount?: number;
 }; // 글쓰기 중 타입
 
 export type PostPage = {

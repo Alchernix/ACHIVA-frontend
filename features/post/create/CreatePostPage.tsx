@@ -2,6 +2,7 @@
 "use client";
 
 import CategorySelector from "./CategorySelector";
+import SubtitlesSelector from "./SubtitlesSelector";
 import {
   useCreatePostStepStore,
   useDraftPostStore,
@@ -16,12 +17,14 @@ export default function CreatePostPage({
   categoryCounts: CategoryCount[];
 }) {
   const currentStep = useCreatePostStepStore.use.currentStep();
+  const resetStep = useCreatePostStepStore.use.resetStep();
   const resetPost = useDraftPostStore.use.resetPost();
 
   // 글쓰기 버튼 클릭 시 작성상태 리셋
   useEffect(() => {
+    resetStep();
     resetPost();
-  }, [resetPost]);
+  }, [resetStep, resetPost]);
 
   let title: string;
   let content: React.ReactNode;
@@ -31,6 +34,14 @@ export default function CreatePostPage({
       content = (
         <div className="h-100">
           <CategorySelector categoryCounts={categoryCounts} />
+        </div>
+      );
+      break;
+    case 1:
+      title = "작성할 내용들을 선택해주세요";
+      content = (
+        <div className="h-120">
+          <SubtitlesSelector />
         </div>
       );
       break;
