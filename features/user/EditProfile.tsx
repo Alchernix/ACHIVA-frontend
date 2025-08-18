@@ -5,9 +5,9 @@ import type { User } from "@/types/User";
 import ProfileImg from "@/components/ProfileImg";
 import { useState, useRef, useEffect } from "react";
 import { UserSchema } from "../auth/schima";
-import { useRouter } from "next/navigation";
 import ImageUploader from "./ImageUploader";
 import { PencilIcon, XIcon } from "@/components/Icons";
+import { categories as allCategories } from "@/types/Categories";
 
 type Props = {
   user: User;
@@ -24,17 +24,7 @@ export default function EditProfile({ user }: Props) {
     category: false,
     bio: false,
   });
-  const allCategories = [
-    "공부",
-    "운동",
-    "커리어",
-    "독서",
-    "자기계발",
-    "취미",
-    "투자",
-    "루틴",
-    "마인드셋",
-  ];
+
   const [categories, setCategories] = useState(user.categories);
   const remainingCategories = allCategories.filter(
     (category) => !categories.includes(category)

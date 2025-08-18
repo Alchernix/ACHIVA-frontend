@@ -3,22 +3,13 @@ import { useSignupInfoStore, useSignupStepStore } from "@/store/SignupStore";
 import { ButtonHTMLAttributes } from "react";
 import { NextStepButton } from "./Buttons";
 import { motion } from "motion/react";
+import { categories } from "@/types/Categories";
 
 export default function CategoryForm() {
   const handleNextStep = useSignupStepStore.use.handleNextStep();
   const user = useSignupInfoStore.use.user();
   const setUser = useSignupInfoStore.use.setUser();
-  const categories = [
-    "공부",
-    "운동",
-    "커리어",
-    "독서",
-    "자기계발",
-    "취미",
-    "투자",
-    "루틴",
-    "마인드셋",
-  ];
+
   return (
     <div className="flex flex-col gap-7">
       <div className="w-full text-left">

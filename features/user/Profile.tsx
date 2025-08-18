@@ -63,7 +63,7 @@ export function Profile({ user, currentUser }: Props) {
 export default function MobileProfile({ user, currentUser }: Props) {
   return (
     <div className="sm:hidden">
-      <div className="h-14 flex items-center justify-end gap-2">
+      <div className="h-14 flex items-center justify-end gap-3">
         {user.nickName === currentUser.nickName && <BellIcon />}
         <Link href={`/${user.nickName}/friends`}>
           <FollowerIcon />
