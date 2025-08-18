@@ -10,6 +10,7 @@ import {
 import type { CategoryCount } from "@/types/Post";
 import Modal from "@/components/Modal";
 import { useEffect } from "react";
+import BgColorSelector from "./BgColorSelector";
 
 export default function CreatePostPage({
   categoryCounts,
@@ -42,6 +43,14 @@ export default function CreatePostPage({
       content = (
         <div className="h-120">
           <SubtitlesSelector />
+        </div>
+      );
+      break;
+    case 2:
+      title = "배경색을 선택해주세요";
+      content = (
+        <div className="h-100">
+          <BgColorSelector />
         </div>
       );
       break;

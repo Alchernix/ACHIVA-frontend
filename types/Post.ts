@@ -4,7 +4,7 @@ export type Post = {
   titleImageUrl: string;
   title: string;
   category: Category;
-  backgroundColor: string;
+  backgroundColor: BackgroundColor;
   pages: PostPage[];
 };
 
@@ -21,3 +21,11 @@ export type CategoryCount = {
   category: Category;
   count: number;
 };
+
+export type BackgroundColor =
+  | "#ffffff"
+  | "#000000"
+  | "#412A2A"
+  | "#A6736F"
+  | "#4B5373"
+  | "#525D49";
