@@ -13,6 +13,7 @@ export type DraftPost = Partial<Post> & {
 }; // 글쓰기 중 타입
 
 export type PostPage = {
+  id: string;
   subtitle?: string;
   content: string;
 };

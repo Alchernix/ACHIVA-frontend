@@ -11,6 +11,7 @@ import type { CategoryCount } from "@/types/Post";
 import Modal from "@/components/Modal";
 import { useEffect } from "react";
 import BgColorSelector from "./BgColorSelector";
+import Writing from "./Writing";
 
 export default function CreatePostPage({
   categoryCounts,
@@ -27,7 +28,7 @@ export default function CreatePostPage({
     resetPost();
   }, [resetStep, resetPost]);
 
-  let title: string;
+  let title: React.ReactNode;
   let content: React.ReactNode;
   switch (currentStep) {
     case 0:
@@ -54,12 +55,28 @@ export default function CreatePostPage({
         </div>
       );
       break;
+    case 3:
+      title = (
+        <div className="h-7 flex items-center justify-center">
+          {/* 자리 비움 */}
+        </div>
+      );
+      content = <Writing />;
+      break;
     default:
       title = "에러";
       content = null;
   }
   return (
-    <Modal title={<h2 className="text-center font-semibold">{title}</h2>}>
+    <Modal
+      title={
+        typeof title === "string" ? (
+          <h2 className="text-center font-semibold">{title}</h2>
+        ) : (
+          title
+        )
+      }
+    >
       <div className="w-lg mt-8">{content}</div>
     </Modal>
   );

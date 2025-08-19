@@ -25,7 +25,7 @@ export const useCreatePostStepStore = createSelectors(
 
 type EnteredDraftState = {
   post: DraftPost;
-  setPost: (updates: DraftPost) => void;
+  setPost: (updates: DraftPost | ((prev: DraftPost) => DraftPost)) => void;
   resetPost: () => void;
 };
 
@@ -34,9 +34,11 @@ const initialPost: DraftPost = {};
 const useDraftPostStoreBase = create<EnteredDraftState>((set) => ({
   post: initialPost,
   setPost: (updates) =>
-    set((state) => ({
-      post: { ...state.post, ...updates },
-    })),
+    set((state) => {
+      const prev = state.post;
+      const next = typeof updates === "function" ? updates(prev) : updates;
+      return { post: { ...prev, ...next } };
+    }),
   resetPost: () =>
     set({
       post: initialPost,

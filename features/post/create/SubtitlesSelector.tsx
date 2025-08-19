@@ -142,6 +142,7 @@ export default function SubtitlesSelector() {
           const pages = subtitles
             .filter((item) => item.selected)
             .map((item) => ({
+              id: crypto.randomUUID(),
               subtitle: item.subtitle,
               content: "",
             }));
