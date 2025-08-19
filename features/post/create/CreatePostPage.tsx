@@ -61,7 +61,11 @@ export default function CreatePostPage({
           {/* 자리 비움 */}
         </div>
       );
-      content = <Writing />;
+      content = (
+        <div>
+          <Writing />
+        </div>
+      );
       break;
     default:
       title = "에러";

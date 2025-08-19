@@ -3,14 +3,13 @@
 import { useState } from "react";
 import Slides from "./Slides";
 import { useDraftPostStore } from "@/store/CreatePostStore";
+import { NextStepButton } from "./Buttons";
 
 export default function Writing() {
   const draft = useDraftPostStore.use.post();
-  const setPost = useDraftPostStore.use.setPost();
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(draft.pages);
   return (
-    <>
+    <div className="h-full flex flex-col justify-between">
       <div className="absolute top-8 right-17">
         <AddNewPageBtn
           currentPage={currentPage}
@@ -18,13 +17,19 @@ export default function Writing() {
         />
       </div>
       <Slides currentPage={currentPage} setCurrentPage={setCurrentPage} />
-    </>
+      <Bullets currentPage={currentPage} />
+      {currentPage === draft.pages?.length && (
+        <NextStepButton disabled={!draft.pages?.every((page) => page.content)}>
+          다음
+        </NextStepButton>
+      )}
+    </div>
   );
 }
 
 type Props = {
   currentPage: number;
-  setCurrentPage: (p: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 function AddNewPageBtn({ currentPage, setCurrentPage }: Props) {
@@ -43,10 +48,46 @@ function AddNewPageBtn({ currentPage, setCurrentPage }: Props) {
             ...prev.pages!.slice(currentPage),
           ],
         }));
+        setCurrentPage((prev) => prev + 1);
       }}
       className="font-semibold text-[#808080] py-1 px-3 border border-[#d9d9d9] rounded-sm"
     >
       빈 페이지 추가하기
     </button>
+  );
+}
+
+function Bullets({ currentPage }: { currentPage: number }) {
+  const draft = useDraftPostStore.use.post();
+  const pagesWithSubtitle = draft.pages?.filter((p) => p.subtitle);
+  const currentSubtitleIdx =
+    (draft.pages?.slice(0, currentPage).filter((p) => p.subtitle).length ?? 0) -
+    1;
+
+  return (
+    <ol className="w-full flex justify-center mt-2 mb-6 gap-1">
+      {pagesWithSubtitle?.map((page, idx) => {
+        return (
+          <li key={page.id}>
+            <svg
+              width="9"
+              height="8"
+              viewBox="0 0 9 8"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="4.12797"
+                cy="3.96"
+                r="3.96"
+                fill={
+                  idx === currentSubtitleIdx ? "var(--color-theme)" : "#D9D9D9"
+                }
+              />
+            </svg>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

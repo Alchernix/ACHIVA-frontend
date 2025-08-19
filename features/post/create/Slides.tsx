@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import { Pagination, Navigation } from "swiper/modules";
 
 import "swiper/css";
@@ -9,7 +10,7 @@ import { useDraftPostStore } from "@/store/CreatePostStore";
 
 type Props = {
   currentPage: number;
-  setCurrentPage: (p: number) => void;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export default function Slides({ currentPage, setCurrentPage }: Props) {
@@ -19,9 +20,14 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const pageRef = useRef<HTMLDivElement | null>(null);
+  const swiperRef = useRef<SwiperType | null>(null);
 
   const [isBeginning, setIsBeginning] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
+
+  useEffect(() => {
+    swiperRef.current?.slideTo(currentPage - 1);
+  }, [currentPage]);
 
   return (
     <div className="relative w-full">
@@ -97,6 +103,7 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
             }
           }}
           onSwiper={(sw) => {
+            swiperRef.current = sw;
             setIsBeginning(sw.isBeginning);
             setIsEnd(sw.isEnd);
           }}
@@ -112,23 +119,25 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
               <SwiperSlide key={page.id}>
                 <div
                   style={{ backgroundColor: draft.backgroundColor }}
-                  className="aspect-square w-full p-3 flex flex-col gap-12"
+                  className="aspect-square w-full px-3 pt-20 flex flex-col gap-12"
                 >
-                  <h2
-                    className={`font-semibold text-3xl ml-2 mt-20 ${
-                      draft.backgroundColor === "#ffffff"
-                        ? "text-theme"
-                        : "text-white"
-                    }`}
-                  >
-                    {page.subtitle}
-                  </h2>
+                  {page.subtitle && (
+                    <h2
+                      className={`font-semibold text-3xl ml-2 ${
+                        draft.backgroundColor === "#ffffff"
+                          ? "text-theme"
+                          : "text-white"
+                      }`}
+                    >
+                      {page.subtitle}
+                    </h2>
+                  )}
                   <textarea
                     value={
                       draft.pages?.find((p) => p.id === page.id)?.content ?? ""
                     }
                     onChange={(e) => {
-                      const maxHeight = 200;
+                      const maxHeight = page.subtitle ? 200 : 300;
                       if (e.target.scrollHeight <= maxHeight) {
                         setPost((prev) => ({
                           pages: prev.pages?.map((p) =>
@@ -138,14 +147,16 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
                           ),
                         }));
                       }
+                      e.target.style.height = e.target.scrollHeight + "px";
                     }}
                     placeholder="내용을 자유롭게 입력해주세요"
-                    rows={8}
                     className={`${
                       draft.backgroundColor === "#ffffff"
                         ? "text-theme"
                         : "text-white"
-                    } py-1 px-2 resize-none max-h-50 overflow-hidden outline-none`}
+                    } py-1 px-2 resize-none ${
+                      page.subtitle ? "max-h-50" : "max-h-75"
+                    } overflow-hidden outline-none`}
                   ></textarea>
                 </div>
               </SwiperSlide>
