@@ -6,7 +6,7 @@ type ProfileImgProps = {
   url: string;
   size: number;
 };
-
+// 나중에 수정 수정 필요
 export default function ProfileImg({ url, size }: ProfileImgProps) {
   const [loaded, setLoaded] = useState(false);
   return (

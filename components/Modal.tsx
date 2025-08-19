@@ -9,9 +9,14 @@ import { useEffect } from "react";
 type ModalProps = {
   title?: React.ReactNode;
   children: React.ReactNode;
+  onClose?: (() => void) | undefined;
 };
 
-export default function Modal({ title = null, children }: ModalProps) {
+export default function Modal({
+  title = null,
+  children,
+  onClose = undefined,
+}: ModalProps) {
   useEffect(() => {
     // 현재 스크롤바 너비 계산
     const sbw = window.innerWidth - document.documentElement.clientWidth;
@@ -43,7 +48,7 @@ export default function Modal({ title = null, children }: ModalProps) {
         <div className="flex items-center justify-center relative w-full">
           <div className="font-bold text-xl w-full">{title}</div>
           <button
-            onClick={router.back}
+            onClick={onClose ?? router.back}
             className="absolute right-0 top-1/2 -translate-y-1/2"
           >
             <CloseIcon />

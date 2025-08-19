@@ -14,6 +14,7 @@ import BgColorSelector from "./BgColorSelector";
 import Writing from "./Writing";
 // import BgImageSelector from "./BgImageSelector";
 import ImageUploader from "./ImageUploader";
+import TitleEditor from "./TitleEditor";
 
 export default function CreatePostPage({
   categoryCounts,
@@ -70,7 +71,11 @@ export default function CreatePostPage({
       break;
     case 4:
       title = "사진 추가";
-      content = <ImageUploader />;
+      content = <ImageUploader isMobile={false} />;
+      break;
+    case 5:
+      title = "표지 미리보기";
+      content = <TitleEditor />;
       break;
     default:
       title = "에러";

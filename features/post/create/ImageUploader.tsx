@@ -13,14 +13,10 @@ import {
 type Props = {
   /** 업로드 시 FormData 필드명 (백엔드 요구사항에 맞게) */
   fieldName?: string;
-  /** 업로드 대상 엔드포인트 */
-  apiUrl?: string;
+  isMobile?: boolean;
 };
 
-export default function ImageUploader({
-  fieldName = "file",
-  apiUrl = `/api/posts/upload`,
-}: Props) {
+export default function ImageUploader({ fieldName = "file", isMobile }: Props) {
   const size = 120; // 테일윈드 기준, 픽셀은 x4해야함
   const setPost = useDraftPostStore.use.setPost();
   const handleNextStep = useCreatePostStepStore.use.handleNextStep();
@@ -89,7 +85,7 @@ export default function ImageUploader({
       formData.append(fieldName, croppedFile);
 
       // 같은 오리진의 Next API 라우트로 업로드 (프록시)
-      const res = await fetch(apiUrl, {
+      const res = await fetch("/api/posts/upload", {
         method: "POST",
         body: formData,
       });
