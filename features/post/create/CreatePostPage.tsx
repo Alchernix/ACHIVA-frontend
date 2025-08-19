@@ -12,6 +12,8 @@ import Modal from "@/components/Modal";
 import { useEffect } from "react";
 import BgColorSelector from "./BgColorSelector";
 import Writing from "./Writing";
+// import BgImageSelector from "./BgImageSelector";
+import ImageUploader from "./ImageUploader";
 
 export default function CreatePostPage({
   categoryCounts,
@@ -28,7 +30,11 @@ export default function CreatePostPage({
     resetPost();
   }, [resetStep, resetPost]);
 
-  let title: React.ReactNode;
+  let title: React.ReactNode = (
+    <div className="h-7 flex items-center justify-center">
+      {/* 자리 비움 */}
+    </div>
+  );
   let content: React.ReactNode;
   switch (currentStep) {
     case 0:
@@ -56,16 +62,15 @@ export default function CreatePostPage({
       );
       break;
     case 3:
-      title = (
-        <div className="h-7 flex items-center justify-center">
-          {/* 자리 비움 */}
-        </div>
-      );
       content = (
         <div>
           <Writing />
         </div>
       );
+      break;
+    case 4:
+      title = "사진 추가";
+      content = <ImageUploader />;
       break;
     default:
       title = "에러";

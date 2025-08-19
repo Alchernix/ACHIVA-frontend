@@ -2,15 +2,19 @@
 "use client";
 import { useState } from "react";
 import Slides from "./Slides";
-import { useDraftPostStore } from "@/store/CreatePostStore";
+import {
+  useCreatePostStepStore,
+  useDraftPostStore,
+} from "@/store/CreatePostStore";
 import { NextStepButton } from "./Buttons";
 
 export default function Writing() {
   const draft = useDraftPostStore.use.post();
+  const handleNextStep = useCreatePostStepStore.use.handleNextStep();
   const [currentPage, setCurrentPage] = useState(1);
   return (
     <div className="h-full flex flex-col justify-between">
-      <div className="absolute top-8 right-17">
+      <div className="absolute top-7 right-17">
         <AddNewPageBtn
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
@@ -19,7 +23,10 @@ export default function Writing() {
       <Slides currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <Bullets currentPage={currentPage} />
       {currentPage === draft.pages?.length && (
-        <NextStepButton disabled={!draft.pages?.every((page) => page.content)}>
+        <NextStepButton
+          disabled={!draft.pages?.every((page) => page.content)}
+          onClick={handleNextStep}
+        >
           다음
         </NextStepButton>
       )}
