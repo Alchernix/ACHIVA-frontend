@@ -119,45 +119,49 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
               <SwiperSlide key={page.id}>
                 <div
                   style={{ backgroundColor: draft.backgroundColor }}
-                  className="aspect-square w-full px-3 pt-20 flex flex-col gap-12"
+                  className="relative aspect-square w-full pt-20"
                 >
-                  {page.subtitle && (
-                    <h2
-                      className={`font-semibold text-3xl ml-2 ${
+                  <div className="w-full absolute top-3/12 left-0 px-5 flex flex-col gap-5">
+                    {page.subtitle && (
+                      <h2
+                        className={`font-semibold text-3xl ${
+                          draft.backgroundColor === "#ffffff"
+                            ? "text-theme"
+                            : "text-white"
+                        }`}
+                      >
+                        {page.subtitle}
+                      </h2>
+                    )}
+                    <textarea
+                      value={
+                        draft.pages?.find((p) => p.id === page.id)?.content ??
+                        ""
+                      }
+                      onChange={(e) => {
+                        // 소제목 있을 시 9줄, 없을 시 12줄
+                        const maxHeight = page.subtitle ? 216 : 300;
+                        if (e.target.scrollHeight <= maxHeight) {
+                          setPost((prev) => ({
+                            pages: prev.pages?.map((p) =>
+                              p.id == page.id
+                                ? { ...p, content: e.target.value }
+                                : p
+                            ),
+                          }));
+                        }
+                        e.target.style.height = e.target.scrollHeight + "px";
+                      }}
+                      placeholder="내용을 자유롭게 입력해주세요"
+                      className={`w-full ${
                         draft.backgroundColor === "#ffffff"
                           ? "text-theme"
                           : "text-white"
-                      }`}
-                    >
-                      {page.subtitle}
-                    </h2>
-                  )}
-                  <textarea
-                    value={
-                      draft.pages?.find((p) => p.id === page.id)?.content ?? ""
-                    }
-                    onChange={(e) => {
-                      const maxHeight = page.subtitle ? 200 : 300;
-                      if (e.target.scrollHeight <= maxHeight) {
-                        setPost((prev) => ({
-                          pages: prev.pages?.map((p) =>
-                            p.id == page.id
-                              ? { ...p, content: e.target.value }
-                              : p
-                          ),
-                        }));
-                      }
-                      e.target.style.height = e.target.scrollHeight + "px";
-                    }}
-                    placeholder="내용을 자유롭게 입력해주세요"
-                    className={`${
-                      draft.backgroundColor === "#ffffff"
-                        ? "text-theme"
-                        : "text-white"
-                    } py-1 px-2 resize-none ${
-                      page.subtitle ? "max-h-50" : "max-h-75"
-                    } overflow-hidden outline-none`}
-                  ></textarea>
+                      } resize-none ${
+                        page.subtitle ? "max-h-54" : "max-h-75"
+                      } overflow-hidden outline-none`}
+                    ></textarea>
+                  </div>
                 </div>
               </SwiperSlide>
             );
