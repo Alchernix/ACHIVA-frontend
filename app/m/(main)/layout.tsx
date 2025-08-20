@@ -14,7 +14,7 @@ export default async function Layout({
         <>
           <AuthHydrator user={auth.user} />
           <MobileSidebar user={auth.user} />
-          <div>{children}</div>
+          <div className="min-h-dvh flex flex-col">{children}</div>
         </>
       );
     case "unauthenticated":

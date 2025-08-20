@@ -16,8 +16,12 @@ type Props = {
   isMobile?: boolean;
 };
 
-export default function ImageUploader({ fieldName = "file", isMobile }: Props) {
-  const size = 120; // 테일윈드 기준, 픽셀은 x4해야함
+export default function ImageUploader({
+  fieldName = "file",
+  isMobile = false,
+}: Props) {
+  // 모바일일 땐 화면 너비에서 px-5만큼 뺀 값
+  const size = window.innerWidth < 640 ? window.innerWidth - 40 : 480;
   const setPost = useDraftPostStore.use.setPost();
   const handleNextStep = useCreatePostStepStore.use.handleNextStep();
 
@@ -116,7 +120,7 @@ export default function ImageUploader({ fieldName = "file", isMobile }: Props) {
   return (
     <div className="h-full flex flex-col items-center justify-center">
       {!imageSrc && (
-        <div className="aspect-square w-120 flex flex-col justify-center items-center gap-2 mb-5">
+        <div className="aspect-square w-full sm:w-120 flex flex-col justify-center items-center gap-2 mb-5">
           <svg
             width="72"
             height="72"
@@ -137,20 +141,20 @@ export default function ImageUploader({ fieldName = "file", isMobile }: Props) {
 
       {/* 크롭 영역 */}
       {imageSrc && (
-        <div>
-          <div className="relative aspect-square w-120 bg-black/5 rounded-md">
+        <div className="w-full sm:w-120">
+          <div className="relative aspect-square bg-black/5 rounded-md">
             <Cropper
               image={imageSrc}
               crop={crop}
               zoom={zoom}
               onMediaLoaded={(mediaSize) => {
                 const { width, height } = mediaSize; // 원본 이미지 크기
-                const zoomByWidth = 480 / width;
-                const zoomByHeight = 480 / height;
+                const zoomByWidth = size / width;
+                const zoomByHeight = size / height;
                 setZoom(Math.max(zoomByWidth, zoomByHeight)); // cropSize 꽉 차도록 zoom 조정
               }}
               aspect={1} // 정사각형
-              cropSize={{ width: 480, height: 480 }}
+              cropSize={{ width: size, height: size }}
               onCropChange={setCrop}
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
@@ -164,7 +168,7 @@ export default function ImageUploader({ fieldName = "file", isMobile }: Props) {
             <button
               onClick={onUpload}
               disabled={isUploading}
-              className="absolute top-7 right-17 font-semibold bg-theme text-white py-1 px-3 border border-theme rounded-sm"
+              className="z-99 absolute top-2.5 right-5 sm:top-7 sm:right-17 font-semibold bg-theme text-white py-1 px-3 border border-theme rounded-sm"
             >
               {isUploading ? <LoadingIcon /> : "다음"}
             </button>
@@ -172,7 +176,7 @@ export default function ImageUploader({ fieldName = "file", isMobile }: Props) {
             <button
               onClick={onUpload}
               disabled
-              className="absolute top-7 right-17 font-semibold text-[#808080] py-1 px-3 border border-[#d9d9d9] rounded-sm cursor-default"
+              className="z-99 top-2.5 right-5 absolute sm:top-7 sm:right-17 font-semibold text-[#808080] py-1 px-3 border border-[#d9d9d9] rounded-sm cursor-default"
             ></button>
           )}
         </div>
@@ -180,7 +184,7 @@ export default function ImageUploader({ fieldName = "file", isMobile }: Props) {
 
       <div className="mt-5 w-full">
         <NextStepButton onClick={() => input.current?.click()}>
-          컴퓨터에서 선택
+          {isMobile ? "갤러리에서 선택" : "컴퓨터에서 선택"}
         </NextStepButton>
       </div>
 

@@ -34,8 +34,8 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
       <button
         ref={prevRef}
         className={`${
-          isBeginning ? "hidden" : ""
-        } absolute left-0 top-1/2 -translate-y-1/2`}
+          isBeginning ? "!hidden" : ""
+        } absolute left-0 top-1/2 -translate-y-1/2 hidden sm:block`}
       >
         <svg
           width="15"
@@ -53,8 +53,8 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
       <button
         ref={nextRef}
         className={`${
-          isEnd ? "hidden" : ""
-        } absolute right-0 top-1/2 -translate-y-1/2`}
+          isEnd ? "!hidden" : ""
+        } absolute right-0 top-1/2 -translate-y-1/2 hidden sm:block`}
       >
         <svg
           width="14"
@@ -73,15 +73,14 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
         ref={pageRef}
         style={{
           top: "1.25rem",
-          right: "3rem",
           bottom: "auto",
           left: "auto",
           width: "3rem",
           color: "white",
         }}
-        className={`z-10 absolute bg-black/35 text-sm flex items-center justify-center text-white py-1 rounded-full`}
+        className={`z-10 right-5 sm:right-12 absolute bg-black/35 text-sm flex items-center justify-center text-white py-1 rounded-full`}
       ></div>
-      <div className="px-7">
+      <div className="sm:px-7">
         <Swiper
           pagination={{
             el: pageRef.current,

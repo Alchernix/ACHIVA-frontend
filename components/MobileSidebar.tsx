@@ -20,6 +20,7 @@ export default function Sidebar({ user }: { user: User }) {
     /^\/[^/]+\/achievements\/detail$/.test(pathname) || // /[nickName]/achievements/detail
     /^\/[^/]+\/supports$/.test(pathname) || // /[nickName]/supports
     /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
+    pathname === "/post/create" ||
     pathname === "/settings" ||
     pathname === "/accounts/edit";
 
@@ -54,12 +55,14 @@ export default function Sidebar({ user }: { user: User }) {
           selected={selectedMenu === "검색"}
           onClick={() => setSelectedMenu("검색")}
         />
-        <ListItem
-          label="글쓰기"
-          icon={<PostIcon fill={selectedMenu === "글쓰기"} />}
-          selected={selectedMenu === "글쓰기"}
-          onClick={() => setSelectedMenu("글쓰기")}
-        />
+        <Link href="/post/create">
+          <ListItem
+            label="글쓰기"
+            icon={<PostIcon fill={selectedMenu === "글쓰기"} />}
+            selected={selectedMenu === "글쓰기"}
+            onClick={() => setSelectedMenu("글쓰기")}
+          />
+        </Link>
         <ListItem
           label="응원함"
           icon={<NotificationIcon fill={selectedMenu === "응원함"} />}

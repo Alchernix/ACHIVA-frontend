@@ -32,7 +32,7 @@ export default function CategorySelector({
   // ];
 
   return (
-    <div className="h-full flex flex-col justify-between">
+    <div className="h-full flex-1 flex flex-col justify-between">
       <div>
         {postedCategories.length !== 0 && (
           <div className="flex flex-wrap gap-5 mb-5">

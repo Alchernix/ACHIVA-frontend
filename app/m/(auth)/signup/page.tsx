@@ -16,6 +16,7 @@ import MobileOathForm from "@/features/auth/MobileOathForm";
 
 export default function Page() {
   const currentStep = useSignupStepStore.use.currentStep();
+  const handlePrevStep = useSignupStepStore.use.handlePrevStep();
   let containerHeight = "h-151";
   let content;
   switch (currentStep) {
@@ -93,7 +94,9 @@ export default function Page() {
   return (
     <div className="overflow-x-hidden w-full min-h-dvh flex flex-col gap-3 items-center pt-15 sm:pt-0 justify-start sm:justify-center">
       <div className="w-full fixed top-0 left-0">
-        <MobileHeader>회원가입</MobileHeader>
+        <MobileHeader onClick={currentStep !== 0 ? handlePrevStep : undefined}>
+          회원가입
+        </MobileHeader>
       </div>
       <Container classes={containerHeight}>
         <AnimatePresence mode="wait">

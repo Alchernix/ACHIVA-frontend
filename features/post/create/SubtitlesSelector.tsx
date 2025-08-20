@@ -21,6 +21,7 @@ export default function SubtitlesSelector() {
   const CategoryCount = draft.categoryCount!;
   const [subtitles, setSubtitles] = useState(
     basicTopics[category].map((subtitle) => ({
+      id: crypto.randomUUID(),
       subtitle,
       selected: false,
     }))
@@ -39,7 +40,7 @@ export default function SubtitlesSelector() {
   }
 
   return (
-    <div className="h-full flex flex-col justify-between gap-5">
+    <div className="h-full flex-1 flex flex-col justify-between gap-5">
       <div>
         <div className="flex flex-wrap gap-5 mb-10">
           <div key={category} className="flex items-center gap-3">
@@ -62,8 +63,8 @@ export default function SubtitlesSelector() {
                     const selected = subtitle.selected;
                     return (
                       <Draggable
-                        key={subtitle.subtitle}
-                        draggableId={subtitle.subtitle}
+                        key={subtitle.id}
+                        draggableId={subtitle.id}
                         index={index}
                       >
                         {(provided) => (
@@ -86,7 +87,7 @@ export default function SubtitlesSelector() {
                               onClick={() => {
                                 setSubtitles((prev) =>
                                   prev.map((item) =>
-                                    item.subtitle === subtitle.subtitle
+                                    item.id === subtitle.id
                                       ? { ...item, selected: !item.selected }
                                       : item
                                   )
@@ -122,6 +123,7 @@ export default function SubtitlesSelector() {
                     setSubtitles((prev) => [
                       ...prev,
                       {
+                        id: crypto.randomUUID(),
                         subtitle: enteredSubtitle,
                         selected: true,
                       },

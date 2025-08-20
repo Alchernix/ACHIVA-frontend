@@ -34,6 +34,36 @@ export default function Writing() {
   );
 }
 
+export function MobileWriting() {
+  const draft = useDraftPostStore.use.post();
+  const handleNextStep = useCreatePostStepStore.use.handleNextStep();
+  const [currentPage, setCurrentPage] = useState(1);
+  return (
+    <div className="h-full flex flex-col justify-between">
+      <Slides currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-99 flex justify-center">
+        <Bullets currentPage={currentPage} />
+      </div>
+      <div className="flex mt-2.5">
+        <AddNewPageBtn
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
+
+      {currentPage === draft.pages?.length && (
+        <button
+          className="absolute top-2.5 right-5 z-99 font-semibold text-white disabled:text-[#808080] py-1 px-3 bg-theme disabled:bg-white border border-theme disabled:border-[#d9d9d9] rounded-sm"
+          disabled={!draft.pages?.every((page) => page.content)}
+          onClick={handleNextStep}
+        >
+          공유하기
+        </button>
+      )}
+    </div>
+  );
+}
+
 type Props = {
   currentPage: number;
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>;

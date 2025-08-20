@@ -12,16 +12,16 @@ export default function TitleEditor() {
   const [isEditing, setIsEditing] = useState(false);
   return (
     <div className="flex flex-col items-center">
-      <div className="w-120 aspect-square relative">
+      <div className="w-full sm:w-120 aspect-square relative">
         <PostImg url={draft.titleImageUrl!} />
-        <div className="absolute w-120 top-3/12 px-4 flex flex-col gap-2">
+        <div className="absolute w-full sm:w-120 top-3/12 px-4 flex flex-col gap-1 sm:gap-2">
           <p className="font-light text-white/70">
             {format(new Date(), "yyyy.MM.dd")}
           </p>
           <input
-            className={`w-full z-50 ${
+            className={`w-full z-51 ${
               isEditing ? "text-white" : "text-white/80"
-            } placeholder:text-white/80 text-5xl font-semibold outline-none`}
+            } placeholder:text-white/80 text-4xl sm:text-5xl font-semibold outline-none`}
             type="text"
             placeholder="오늘의 성취"
             autoFocus
@@ -34,7 +34,7 @@ export default function TitleEditor() {
               setIsEditing(false);
             }}
           />
-          <h2 className="text-white font-light text-3xl">
+          <h2 className="text-white font-light text-2xl sm:text-3xl">
             <span className="font-bold">{draft.category}</span> 기록{" "}
             <span className="font-bold">
               {(draft.categoryCount ?? 0) + 1}번째
@@ -42,7 +42,7 @@ export default function TitleEditor() {
             이야기
           </h2>
         </div>
-        {isEditing && <div className="fixed inset-0 bg-black/40" />}
+        {isEditing && <div className="fixed inset-0 z-50 bg-black/40" />}
       </div>
       <div className="w-full mt-5">
         <NextStepButton
