@@ -14,28 +14,29 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
   const token = req.cookies.get("token")?.value;
-  let isLoggedIn = false;
+  const isLoggedIn = !!token;
+  // let isLoggedIn = false;
 
-  if (token) {
-    try {
-      const apiRes = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/me`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  // if (token) {
+  //   try {
+  //     const apiRes = await fetch(
+  //       `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/me`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
 
-      if (apiRes.ok) {
-        isLoggedIn = true;
-      }
-    } catch (err) {
-      console.error("로그인 체크 API 에러:", err);
-    }
-  }
+  //     if (apiRes.ok) {
+  //       isLoggedIn = true;
+  //     }
+  //   } catch (err) {
+  //     console.error("로그인 체크 API 에러:", err);
+  //   }
+  // }
 
   // -------------------------
   // 1. 로그인 안 된 유저는 "/"로 강제 리다이렉트
