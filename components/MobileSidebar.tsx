@@ -5,14 +5,21 @@ import { usePathname } from "next/navigation";
 import { TextLogo } from "./Logo";
 import { HomeIcon, SearchIcon, PostIcon, NotificationIcon } from "./Icons";
 import { motion } from "motion/react";
-import { useState } from "react";
 import ProfileImg from "./ProfileImg";
 
 export default function Sidebar({ user }: { user: User }) {
   const pathname = usePathname();
 
-  const initialSelectedMenu = pathname === "/" ? "홈" : "프로필"; // 나중에 바꿔야함
-  const [selectedMenu, setSelectedMenu] = useState(initialSelectedMenu);
+  let selected;
+  if (pathname === "/") {
+    selected = "홈";
+  } else if (pathname.startsWith("/settings")) {
+    selected = "설정";
+  } else if (pathname === "/post/create") {
+    selected = "글쓰기";
+  } else {
+    selected = "프로필";
+  }
 
   const isInvisible =
     /^\/[^/]+\/achievements$/.test(pathname) || // /[nickName]/achievements
@@ -44,38 +51,33 @@ export default function Sidebar({ user }: { user: User }) {
         <Link href="/">
           <ListItem
             label="홈"
-            icon={<HomeIcon fill={selectedMenu === "홈"} />}
-            selected={selectedMenu === "홈"}
-            onClick={() => setSelectedMenu("홈")}
+            icon={<HomeIcon fill={selected === "홈"} />}
+            selected={selected === "홈"}
           />
         </Link>
         <ListItem
           label="검색"
-          icon={<SearchIcon fill={selectedMenu === "검색"} />}
-          selected={selectedMenu === "검색"}
-          onClick={() => setSelectedMenu("검색")}
+          icon={<SearchIcon fill={selected === "검색"} />}
+          selected={selected === "검색"}
         />
         <Link href="/post/create">
           <ListItem
             label="글쓰기"
-            icon={<PostIcon fill={selectedMenu === "글쓰기"} />}
-            selected={selectedMenu === "글쓰기"}
-            onClick={() => setSelectedMenu("글쓰기")}
+            icon={<PostIcon fill={selected === "글쓰기"} />}
+            selected={selected === "글쓰기"}
           />
         </Link>
         <ListItem
           label="응원함"
-          icon={<NotificationIcon fill={selectedMenu === "응원함"} />}
-          selected={selectedMenu === "응원함"}
-          onClick={() => setSelectedMenu("응원함")}
+          icon={<NotificationIcon fill={selected === "응원함"} />}
+          selected={selected === "응원함"}
         />
         {/* 임시방편.... 나중에 user가 늦게 로딩되는 문제 해결 필요 */}
         <Link href={`/${user?.nickName ?? ""}`}>
           <ListItem
             label="프로필"
             icon={<ProfileImg size={32} url={user.profileImageUrl} />}
-            selected={selectedMenu === "프로필"}
-            onClick={() => setSelectedMenu("프로필")}
+            selected={selected === "프로필"}
           />
         </Link>
       </ul>
@@ -87,15 +89,13 @@ type ListItemProps = {
   label: string;
   icon: React.ReactNode;
   selected: boolean;
-  onClick: () => void;
 };
 
-function ListItem({ label, icon, selected, onClick }: ListItemProps) {
+function ListItem({ label, icon, selected }: ListItemProps) {
   return (
     <li
       key={label}
       className={`relative flex items-center gap-3 px-6 cursor-pointer`}
-      onClick={onClick}
     >
       {icon}
       <span

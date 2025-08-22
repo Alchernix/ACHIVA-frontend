@@ -11,22 +11,20 @@ import {
   SidebarSettingIcon,
 } from "./Icons";
 import { motion } from "motion/react";
-import { useState } from "react";
 import ProfileImg from "./ProfileImg";
 
 export default function Sidebar({ user }: { user: User }) {
   const pathname = usePathname();
-  let initialSelectedMenu;
+  let selected;
   if (pathname === "/") {
-    initialSelectedMenu = "홈";
+    selected = "홈";
   } else if (pathname.startsWith("/settings")) {
-    initialSelectedMenu = "설정";
+    selected = "설정";
   } else if (pathname === "/post/create") {
-    initialSelectedMenu = "글쓰기";
+    selected = "글쓰기";
   } else {
-    initialSelectedMenu = "프로필";
+    selected = "프로필";
   }
-  const [selectedMenu, setSelectedMenu] = useState(initialSelectedMenu);
 
   return (
     <nav className="text-theme z-10 w-screen shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] sm:shadow-none h-auto sm:w-auto sm:h-dvh fixed bottom-0 sm:top-0 flex sm:flex-col items-center lg:w-60 py-5 sm:py-8 sm:border-r sm:border-r-[#d9d9d9] bg-white">
@@ -44,46 +42,40 @@ export default function Sidebar({ user }: { user: User }) {
         <Link href="/">
           <ListItem
             label="홈"
-            icon={<HomeIcon fill={selectedMenu === "홈"} />}
-            selected={selectedMenu === "홈"}
-            onClick={() => setSelectedMenu("홈")}
+            icon={<HomeIcon fill={selected === "홈"} />}
+            selected={selected === "홈"}
           />
         </Link>
         <ListItem
           label="검색"
-          icon={<SearchIcon fill={selectedMenu === "검색"} />}
-          selected={selectedMenu === "검색"}
-          onClick={() => setSelectedMenu("검색")}
+          icon={<SearchIcon fill={selected === "검색"} />}
+          selected={selected === "검색"}
         />
         <Link href="/post/create">
           <ListItem
             label="글쓰기"
-            icon={<PostIcon fill={selectedMenu === "글쓰기"} />}
-            selected={selectedMenu === "글쓰기"}
-            onClick={() => setSelectedMenu("글쓰기")}
+            icon={<PostIcon fill={selected === "글쓰기"} />}
+            selected={selected === "글쓰기"}
           />
         </Link>
         <ListItem
           label="응원함"
-          icon={<NotificationIcon fill={selectedMenu === "응원함"} />}
-          selected={selectedMenu === "응원함"}
-          onClick={() => setSelectedMenu("응원함")}
+          icon={<NotificationIcon fill={selected === "응원함"} />}
+          selected={selected === "응원함"}
         />
         <Link href={`/${user.nickName}`}>
           <ListItem
             label="프로필"
             icon={<ProfileImg size={32} url={user.profileImageUrl} />}
-            selected={selectedMenu === "프로필"}
-            onClick={() => setSelectedMenu("프로필")}
+            selected={selected === "프로필"}
           />
         </Link>
 
         <Link href={`/settings`} className="mt-auto">
           <ListItem
             label="설정"
-            icon={<SidebarSettingIcon fill={selectedMenu === "설정"} />}
-            selected={selectedMenu === "설정"}
-            onClick={() => setSelectedMenu("설정")}
+            icon={<SidebarSettingIcon fill={selected === "설정"} />}
+            selected={selected === "설정"}
           />
         </Link>
       </ul>
@@ -95,15 +87,13 @@ type ListItemProps = {
   label: string;
   icon: React.ReactNode;
   selected: boolean;
-  onClick: () => void;
 };
 
-function ListItem({ label, icon, selected, onClick }: ListItemProps) {
+function ListItem({ label, icon, selected }: ListItemProps) {
   return (
     <li
       key={label}
       className={`relative flex items-center gap-3 px-6 sm:py-1.5 cursor-pointer`}
-      onClick={onClick}
     >
       {icon}
       <span
