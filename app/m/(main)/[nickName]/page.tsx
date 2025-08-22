@@ -20,11 +20,11 @@ export default async function Page({
     if (!currentUser) {
       redirect("/");
     }
-    // 나중에 토큰 없어도 조회하게 해주도록 백엔드에 부탁해야....
+
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
-    // 나중에 멤버 가져오는 api 나오면 바꿔야...
+    // 유저 데이터 가져오기
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}`,
       {
@@ -33,16 +33,29 @@ export default async function Page({
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        // next: {
-        //   tags: ["me"],
-        // },
       }
     );
     const { data } = await response.json();
     if (!data) {
       notFound();
     }
+
+    // 첫 포스트 데이터 가져오기
+    const response2 = await fetch(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/my-articles?page=0&size=9&sort=createdAt,DESC`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!response.ok) throw new Error("Failed to fetch");
+
+    const initialPosts = (await response2.json()).data;
     const user = data as User;
+
     return (
       <div className="w-full flex flex-col pb-22 sm:pb-0 sm:pt-15 px-5">
         <div className="mx-auto w-full max-w-160">
@@ -55,7 +68,7 @@ export default async function Page({
               <PointSection label="응원 포인트" points={27} />
             </Link>
           </div>
-          <Posts postsCnt={12} />
+          <Posts initialPosts={initialPosts} />
         </div>
         <Footer />
       </div>

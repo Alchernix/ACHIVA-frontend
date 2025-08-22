@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/my-articles?page=${pageParam}&size=6&sort=createdAt,DESC`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/my-articles?page=${pageParam}&size=9&sort=createdAt,DESC`,
     {
       method: "GET",
       headers: {

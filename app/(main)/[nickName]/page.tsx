@@ -40,7 +40,7 @@ export default async function Page({
 
   // 첫 포스트 데이터 가져오기
   const response2 = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/my-articles?page=0&size=6&sort=createdAt,DESC`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/my-articles?page=0&size=9&sort=createdAt,DESC`,
     {
       method: "GET",
       headers: {
