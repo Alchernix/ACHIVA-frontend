@@ -40,20 +40,6 @@ export default async function Page({
       notFound();
     }
 
-    // 첫 포스트 데이터 가져오기
-    const response2 = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/my-articles?page=0&size=9&sort=createdAt,DESC`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    if (!response.ok) throw new Error("Failed to fetch");
-
-    const initialPosts = (await response2.json()).data;
     const user = data as User;
 
     return (
@@ -68,7 +54,7 @@ export default async function Page({
               <PointSection label="응원 포인트" points={27} />
             </Link>
           </div>
-          <Posts initialPosts={initialPosts} />
+          <Posts />
         </div>
         <Footer />
       </div>

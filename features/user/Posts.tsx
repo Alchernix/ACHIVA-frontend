@@ -51,8 +51,8 @@ interface Pageable {
   unpaged: boolean;
 }
 
-export default function Posts({ initialPosts }: { initialPosts: PostsData }) {
-  async function fetchPosts({ pageParam }: { pageParam: number }) {
+export default function Posts() {
+  async function fetchPosts(pageParam: number = 0) {
     // 포스트 데이터 가져오기
     const response = await fetch(
       `/api/members/getPosts?pageParam=${pageParam}`,
@@ -69,17 +69,17 @@ export default function Posts({ initialPosts }: { initialPosts: PostsData }) {
     return json.data as PostsData;
   }
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
       queryKey: ["posts"],
-      queryFn: fetchPosts,
+      queryFn: ({ pageParam = 0 }) => fetchPosts(pageParam),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
         if (lastPage.last) return undefined; // 더 없음
         const next = lastPage.number + 1;
         return next < lastPage.totalPages ? next : undefined;
       },
-      initialData: { pages: [initialPosts], pageParams: [0] },
+      // initialData: { pages: [initialPosts], pageParams: [0] },
     });
 
   // 센티넬 IO
@@ -98,8 +98,8 @@ export default function Posts({ initialPosts }: { initialPosts: PostsData }) {
     return () => io.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  const posts = data.pages.flatMap((p) => p.content) ?? [];
-  const postsCnt = data.pages[0]?.totalElements ?? 0;
+  const posts = data?.pages.flatMap((p) => p.content) ?? [];
+  const postsCnt = data?.pages[0]?.totalElements ?? 0;
 
   return (
     <div>
@@ -113,6 +113,11 @@ export default function Posts({ initialPosts }: { initialPosts: PostsData }) {
           </option>
         </select>
       </div>
+      {isLoading && (
+        <div className="w-full flex justify-center">
+          <LoadingIcon color="text-theme" />
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-[1px]">
         {posts?.map((post) => {
           return <div key={post.id}>{<PostImg url={post.photoUrl} />}</div>;
@@ -120,8 +125,8 @@ export default function Posts({ initialPosts }: { initialPosts: PostsData }) {
       </div>
       <div ref={loaderRef}></div>
       {isFetchingNextPage && (
-        <div>
-          <LoadingIcon />
+        <div className="w-full flex justify-center">
+          <LoadingIcon color="text-theme" />
         </div>
       )}
     </div>
