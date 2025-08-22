@@ -3,11 +3,11 @@ import { useDraftPostStore } from "@/store/CreatePostStore";
 import { NextStepButton } from "./Buttons";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useCurrentUserInfoStore } from "@/store/userStore";
+import { motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 
 export default function TitleEditor() {
-  const router = useRouter();
   const draft = useDraftPostStore.use.post();
   const currentUser = useCurrentUserInfoStore.use.user();
   const setPost = useDraftPostStore.use.setPost();
@@ -45,7 +45,16 @@ export default function TitleEditor() {
             이야기
           </h2>
         </div>
-        {isEditing && <div className="fixed inset-0 z-50 bg-black/40" />}
+        <AnimatePresence>
+          {isEditing && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/40"
+            />
+          )}
+        </AnimatePresence>
       </div>
       <div className="w-full mt-5">
         <NextStepButton

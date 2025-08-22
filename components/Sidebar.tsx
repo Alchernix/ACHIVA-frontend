@@ -33,7 +33,7 @@ export default function Sidebar({ user }: { user: User }) {
           <h1 className="text-4xl font-bold text-center text-theme">A</h1>
         </Link>
       </div>
-      <div className="mb-15 hidden lg:block">
+      <div className="mb-15 w-full items-start px-6 hidden lg:flex">
         <Link href="/">
           <TextLogo />
         </Link>

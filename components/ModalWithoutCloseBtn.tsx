@@ -44,6 +44,12 @@ export default function ModalWithoutCloseBtn({
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         exit={{ y: 100 }}
+        transition={{
+          type: "spring",
+          stiffness: 170,
+          damping: 15,
+          mass: 0.8,
+        }}
         onClick={(e) => e.stopPropagation()}
         className="relative rounded-lg bg-white flex flex-col text-lg text-center text-theme"
       >

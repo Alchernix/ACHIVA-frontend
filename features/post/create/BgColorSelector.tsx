@@ -5,6 +5,8 @@ import {
   useDraftPostStore,
 } from "@/store/CreatePostStore";
 import { BgColorSelectIcon } from "@/components/Icons";
+import { motion } from "motion/react";
+import { AnimatePresence } from "motion/react";
 
 export default function BgColorSelector() {
   const draft = useDraftPostStore.use.post();
@@ -21,11 +23,26 @@ export default function BgColorSelector() {
               className="rounded-sm shadow-lg w-27 sm:w-30 aspect-square relative cursor-pointer"
               onClick={() => setPost({ backgroundColor: bg })}
             >
-              {draft.backgroundColor === bg && (
-                <div className="w-full h-full flex items-center justify-center">
-                  <BgColorSelectIcon white={bg === "#ffffff" ? false : true} />
-                </div>
-              )}
+              <AnimatePresence>
+                {draft.backgroundColor === bg && (
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                    }}
+                    className="w-full h-full flex items-center justify-center"
+                  >
+                    <BgColorSelectIcon
+                      white={bg === "#ffffff" ? false : true}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>

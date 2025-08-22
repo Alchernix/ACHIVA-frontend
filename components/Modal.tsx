@@ -43,6 +43,12 @@ export default function Modal({
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         exit={{ y: 100 }}
+        transition={{
+          type: "spring",
+          stiffness: 170,
+          damping: 15,
+          mass: 0.8,
+        }}
         className="relative rounded-lg bg-white p-8 flex flex-col"
       >
         <div className="flex items-center justify-center relative w-full">
