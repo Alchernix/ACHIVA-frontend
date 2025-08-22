@@ -17,23 +17,23 @@ export default function ModalWithoutCloseBtn({
   children,
   onClose,
 }: ModalProps) {
-  useEffect(() => {
-    // 현재 스크롤바 너비 계산
-    const sbw = window.innerWidth - document.documentElement.clientWidth;
+  // useEffect(() => {
+  //   // 현재 스크롤바 너비 계산
+  //   const sbw = window.innerWidth - document.documentElement.clientWidth;
 
-    // 기존 스타일 백업
-    const prevOverflow = document.body.style.overflow;
-    const prevPaddingRight = document.body.style.paddingRight;
+  //   // 기존 스타일 백업
+  //   const prevOverflow = document.body.style.overflow;
+  //   const prevPaddingRight = document.body.style.paddingRight;
 
-    // 스크롤 잠금 + 우측 패딩 보정
-    document.body.style.overflow = "hidden";
-    if (sbw > 0) document.body.style.paddingRight = `${sbw}px`;
+  //   // 스크롤 잠금 + 우측 패딩 보정
+  //   document.body.style.overflow = "hidden";
+  //   if (sbw > 0) document.body.style.paddingRight = `${sbw}px`;
 
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      document.body.style.paddingRight = prevPaddingRight;
-    };
-  }, []);
+  //   return () => {
+  //     document.body.style.overflow = prevOverflow;
+  //     document.body.style.paddingRight = prevPaddingRight;
+  //   };
+  // }, []);
 
   return (
     <div

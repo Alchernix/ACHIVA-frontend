@@ -4,11 +4,14 @@ import { NextStepButton } from "./Buttons";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCurrentUserInfoStore } from "@/store/userStore";
 
 export default function TitleEditor() {
   const router = useRouter();
   const draft = useDraftPostStore.use.post();
+  const currentUser = useCurrentUserInfoStore.use.user();
   const setPost = useDraftPostStore.use.setPost();
+  const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   return (
     <div className="flex flex-col items-center">
@@ -48,6 +51,7 @@ export default function TitleEditor() {
         <NextStepButton
           disabled={!draft.title}
           onClick={async () => {
+            setIsLoading(true);
             try {
               const res = await fetch("/api/posts", {
                 method: "PUT",
@@ -62,12 +66,16 @@ export default function TitleEditor() {
                 console.log(res);
                 throw new Error("게시글 작성 중 에러");
               }
-              router.back();
+              setIsLoading(false);
+              window.location.href = `/${currentUser?.nickName}`;
+              // router.back();
+              // router.refresh();
             } catch (err) {
               console.log(err);
               alert(
                 "네트워크 혹은 서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
               );
+              setIsLoading(false);
             }
           }}
         >
