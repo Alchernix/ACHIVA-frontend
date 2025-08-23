@@ -2,53 +2,82 @@ import PostImg from "@/components/PostImg";
 import { useDraftPostStore } from "@/store/CreatePostStore";
 import { NextStepButton } from "./Buttons";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import { useCurrentUserInfoStore } from "@/store/userStore";
 import { motion } from "motion/react";
 import { AnimatePresence } from "motion/react";
 import { LoadingIcon } from "@/components/Icons";
+// import { TitlePage } from "../Pages";
 
 export default function TitleEditor() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
   const draft = useDraftPostStore.use.post();
   const currentUser = useCurrentUserInfoStore.use.user();
   const setPost = useDraftPostStore.use.setPost();
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const size = window.innerWidth < 640 ? containerWidth ?? 0 : 480;
+
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.offsetWidth);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col items-center">
-      <div className="w-full sm:w-120 aspect-square relative">
-        <PostImg url={draft.titleImageUrl!} />
-        <div className="absolute w-full sm:w-120 top-3/12 px-4 flex flex-col gap-1 sm:gap-2">
-          <p className="font-light text-white/70">
-            {format(new Date(), "yyyy.MM.dd")}
-          </p>
-          <input
-            className={`w-full z-51 ${
-              isEditing ? "text-white" : "text-white/80"
-            } placeholder:text-white/80 text-4xl sm:text-5xl font-semibold outline-none`}
-            type="text"
-            placeholder="오늘의 성취"
-            autoFocus
-            value={draft.title ?? ""}
-            onChange={(e) => {
-              setIsEditing(true);
-              setPost({ title: e.target.value });
-            }}
-            onBlur={() => {
-              setIsEditing(false);
-            }}
-          />
-          <h2 className="text-white font-light text-3xl sm:text-4xl flex flex-col mt-3 sm:mt-5">
-            <div>
-              <span className="font-bold">{draft.category}</span> 기록
+      <div ref={containerRef} className="w-full sm:w-120 aspect-square">
+        <div
+          style={{
+            transform: `scale(${size / 390})`,
+            transformOrigin: "top left",
+          }}
+          className="aspect-square w-[390px] h-[390px] relative z-[60]"
+        >
+          <PostImg url={draft.titleImageUrl!} filtered />
+          <div className="absolute top-[90px] left-[23px]">
+            <div className="font-light text-[16px] text-white/70">
+              {format(new Date(), "yyyy.MM.dd")}
             </div>
-            <div>
-              <span className="font-bold">
-                {(draft.categoryCount ?? 0) + 1}번째
-              </span>{" "}
-              이야기
+            <input
+              className={`w-full relative z-[62] ${
+                isEditing ? "text-white" : "text-white/80"
+              } placeholder:text-white/80 font-semibold text-[45px] mb-[24px] leading-[50px] outline-none`}
+              type="text"
+              placeholder="오늘의 성취"
+              autoFocus
+              value={draft.title ?? ""}
+              onChange={(e) => {
+                setIsEditing(true);
+                setPost({ title: e.target.value });
+              }}
+              onBlur={() => {
+                setIsEditing(false);
+              }}
+            />
+            <div className={`text-[32px] font-light text-white leading-[40px]`}>
+              <div>
+                <span className="font-bold">{draft.category}</span> 기록
+              </div>
+              <div>
+                <span className="font-bold">
+                  {(draft.categoryCount ?? 0) + 1}번째
+                </span>{" "}
+                이야기
+              </div>
             </div>
-          </h2>
+          </div>
+          <AnimatePresence>
+            {isEditing && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 bg-black/40"
+              />
+            )}
+          </AnimatePresence>
         </div>
         <AnimatePresence>
           {isEditing && (
@@ -82,8 +111,6 @@ export default function TitleEditor() {
               }
               setIsLoading(false);
               window.location.href = `/${currentUser?.nickName}`;
-              // router.back();
-              // router.refresh();
             } catch (err) {
               console.log(err);
               alert(

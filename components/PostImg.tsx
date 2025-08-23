@@ -2,7 +2,13 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function PostImg({ url }: { url: string }) {
+export default function PostImg({
+  url,
+  filtered = false,
+}: {
+  url: string;
+  filtered?: boolean;
+}) {
   const [loaded, setLoaded] = useState(false);
   return (
     <div className="relative aspect-square w-full h-full">
@@ -18,7 +24,9 @@ export default function PostImg({ url }: { url: string }) {
         fill
         onLoad={() => setLoaded(true)}
       />
-      <div className="absolute inset-0 w-full h-full bg-black/70" />
+      {filtered && (
+        <div className="absolute inset-0 w-full h-full bg-black/70" />
+      )}
     </div>
   );
 }
