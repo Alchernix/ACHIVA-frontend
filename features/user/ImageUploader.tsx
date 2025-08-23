@@ -150,7 +150,7 @@ export default function ImageUploader({
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
               restrictPosition={true}
-              showGrid={false}
+              showGrid={true}
               objectFit="contain"
             />
           </div>

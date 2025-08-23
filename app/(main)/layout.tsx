@@ -18,8 +18,8 @@ export default async function Layout({
         <>
           <AuthHydrator user={auth.user} />
           <Sidebar user={auth.user} />
-          <div className="flex-col sm:ml-20 lg:ml-60">
-            <div className="">{children}</div>
+          <div className="flex flex-col sm:ml-20 lg:ml-60 min-h-dvh">
+            {children}
             {/* <Footer /> */}
           </div>
           {modal}

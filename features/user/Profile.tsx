@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { User } from "@/types/User";
 import ProfileImg from "@/components/ProfileImg";
 import { BellIcon, FollowerIcon, SettingIcon } from "@/components/Icons";
+import FriendShipBtn from "./FriendshipBtn";
 
 type Props = {
   user: User;
@@ -24,9 +25,7 @@ export function Profile({ user, currentUser }: Props) {
               프로필 수정
             </Link>
           ) : (
-            <button className="bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5">
-              친구 신청
-            </button>
+            <FriendShipBtn userId={user.id} />
           )}
           <div className="flex gap-4 items-center">
             {user.nickName === currentUser.nickName && <BellIcon />}
@@ -87,9 +86,7 @@ export default function MobileProfile({ user, currentUser }: Props) {
               프로필 수정
             </Link>
           ) : (
-            <button className="self-start bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2">
-              친구 신청
-            </button>
+            <FriendShipBtn userId={user.id} />
           )}
         </div>
       </div>

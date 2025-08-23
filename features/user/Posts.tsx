@@ -4,36 +4,7 @@ import { LoadingIcon } from "@/components/Icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { TitlePage } from "../post/Pages";
-import type { PostRes } from "@/types/Post";
-
-type PostsData = {
-  totalElements: number;
-  totalPages: number;
-  size: number;
-  content: PostRes[];
-  number: number;
-  sort: Sort;
-  numberOfElements: number;
-  pageable: Pageable;
-  first: boolean;
-  last: boolean;
-  empty: boolean;
-};
-
-interface Sort {
-  empty: boolean;
-  unsorted: boolean;
-  sorted: boolean;
-}
-
-interface Pageable {
-  offset: number;
-  sort: Sort;
-  paged: boolean;
-  pageNumber: number;
-  pageSize: number;
-  unpaged: boolean;
-}
+import type { PostsData } from "@/types/responses";
 
 export default function Posts({ userId }: { userId: number }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
