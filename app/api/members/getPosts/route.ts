@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 export async function GET(req: NextRequest) {
-  // 나중에 id로 조회하도록 바꿔야...
   const { searchParams } = new URL(req.url);
   const pageParam = searchParams.get("pageParam");
+  const userId = searchParams.get("id");
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/my-articles?page=${pageParam}&size=9&sort=createdAt,DESC`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/member/${userId}/articles?page=${pageParam}&size=9&sort=createdAt,DESC`,
     {
       method: "GET",
       headers: {

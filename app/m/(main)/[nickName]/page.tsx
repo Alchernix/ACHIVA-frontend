@@ -54,7 +54,7 @@ export default async function Page({
               <PointSection label="응원 포인트" points={27} />
             </Link>
           </div>
-          <Posts />
+          <Posts userId={user.id} />
         </div>
         <Footer />
       </div>

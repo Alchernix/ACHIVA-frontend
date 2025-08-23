@@ -1,15 +1,16 @@
 "use client";
 
 import { LoadingIcon } from "@/components/Icons";
-import PostImg from "@/components/PostImg";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { TitlePage } from "../post/Pages";
+import type { PostRes } from "@/types/Post";
 
 type PostsData = {
   totalElements: number;
   totalPages: number;
   size: number;
-  content: ContentItem[];
+  content: PostRes[];
   number: number;
   sort: Sort;
   numberOfElements: number;
@@ -18,23 +19,6 @@ type PostsData = {
   last: boolean;
   empty: boolean;
 };
-
-interface ContentItem {
-  id: number;
-  photoUrl: string;
-  title: string;
-  category: string;
-  question: Question[];
-  memberId: number;
-  memberNickName: string;
-  createdAt: string; // ISO 8601 datetime string
-  updatedAt: string; // ISO 8601 datetime string
-}
-
-interface Question {
-  question: string;
-  content: string;
-}
 
 interface Sort {
   empty: boolean;
@@ -51,11 +35,20 @@ interface Pageable {
   unpaged: boolean;
 }
 
-export default function Posts() {
+export default function Posts({ userId }: { userId: number }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
+  const size = containerWidth ? (containerWidth - 2) / 3 : 0;
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.offsetWidth);
+    }
+  }, []);
+
   async function fetchPosts(pageParam: number = 0) {
     // 포스트 데이터 가져오기
     const response = await fetch(
-      `/api/members/getPosts?pageParam=${pageParam}`,
+      `/api/members/getPosts?pageParam=${pageParam}&id=${userId}`,
       {
         method: "GET",
         headers: {
@@ -118,14 +111,14 @@ export default function Posts() {
           <LoadingIcon color="text-theme" />
         </div>
       )}
-      <div className="grid grid-cols-3 gap-[1px]">
+      <div ref={containerRef} className="grid grid-cols-3 gap-[1px]">
         {posts?.map((post) => {
-          return <div key={post.id}>{<PostImg url={post.photoUrl} />}</div>;
+          return <TitlePage key={post.id} size={size} post={post} />;
         })}
       </div>
       <div ref={loaderRef}></div>
       {isFetchingNextPage && (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex my-2 justify-center">
           <LoadingIcon color="text-theme" />
         </div>
       )}

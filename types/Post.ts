@@ -30,3 +30,22 @@ export type BackgroundColor =
   | "#A6736F"
   | "#4B5373"
   | "#525D49";
+
+// 백엔드에서 응답으로 받는 형태
+export type PostRes = {
+  id: number;
+  photoUrl: string;
+  title: string;
+  category: string;
+  question: Question[];
+  memberId: number;
+  memberNickName: string;
+  authorCategorySeq: number;
+  createdAt: string; // ISO 8601 datetime string
+  updatedAt: string; // ISO 8601 datetime string
+};
+
+interface Question {
+  question: string;
+  content: string;
+}
