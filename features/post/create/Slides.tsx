@@ -118,7 +118,7 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
               <SwiperSlide key={page.id}>
                 <div
                   style={{ backgroundColor: draft.backgroundColor }}
-                  className="relative aspect-square w-full pt-20"
+                  className={`relative aspect-square w-full pt-20 ${draft.backgroundColor === "#ffffff" ? "border border-[#d9d9d9]" : ""}`}
                 >
                   <div className="w-full absolute top-3/12 left-0 px-5 flex flex-col gap-5">
                     {page.subtitle && (
@@ -139,7 +139,7 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
                       }
                       onChange={(e) => {
                         // 소제목 있을 시 9줄, 없을 시 12줄
-                        const maxHeight = page.subtitle ? 216 : 300;
+                        const maxHeight = page.subtitle ? 216 : 264;
                         if (e.target.scrollHeight <= maxHeight) {
                           setPost((prev) => ({
                             pages: prev.pages?.map((p) =>

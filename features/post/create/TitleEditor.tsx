@@ -6,12 +6,13 @@ import { useState } from "react";
 import { useCurrentUserInfoStore } from "@/store/userStore";
 import { motion } from "motion/react";
 import { AnimatePresence } from "motion/react";
+import { LoadingIcon } from "@/components/Icons";
 
 export default function TitleEditor() {
   const draft = useDraftPostStore.use.post();
   const currentUser = useCurrentUserInfoStore.use.user();
   const setPost = useDraftPostStore.use.setPost();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   return (
     <div className="flex flex-col items-center">
@@ -37,12 +38,16 @@ export default function TitleEditor() {
               setIsEditing(false);
             }}
           />
-          <h2 className="text-white font-light text-2xl sm:text-3xl">
-            <span className="font-bold">{draft.category}</span> 기록{" "}
-            <span className="font-bold">
-              {(draft.categoryCount ?? 0) + 1}번째
-            </span>{" "}
-            이야기
+          <h2 className="text-white font-light text-3xl sm:text-4xl flex flex-col mt-3 sm:mt-5">
+            <div>
+              <span className="font-bold">{draft.category}</span> 기록
+            </div>
+            <div>
+              <span className="font-bold">
+                {(draft.categoryCount ?? 0) + 1}번째
+              </span>{" "}
+              이야기
+            </div>
           </h2>
         </div>
         <AnimatePresence>
@@ -88,7 +93,7 @@ export default function TitleEditor() {
             }
           }}
         >
-          공유하기
+          {isLoading ? <LoadingIcon /> : "공유하기"}
         </NextStepButton>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import { NextStepButton } from "./Buttons";
 import ImageUploader from "./ImageUploader";
 
 export default function BgImageSelector() {

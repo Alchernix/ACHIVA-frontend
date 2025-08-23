@@ -183,7 +183,10 @@ export default function ImageUploader({
       )}
 
       <div className="mt-5 w-full">
-        <NextStepButton onClick={() => input.current?.click()}>
+        <NextStepButton
+          disabled={!!imageSrc}
+          onClick={() => input.current?.click()}
+        >
           {isMobile ? "갤러리에서 선택" : "컴퓨터에서 선택"}
         </NextStepButton>
       </div>
