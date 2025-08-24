@@ -43,8 +43,8 @@ export default async function Page({
     const user = data as User;
 
     return (
-      <div className="w-full flex flex-col pb-22 sm:pb-0 sm:pt-15 px-5">
-        <div className="mx-auto w-full max-w-160">
+      <div className="flex-1 w-full flex pb-22 flex-col px-5">
+        <div className="flex-1 flex flex-col mx-auto w-full max-w-160">
           <MobileProfile user={user} currentUser={currentUser} />
           <div className="flex gap-5 my-5 sm:my-10">
             <Link href={`/${nickName}/achievements`} className="flex-1">
@@ -54,7 +54,9 @@ export default async function Page({
               <PointSection label="응원 포인트" points={27} />
             </Link>
           </div>
-          <Posts userId={user.id} />
+          <div className="flex-1 flex flex-col">
+            <Posts userId={user.id} />
+          </div>
         </div>
         <Footer />
       </div>

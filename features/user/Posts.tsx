@@ -66,7 +66,7 @@ export default function Posts({ userId }: { userId: number }) {
   const postsCnt = data?.pages[0]?.totalElements ?? 0;
 
   return (
-    <div className="">
+    <div className="flex-1 flex flex-col">
       <div className="flex justify-between font-medium text-sm mb-2">
         <p className="text-theme/50">
           게시글 <span>{postsCnt}</span>
@@ -83,7 +83,7 @@ export default function Posts({ userId }: { userId: number }) {
         </div>
       )}
       {posts.length === 0 && !isLoading && (
-        <div className="text-center text-[#7f7f7f]">
+        <div className="flex-1 flex flex-col justify-center text-center text-[#7f7f7f]">
           <p>여기에 당신의 성취 기록이 담겨요</p>
           <p>첫 성취를 기록해보세요</p>
         </div>
