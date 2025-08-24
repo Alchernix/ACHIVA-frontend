@@ -8,7 +8,7 @@ import CheerBtns from "../post/CheerBtns";
 export default function HomePost({ post }: { post: PostRes }) {
   return (
     <div className="w-full">
-      <div className="flex gap-2.5 items-center py-2.5">
+      <div className="flex gap-2.5 items-center py-2.5 px-5 sm:px-0">
         <Link
           href={`/${post.memberNickName}`}
           className="flex gap-2.5 items-center"

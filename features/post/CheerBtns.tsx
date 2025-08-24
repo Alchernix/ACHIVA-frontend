@@ -21,7 +21,7 @@ export default function CheerBtns() {
         return (
           <button
             key={label}
-            className={`flex items-center gap-1 rounded-full border border-theme px-3 py-1 ${
+            className={`text-xs sm:text-base flex items-center gap-[2px] sm:gap-1 rounded-full border border-theme px-3 py-1 ${
               active ? "" : ""
             }`}
           >
