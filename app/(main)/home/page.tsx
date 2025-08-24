@@ -7,8 +7,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import type { PostsData } from "@/types/responses";
 import HomePost from "@/features/home/Post";
+import { getFirstPage } from "@/features/post/firstPost";
+// import { useCurrentUserInfoStore } from "@/store/userStore";
 
 export default function Page() {
+  // const createdAt = useCurrentUserInfoStore.use.user()?.createdAt;
   async function fetchPosts(pageParam: number = 0) {
     const response = await fetch(`/api/home?pageParam=${pageParam}`, {
       method: "GET",
@@ -63,7 +66,7 @@ export default function Page() {
             </div>
           )}
           {posts.length === 0 && !isLoading && (
-            <div className="text-center">아직 보여줄 게시글이 없습니다</div>
+            <HomePost post={getFirstPage()} />
           )}
           <div className="flex flex-col gap-7">
             {posts?.map((post) => {

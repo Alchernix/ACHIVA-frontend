@@ -111,9 +111,11 @@ export default function Post({ post }: { post: PostRes }) {
           }}
           className="mySwiper"
         >
-          <SwiperSlide>
-            <TitlePage size={containerWidth ?? 0} post={post} />
-          </SwiperSlide>
+          {post.photoUrl && (
+            <SwiperSlide>
+              <TitlePage size={containerWidth ?? 0} post={post} />
+            </SwiperSlide>
+          )}
           {post.question.map((page, idx) => {
             return (
               <SwiperSlide key={idx}>
@@ -125,9 +127,11 @@ export default function Post({ post }: { post: PostRes }) {
               </SwiperSlide>
             );
           })}
-          <SwiperSlide>
-            <PostImg url={post.photoUrl} />
-          </SwiperSlide>
+          {post.photoUrl && (
+            <SwiperSlide>
+              <PostImg url={post.photoUrl} />
+            </SwiperSlide>
+          )}
         </Swiper>
       </div>
     </div>

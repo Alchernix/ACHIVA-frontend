@@ -16,9 +16,11 @@ export default function HomePost({ post }: { post: PostRes }) {
           <ProfileImg size={32} url={post.memberProfileUrl} />
           <p className="font-medium">{post.memberNickName}</p>
         </Link>
-        <p className="font-light text-black/50">
-          {dateFormatter(post.createdAt)}
-        </p>
+        {post.createdAt && (
+          <p className="font-light text-black/50">
+            {dateFormatter(post.createdAt)}
+          </p>
+        )}
         <button className="ml-auto">
           <svg
             width="21"

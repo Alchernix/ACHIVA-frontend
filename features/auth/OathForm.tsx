@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { useState } from "react";
 import Oath from "./Oath";
 import { SignupBackIcon, SignupNextIcon } from "@/components/Icons";
+import { defaultProfileImg } from "../user/defaultProfileImg";
 
 export default function OathForm() {
   const user = useSignupInfoStore.use.user();
@@ -17,8 +18,7 @@ export default function OathForm() {
       password: user.password,
       confirmPassword: user.password, // 어차피 클라이언트에서 검증하니 필요없음
       nickName: user.nickName,
-      profileImageUrl:
-        "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb",
+      profileImageUrl: defaultProfileImg,
       birth: format(user.birth!, "yyyy-MM-dd"),
       categories: user.categories,
     };

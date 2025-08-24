@@ -20,4 +20,5 @@ export type User = {
   profileImageUrl: string;
   role?: string;
   description?: string;
+  createdAt?: string;
 };

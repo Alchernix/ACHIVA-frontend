@@ -6,6 +6,7 @@ import "swiper/css";
 import { useState } from "react";
 import { useSignupInfoStore } from "@/store/SignupStore";
 import { titles, contents } from "./Oath";
+import { defaultProfileImg } from "../user/defaultProfileImg";
 
 export default function MobileOathForm() {
   const user = useSignupInfoStore.use.user();
@@ -18,8 +19,7 @@ export default function MobileOathForm() {
       password: user.password,
       confirmPassword: user.password, // 어차피 클라이언트에서 검증하니 필요없음
       nickName: user.nickName,
-      profileImageUrl:
-        "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb",
+      profileImageUrl: defaultProfileImg,
       birth: format(user.birth!, "yyyy-MM-dd"),
       categories: user.categories,
     };
