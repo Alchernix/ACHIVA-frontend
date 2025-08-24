@@ -27,6 +27,7 @@ export async function PUT(req: NextRequest) {
           question: subtitle ?? "",
           content,
         })),
+        backgroundColor: draft.backgroundColor
       }),
     }
   );

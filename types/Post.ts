@@ -40,12 +40,14 @@ export type PostRes = {
   question: Question[];
   memberId: number;
   memberNickName: string;
+  memberProfileUrl: string;
+  backgroundColor: string;
   authorCategorySeq: number;
   createdAt: string; // ISO 8601 datetime string
   updatedAt: string; // ISO 8601 datetime string
 };
 
-interface Question {
+export type Question = {
   question: string;
   content: string;
-}
+};

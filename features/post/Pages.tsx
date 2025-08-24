@@ -1,4 +1,5 @@
 import { PostRes } from "@/types/Post";
+import type { Question } from "@/types/Post";
 import PostImg from "@/components/PostImg";
 
 type Props = {
@@ -36,6 +37,46 @@ export function TitlePage({ size, post }: Props) {
               이야기
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function ContentPage({
+  size,
+  page,
+  backgroundColor,
+}: {
+  size: number;
+  page: Question;
+  backgroundColor: string;
+}) {
+  return (
+    <div
+      style={{
+        height: size,
+        width: size,
+      }}
+    >
+      <div
+        style={{
+          transform: `scale(${size / 430})`,
+          transformOrigin: "top left",
+          backgroundColor: backgroundColor,
+        }}
+        className={`aspect-square w-[430px] h-[430px] py-[95px] px-[20px] ${
+          backgroundColor === "#ffffff" ? "text-black" : "text-white"
+        }`}
+      >
+        <div>
+          {page.question && (
+            <h2 className="font-semibold text-[32px] mb-[24px] leading-[50px]">
+              {page.question}
+            </h2>
+          )}
+
+          <pre className="text-[16px] font-[inherit]">{page.content}</pre>
         </div>
       </div>
     </div>

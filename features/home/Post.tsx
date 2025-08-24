@@ -1,22 +1,21 @@
-import { useRef, useState, useLayoutEffect } from "react";
 import type { PostRes } from "@/types/Post";
-import { TitlePage } from "../post/Pages";
 import dateFormatter from "@/lib/dateFormatter";
+import Post from "../post/Post";
+import ProfileImg from "@/components/ProfileImg";
+import Link from "next/link";
+import CheerBtns from "../post/CheerBtns";
 
-export default function Post({ post }: { post: PostRes }) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState<number | null>(null);
-
-  useLayoutEffect(() => {
-    if (containerRef.current) {
-      setContainerWidth(containerRef.current.offsetWidth);
-    }
-  }, []);
-
+export default function HomePost({ post }: { post: PostRes }) {
   return (
-    <div ref={containerRef} className="w-full">
-      <div className="flex gap-2.5 items-center">
-        <p className="font-medium">{post.memberNickName}</p>
+    <div className="w-full">
+      <div className="flex gap-2.5 items-center py-2.5">
+        <Link
+          href={`/${post.memberNickName}`}
+          className="flex gap-2.5 items-center"
+        >
+          <ProfileImg size={32} url={post.memberProfileUrl} />
+          <p className="font-medium">{post.memberNickName}</p>
+        </Link>
         <p className="font-light text-black/50">
           {dateFormatter(post.createdAt)}
         </p>
@@ -36,8 +35,9 @@ export default function Post({ post }: { post: PostRes }) {
         </button>
       </div>
       <div>
-        <TitlePage size={containerWidth ?? 0} post={post} />
+        <Post post={post} />
       </div>
+      <CheerBtns />
     </div>
   );
 }

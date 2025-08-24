@@ -6,7 +6,7 @@ import { LoadingIcon } from "@/components/Icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import type { PostsData } from "@/types/responses";
-import Post from "@/features/home/Post";
+import HomePost from "@/features/home/Post";
 
 export default function Page() {
   async function fetchPosts(pageParam: number = 0) {
@@ -65,9 +65,11 @@ export default function Page() {
           {posts.length === 0 && !isLoading && (
             <div className="text-center">아직 보여줄 게시글이 없습니다</div>
           )}
-          {posts?.map((post) => {
-            return <Post key={post.id} post={post} />;
-          })}
+          <div className="flex flex-col gap-7">
+            {posts?.map((post) => {
+              return <HomePost key={post.id} post={post} />;
+            })}
+          </div>
           <div ref={loaderRef}></div>
           {isFetchingNextPage && (
             <div className="w-full flex my-2 justify-center">

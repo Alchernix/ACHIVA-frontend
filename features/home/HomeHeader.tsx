@@ -5,7 +5,7 @@ export default function HomeHeader() {
     <>
       <Link
         href={"/post/create"}
-        className="flex items-center justify-center py-3 gap-6 w-full bg-theme rounded-md my-10"
+        className="flex items-center justify-center py-3 gap-6 w-full bg-theme rounded-md mt-10 mb-8"
       >
         <p className="text-lg font-medium text-white">
           오늘의 새로운 이야기를 남겨주세요
@@ -23,7 +23,7 @@ export default function HomeHeader() {
           />
         </svg>
       </Link>
-      <div className="font-semibold text-xl sticky top-0 bg-white z-[10] text-theme">
+      <div className="font-semibold text-xl sticky top-0 bg-white z-10 text-theme py-2">
         나를 응원해준 사람들의 이야기
       </div>
     </>
