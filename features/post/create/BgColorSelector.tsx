@@ -38,7 +38,7 @@ export default function BgColorSelector() {
                     className="w-full h-full flex items-center justify-center"
                   >
                     <BgColorSelectIcon
-                      white={bg === "#ffffff" ? false : true}
+                      white={bg === "#f9f9f9" ? false : true}
                     />
                   </motion.div>
                 )}

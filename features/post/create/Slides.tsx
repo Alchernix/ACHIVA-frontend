@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import { Pagination, Navigation } from "swiper/modules";
@@ -14,6 +14,10 @@ type Props = {
 };
 
 export default function Slides({ currentPage, setCurrentPage }: Props) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
+  const size = window.innerWidth < 640 ? containerWidth ?? 0 : 456;
+
   const draft = useDraftPostStore.use.post();
   const setPost = useDraftPostStore.use.setPost();
 
@@ -28,6 +32,12 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
   useEffect(() => {
     swiperRef.current?.slideTo(currentPage - 1);
   }, [currentPage]);
+
+  useLayoutEffect(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.offsetWidth);
+    }
+  }, []);
 
   return (
     <div className="relative w-full">
@@ -114,52 +124,59 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
           className="mySwiper"
         >
           {draft.pages?.map((page) => {
+            // 소제목 있을 시 7줄, 없을 시 10줄
+            const maxHeight = page.subtitle ? 168 : 240;
             return (
               <SwiperSlide key={page.id}>
-                <div
-                  style={{ backgroundColor: draft.backgroundColor }}
-                  className={`relative aspect-square w-full pt-20 ${draft.backgroundColor === "#ffffff" ? "border border-[#d9d9d9]" : ""}`}
-                >
-                  <div className="w-full absolute top-3/12 left-0 px-5 flex flex-col gap-5">
-                    {page.subtitle && (
-                      <h2
-                        className={`font-semibold text-3xl ${
-                          draft.backgroundColor === "#ffffff"
+                <div ref={containerRef}>
+                  <div
+                    style={{
+                      transform: `scale(${size / 430})`,
+                      transformOrigin: "top left",
+                      backgroundColor: draft.backgroundColor,
+                    }}
+                    className={`aspect-square w-[430px] h-[430px] py-[95px] px-[20px] ${
+                      draft.backgroundColor === "#f9f9f9"
+                        ? "text-black"
+                        : "text-white"
+                    }`}
+                  >
+                    <div>
+                      {page.subtitle && (
+                        <h2 className="font-semibold text-[32px] mb-[24px] leading-[50px]">
+                          {page.subtitle}
+                        </h2>
+                      )}
+
+                      <textarea
+                        style={{ maxHeight: maxHeight }}
+                        className={`w-full text-[16px] font-[inherit] ${
+                          draft.backgroundColor === "#f9f9f9"
                             ? "text-theme"
                             : "text-white"
-                        }`}
-                      >
-                        {page.subtitle}
-                      </h2>
-                    )}
-                    <textarea
-                      value={
-                        draft.pages?.find((p) => p.id === page.id)?.content ??
-                        ""
-                      }
-                      onChange={(e) => {
-                        // 소제목 있을 시 9줄, 없을 시 12줄
-                        const maxHeight = page.subtitle ? 216 : 264;
-                        if (e.target.scrollHeight <= maxHeight) {
-                          setPost((prev) => ({
-                            pages: prev.pages?.map((p) =>
-                              p.id == page.id
-                                ? { ...p, content: e.target.value }
-                                : p
-                            ),
-                          }));
+                        } resize-none outline-none`}
+                        value={
+                          draft.pages?.find((p) => p.id === page.id)?.content ??
+                          ""
                         }
-                        e.target.style.height = e.target.scrollHeight + "px";
-                      }}
-                      placeholder="내용을 자유롭게 입력해주세요"
-                      className={`w-full ${
-                        draft.backgroundColor === "#ffffff"
-                          ? "text-theme"
-                          : "text-white"
-                      } resize-none ${
-                        page.subtitle ? "max-h-54" : "max-h-75"
-                      } overflow-hidden outline-none`}
-                    ></textarea>
+                        onChange={(e) => {
+                          if (
+                            e.target.scrollHeight <=
+                            (maxHeight * size) / 430
+                          ) {
+                            setPost((prev) => ({
+                              pages: prev.pages?.map((p) =>
+                                p.id == page.id
+                                  ? { ...p, content: e.target.value }
+                                  : p
+                              ),
+                            }));
+                          }
+                          e.target.style.height = e.target.scrollHeight + "px";
+                        }}
+                        placeholder="내용을 자유롭게 입력해주세요"
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
               </SwiperSlide>

@@ -63,7 +63,7 @@ export function getFirstPage(): PostRes {
     memberId: 0,
     memberNickName: "Achiva",
     memberProfileUrl: defaultProfileImg,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f9f9f9",
     authorCategorySeq: 0,
     createdAt: "", // 계정 생성 시각
     updatedAt: "",

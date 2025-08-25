@@ -24,7 +24,7 @@ export type CategoryCount = {
 };
 
 export type BackgroundColor =
-  | "#ffffff"
+  | "#f9f9f9"
   | "#000000"
   | "#412A2A"
   | "#A6736F"
@@ -41,7 +41,7 @@ export type PostRes = {
   memberId: number;
   memberNickName: string;
   memberProfileUrl: string;
-  backgroundColor: string;
+  backgroundColor: BackgroundColor;
   authorCategorySeq: number;
   createdAt: string; // ISO 8601 datetime string
   updatedAt: string; // ISO 8601 datetime string

@@ -66,7 +66,7 @@ export function ContentPage({
           backgroundColor: backgroundColor,
         }}
         className={`aspect-square w-[430px] h-[430px] py-[95px] px-[20px] ${
-          backgroundColor === "#ffffff" ? "text-black" : "text-white"
+          backgroundColor === "#f9f9f9" ? "text-black" : "text-white"
         }`}
       >
         <div>
