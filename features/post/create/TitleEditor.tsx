@@ -41,6 +41,7 @@ export default function TitleEditor() {
               {format(new Date(), "yyyy.MM.dd")}
             </div>
             <input
+              maxLength={18}
               className={`w-full relative z-[62] ${
                 isEditing ? "text-white" : "text-white/80"
               } placeholder:text-white/80 font-semibold text-[45px] mb-[24px] leading-[50px] outline-none`}

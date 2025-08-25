@@ -113,6 +113,7 @@ export default function SubtitlesSelector() {
             <SubtitlePlusIcon />
             {isEditing ? (
               <input
+                maxLength={14}
                 className="h-7 flex items-center px-2"
                 autoFocus
                 value={enteredSubtitle}

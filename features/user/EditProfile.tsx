@@ -173,6 +173,7 @@ export default function EditProfile({ user }: Props) {
             <PencilIcon />
           </div>
           <input
+            maxLength={30}
             className="py-2 px-4 w-full h-12"
             type="text"
             value={bio || ""}
