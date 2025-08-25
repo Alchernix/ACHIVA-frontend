@@ -4,16 +4,14 @@ import { useState } from "react";
 import { motion } from "motion/react";
 
 export default function Notification() {
-  const [isOn, setIsOn] = useState<boolean>(
-    JSON.parse(localStorage.getItem("marketing") ?? "true")
-  );
+  const [isOn, setIsOn] = useState<boolean>(true);
   return (
     <div className="flex justify-between">
       <p className="font-semibold text-lg text-theme">마케팅 정보 알림</p>
       <button
         onClick={() => {
           setIsOn((prev) => {
-            localStorage.setItem("marketing", JSON.stringify(!prev));
+            // localStorage.setItem("marketing", JSON.stringify(!prev));
             return !prev;
           });
         }}
