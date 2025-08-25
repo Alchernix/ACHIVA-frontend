@@ -93,6 +93,7 @@ export default function TitleEditor() {
       </div>
       <div className="w-full mt-5">
         <NextStepButton
+          isLoading={isLoading}
           disabled={!draft.title}
           onClick={async () => {
             setIsLoading(true);
@@ -121,7 +122,7 @@ export default function TitleEditor() {
             }
           }}
         >
-          {isLoading ? <LoadingIcon /> : "공유하기"}
+          공유하기
         </NextStepButton>
       </div>
     </div>

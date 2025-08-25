@@ -1,3 +1,5 @@
+"use client";
+
 import {
   SettingAccountIcon,
   SettingNotificationIcon,
@@ -9,8 +11,11 @@ import {
 } from "@/components/Icons";
 import LogoutBtn from "@/components/LogoutBtn";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Settings() {
+  const pathname = usePathname();
+
   const icons = [
     SettingAccountIcon,
     SettingNotificationIcon,
@@ -20,7 +25,14 @@ export default function Settings() {
     SettingInquiryIcon,
   ];
   const labels = ["계정 관리", "알림", "개인정보 보호", "정보", "공지", "문의"];
-  const links = ["accounts/password", "", "", "", "", ""];
+  const links = [
+    "accounts/password",
+    "notification",
+    "private",
+    "info",
+    "notice",
+    "inquiry",
+  ];
   return (
     <div className="flex-1 flex flex-col text-theme">
       <ul className="flex flex-col gap-5">
@@ -29,7 +41,11 @@ export default function Settings() {
           return (
             <Link key={label} href={`/settings/${links[i]}`}>
               <li
-                className={`flex items-center gap-5 sm:px-2.5 py-1.5 rounded-md hover:bg-[#E6E6E6]`}
+                className={`flex items-center gap-5 sm:px-2.5 h-11 rounded-md ${
+                  pathname.startsWith(`/settings/${links[i]}`)
+                    ? "bg-[#e6e6e6]"
+                    : ""
+                }`}
               >
                 <Icon />
                 <p className="font-semibold text-lg">{label}</p>

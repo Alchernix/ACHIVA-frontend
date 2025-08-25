@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="h-30 hidden sm:flex justify-center items-center text-theme text-sm">
+    <footer className="shrink-0 h-30 hidden sm:flex justify-center items-center text-theme text-sm">
       <div className="flex divide-x divide-theme/50">
         <Link
           href="https://achivamain.notion.site/247f9799dbb880859f08f64d81bc6335"

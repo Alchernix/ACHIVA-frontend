@@ -71,7 +71,7 @@ export default function Sidebar({ user }: { user: User }) {
           />
         </Link>
 
-        <Link href={`/settings`} className="mt-auto">
+        <Link href={`/settings/accounts/password`} className="mt-auto">
           <ListItem
             label="설정"
             icon={<SidebarSettingIcon fill={selected === "설정"} />}
