@@ -7,7 +7,6 @@ import { useEffect, useRef } from "react";
 import type { PostsData } from "@/types/responses";
 import HomePost from "@/features/home/Post";
 import { getFirstPage } from "@/features/post/firstPost";
-import type { PostRes } from "@/types/Post";
 
 export default function HomeSection1() {
   async function fetchPosts(pageParam: number = 0) {
@@ -21,7 +20,18 @@ export default function HomeSection1() {
     if (!response.ok) throw new Error("Failed to fetch");
     const json = await response.json();
 
-    return json as PostsData;
+    const contentWithCheerings = await Promise.all(
+      json.content.map(async (post: any) => {
+        const cheeringsRes = await fetch(`/api/cheerings?postId=${post.id}`);
+        const cheeringsJson = await cheeringsRes.json();
+        return { ...post, cheerings: cheeringsJson.data.content };
+      })
+    );
+
+    return {
+      ...json,
+      content: contentWithCheerings,
+    } as PostsData;
   }
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =

@@ -8,7 +8,8 @@ import {
 } from "@/components/Icons";
 import type { Cheering } from "@/types/responses";
 import { useCurrentUserInfoStore } from "@/store/userStore";
-import { useOptimistic, useState, startTransition } from "react";
+import { useState } from "react";
+import { useAnimate } from "motion/react";
 
 export default function CheerBtns({
   postId,
@@ -17,6 +18,7 @@ export default function CheerBtns({
   postId: number;
   cheerings?: Cheering[];
 }) {
+  const [scope, animate] = useAnimate();
   const currentUserId = useCurrentUserInfoStore.use.user()?.id;
 
   const labels = ["최고예요", "수고했어요", "응원해요", "동기부여"];
@@ -48,34 +50,44 @@ export default function CheerBtns({
 
   const [cheeringsState, setCheeringsState] = useState(initialCheeringsState);
 
-  const [optimisticCheerings, setCheeringsOptimistically] = useOptimistic(
-    cheeringsState,
-    (prev, type: string) => ({
-      ...prev,
-      [type]: { ...prev[type], active: !prev[type].active },
-    })
-  );
-
   return (
-    <div className="flex gap-1.5 items-center justify-center py-3.5">
+    <div
+      className="flex gap-1.5 items-center justify-center py-3.5"
+      ref={scope}
+    >
       {labels.map((label, idx) => {
-        const active = optimisticCheerings[label].active;
+        const active = cheeringsState[label].active;
         const Icon = icons[idx];
         return (
           <button
+            id={label}
             disabled={cheeringsState[label].isPending}
             onClick={async () => {
-              startTransition(() => {
-                setCheeringsOptimistically(label);
-                setCheeringsState((prev) => ({
-                  ...prev,
-                  [label]: { ...prev[label], isPending: true },
-                }));
-              });
+              setCheeringsState((prev) => ({
+                ...prev,
+                [label]: {
+                  ...prev[label],
+                  active: !prev[label].active,
+                  isPending: true,
+                },
+              }));
+
               if (active) {
                 // 이미 눌렀으면 취소
+                await fetch(
+                  `/api/cheerings?postId=${postId}&cheeringId=${cheeringsState[label].id}`,
+                  {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                  }
+                );
               } else {
                 // 누르기
+                animate(
+                  `#${label}`,
+                  { scale: [1, 1.07, 1.1, 1] },
+                  { duration: 0.3 }
+                );
                 const res = await fetch("/api/cheerings", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -84,7 +96,7 @@ export default function CheerBtns({
                     cheeringType: label,
                   }),
                 });
-                const id = (await res.json()).id;
+                const id = (await res.json()).data.id;
                 setCheeringsState((prev) => ({
                   ...prev,
                   [label]: { ...prev[label], id },
