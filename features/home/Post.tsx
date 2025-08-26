@@ -39,7 +39,7 @@ export default function HomePost({ post }: { post: PostRes }) {
       <div>
         <Post post={post} />
       </div>
-      <CheerBtns />
+      <CheerBtns postId={post.id} cheerings={post.cheerings!} />
     </div>
   );
 }

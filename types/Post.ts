@@ -1,4 +1,5 @@
 import type { Category } from "./Categories";
+import type { Cheering } from "./responses";
 
 export type Post = {
   titleImageUrl: string;
@@ -45,6 +46,7 @@ export type PostRes = {
   authorCategorySeq: number;
   createdAt: string; // ISO 8601 datetime string
   updatedAt: string; // ISO 8601 datetime string
+  cheerings?: Cheering[];
 };
 
 export type Question = {

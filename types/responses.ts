@@ -28,3 +28,17 @@ interface Pageable {
   pageSize: number;
   unpaged: boolean;
 }
+
+export type Cheering = {
+  id: number;
+  content: string;
+  cheeringCategory: string;
+  senderId: number;
+  senderName: string;
+  receiverId: number;
+  receiverName: string;
+  articleId: number;
+  isRead: boolean;
+  createdAt: string;
+  updatedAt: string;
+};

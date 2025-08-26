@@ -24,7 +24,19 @@ export default function HomeSection2() {
 
     if (!response.ok) throw new Error("Failed to fetch");
     const json = await response.json();
-    return json.data as PostsData;
+
+    const contentWithCheerings = await Promise.all(
+      json.data.content.map(async (post: any) => {
+        const cheeringsRes = await fetch(`/api/cheerings?postId=${post.id}`);
+        const cheeringsJson = await cheeringsRes.json();
+        return { ...post, cheerings: cheeringsJson.data.content };
+      })
+    );
+
+    return {
+      ...json.data,
+      content: contentWithCheerings,
+    } as PostsData;
   }
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
