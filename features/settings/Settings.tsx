@@ -12,9 +12,15 @@ import {
 import LogoutBtn from "@/components/LogoutBtn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Settings() {
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth <= 640);
+  }, []);
 
   const icons = [
     SettingAccountIcon,
@@ -26,7 +32,7 @@ export default function Settings() {
   ];
   const labels = ["계정 관리", "알림", "개인정보 보호", "정보", "공지", "문의"];
   const links = [
-    "accounts/password",
+    isMobile ? "accounts" : "accounts/password",
     "notification",
     "private",
     "info",

@@ -28,7 +28,7 @@ export default function Sidebar({ user }: { user: User }) {
     /^\/[^/]+\/supports$/.test(pathname) || // /[nickName]/supports
     /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
     pathname === "/post/create" ||
-    pathname === "/settings" ||
+    pathname.startsWith("/settings") ||
     pathname === "/accounts/edit";
 
   if (isInvisible) {

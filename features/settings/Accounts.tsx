@@ -6,11 +6,13 @@ import {
   SettingNextIcon,
 } from "@/components/Icons";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { useState } from "react";
 import ModalWithoutCloseBtn from "@/components/ModalWithoutCloseBtn";
 // 생년월일 표시 안되게
 export default function Accounts() {
+  const pathname = usePathname();
+
   const icons = [SettingPasswordIcon, SettingBirthdayIcon];
   const labels = ["비밀번호 재설정", "생년월일"];
   const links = ["password", "birthday"];
@@ -24,7 +26,13 @@ export default function Accounts() {
           const Icon = icons[i];
           return (
             <Link key={label} href={`/settings/accounts/${links[i]}`}>
-              <li className="flex items-center gap-5 sm:px-2.5 py-1.5 rounded-md bg-[#E6E6E6]">
+              <li
+                className={`flex items-center gap-5 sm:px-2.5 py-1.5 rounded-md ${
+                  pathname === "/settings/accounts/password"
+                    ? "bg-[#E6E6E6]"
+                    : ""
+                }`}
+              >
                 <Icon />
                 <p className="font-semibold text-lg">{label}</p>
                 <div className="ml-auto">
