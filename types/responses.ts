@@ -42,3 +42,9 @@ export type Cheering = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type CheerPoint = {
+  cheeringCategory: string;
+  count: number;
+  points: number;
+};

@@ -26,6 +26,7 @@ export default function Posts({ userId }: { userId: number }) {
         headers: {
           "Content-Type": "application/json",
         },
+        cache: "no-store",
       }
     );
 
@@ -36,7 +37,7 @@ export default function Posts({ userId }: { userId: number }) {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ["posts"],
+      queryKey: ["posts", userId],
       queryFn: ({ pageParam = 0 }) => fetchPosts(pageParam),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {

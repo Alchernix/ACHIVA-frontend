@@ -1,6 +1,8 @@
 import Modal from "@/components/Modal";
 import CheersTitle from "@/features/user/CheersTitle";
 import { cookies } from "next/headers";
+import type { CheerPoint } from "@/types/responses";
+import Cheers from "@/features/user/Cheers";
 
 export default async function Page({
   params,
@@ -12,7 +14,7 @@ export default async function Page({
   const token = cookieStore.get("token")?.value;
 
   const userRes = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}}`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}`,
     {
       method: "GET",
       headers: {
@@ -21,9 +23,10 @@ export default async function Page({
       },
     }
   );
+
   const userId = (await userRes.json()).data.id;
   const cheersRes = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/${userId}/cheerings/sending-category-stats`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/${userId}/cheerings/receiving-category-stats`,
     {
       method: "GET",
       headers: {
@@ -32,11 +35,12 @@ export default async function Page({
       },
     }
   );
-  const cheersData = await cheersRes.json();
-  console.log(cheersData);
+  const cheersData: CheerPoint[] = (await cheersRes.json()).data;
   return (
     <Modal title={<CheersTitle nickname={nickName} />}>
-      <div className="w-sm"></div>
+      <div className="w-sm mt-10">
+        <Cheers type="받은" cheers={cheersData} />
+      </div>
     </Modal>
   );
 }
