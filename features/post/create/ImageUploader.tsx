@@ -168,7 +168,7 @@ export default function ImageUploader({
             <button
               onClick={onUpload}
               disabled={isUploading}
-              className="z-99 absolute top-2.5 right-5 sm:top-7 sm:right-17 font-semibold bg-theme text-white py-1 px-3 border border-theme rounded-sm"
+              className="z-99 absolute top-2.5 right-5 sm:top-7 sm:right-17 font-semibold bg-theme text-white flex items-center justify-center h-9 w-14 border border-theme rounded-sm"
             >
               {isUploading ? <LoadingIcon /> : "다음"}
             </button>
@@ -176,7 +176,7 @@ export default function ImageUploader({
             <button
               onClick={onUpload}
               disabled
-              className="z-99 top-2.5 right-5 absolute sm:top-7 sm:right-17 font-semibold text-[#808080] py-1 px-3 border border-[#d9d9d9] rounded-sm cursor-default"
+              className="z-99 top-2.5 right-5 absolute sm:top-7 sm:right-17 font-semibold text-[#808080] flex items-center h-9 justify-center w-14 border border-[#d9d9d9] rounded-sm cursor-default"
             ></button>
           )}
         </div>

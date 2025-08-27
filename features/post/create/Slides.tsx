@@ -154,7 +154,7 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
                           draft.backgroundColor === "#f9f9f9"
                             ? "text-theme"
                             : "text-white"
-                        } resize-none outline-none`}
+                        } resize-none outline-none overflow-hidden`}
                         value={
                           draft.pages?.find((p) => p.id === page.id)?.content ??
                           ""
