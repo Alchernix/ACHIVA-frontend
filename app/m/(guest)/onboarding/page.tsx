@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SocialLoginBtn, SignupButton } from "@/features/onboarding/Button";
+import { SignupButton } from "@/features/onboarding/Button";
 
 export default function Page() {
   return (
@@ -14,11 +14,8 @@ export default function Page() {
         </div>
       </div>
       <div className="flex flex-col justify-start items-center w-[359px] relative gap-5">
-        <div className="flex flex-col justify-start items-start self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
-          <SocialLoginBtn icon={<GoogleIcon />} content="구글로 시작하기" />
-          <SocialLoginBtn icon={<AppleIcon />} content="애플로 시작하기" />
-          <SignupButton />
-        </div>
+        <SignupButton />
+
         <p className="self-stretch flex-grow-0 flex-shrink-0 w-[359px] h-[23px] text-base text-center flex justify-center items-center gap-2">
           <span className=" text-sm text-center text-white/50">
             이미 계정이 있나요?
