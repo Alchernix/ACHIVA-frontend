@@ -3,13 +3,7 @@ import Link from "next/link";
 import type { User } from "@/types/User";
 import { usePathname } from "next/navigation";
 import { TextLogo } from "./Logo";
-import {
-  HomeIcon,
-  SearchIcon,
-  PostIcon,
-  NotificationIcon,
-  SidebarSettingIcon,
-} from "./Icons";
+import { HomeIcon, PostIcon, SidebarSettingIcon } from "./Icons";
 import { motion } from "motion/react";
 import ProfileImg from "./ProfileImg";
 
@@ -46,11 +40,6 @@ export default function Sidebar({ user }: { user: User }) {
             selected={selected === "홈"}
           />
         </Link>
-        <ListItem
-          label="검색"
-          icon={<SearchIcon fill={selected === "검색"} />}
-          selected={selected === "검색"}
-        />
         <Link href="/post/create">
           <ListItem
             label="글쓰기"
@@ -58,11 +47,6 @@ export default function Sidebar({ user }: { user: User }) {
             selected={selected === "글쓰기"}
           />
         </Link>
-        <ListItem
-          label="응원함"
-          icon={<NotificationIcon fill={selected === "응원함"} />}
-          selected={selected === "응원함"}
-        />
         <Link href={`/${user.nickName}`}>
           <ListItem
             label="프로필"
@@ -95,7 +79,12 @@ function ListItem({ label, icon, selected }: ListItemProps) {
       key={label}
       className={`relative flex items-center gap-3 px-6 sm:py-1.5 cursor-pointer`}
     >
-      {icon}
+      <div
+        className={`${label === "글쓰기" ? "bg-theme/15 rounded-full" : ""}`}
+      >
+        {icon}
+      </div>
+
       <span
         className={`hidden lg:inline text-lg ${selected ? "font-bold" : ""}`}
       >

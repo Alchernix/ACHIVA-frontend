@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { User } from "@/types/User";
 import ProfileImg from "@/components/ProfileImg";
-import { BellIcon, FollowerIcon, SettingIcon } from "@/components/Icons";
+import { SettingIcon } from "@/components/Icons";
 import FriendShipBtn from "./FriendshipBtn";
 
 type Props = {
@@ -27,11 +27,11 @@ export function Profile({ user, currentUser }: Props) {
           ) : (
             <FriendShipBtn userId={user.id} />
           )}
-          <div className="flex gap-4 items-center">
-            {user.nickName === currentUser.nickName && <BellIcon />}
+          <div className="ml-auto">
+            {/* {user.nickName === currentUser.nickName && <BellIcon />}
             <Link href={`/${user.nickName}/friends`}>
               <FollowerIcon />
-            </Link>
+            </Link> */}
             {user.nickName === currentUser.nickName && (
               <Link href={`/settings`}>
                 <SettingIcon />
@@ -63,10 +63,10 @@ export default function MobileProfile({ user, currentUser }: Props) {
   return (
     <div className="sm:hidden">
       <div className="h-14 flex items-center justify-end gap-3">
-        {user.nickName === currentUser.nickName && <BellIcon />}
+        {/* {user.nickName === currentUser.nickName && <BellIcon />}
         <Link href={`/${user.nickName}/friends`}>
           <FollowerIcon />
-        </Link>
+        </Link> */}
         {user.nickName === currentUser.nickName && (
           <Link href={`/settings`}>
             <SettingIcon />

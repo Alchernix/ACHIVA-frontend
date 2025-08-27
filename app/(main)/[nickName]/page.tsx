@@ -45,10 +45,10 @@ export default async function Page({
         <Profile user={user} currentUser={currentUser} />
         <div className="flex gap-5 my-5 sm:my-10">
           <Link href={`/${nickName}/achievements`} className="flex-1">
-            <PointSection label="성취 포인트" points={27} />
+            <PointSection label="받은 응원 기록" />
           </Link>
           <Link href={`/${nickName}/supports`} className="flex-1">
-            <PointSection label="응원 포인트" points={27} />
+            <PointSection label="보낸 응원 기록" />
           </Link>
         </div>
         <div className="flex-1 flex flex-col">

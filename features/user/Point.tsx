@@ -2,10 +2,10 @@ import { BronzeMedallion } from "@/components/Badges";
 
 // 유저 프로필의 성취 포인트 응원 포인트 어쩌구
 type PointSectionProps = {
-  points: number;
   label: string;
 };
-export default function PointSection({ points, label }: PointSectionProps) {
+
+export default function PointSection({ label }: PointSectionProps) {
   return (
     <div
       style={{
@@ -16,12 +16,8 @@ export default function PointSection({ points, label }: PointSectionProps) {
     >
       <BronzeMedallion />
       <p className="bg-[#d0c6aa]/20 text-[#a59e8e] text-sm font-semibold py-1 rounded-md w-full">
-        Bronze Certified
+        {label}
       </p>
-      <div>
-        <p className="font-semibold text-theme/70 text-sm">{label}</p>
-        <p className="font-bold text-theme text-xl">{points}</p>
-      </div>
     </div>
   );
 }
