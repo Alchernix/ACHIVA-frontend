@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { TitlePage } from "../post/Pages";
 import type { PostsData } from "@/types/responses";
+import Link from "next/link";
 
 export default function Posts({ userId }: { userId: number }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -90,7 +91,11 @@ export default function Posts({ userId }: { userId: number }) {
       )}
       <div ref={containerRef} className="grid grid-cols-3 gap-[1px]">
         {posts?.map((post) => {
-          return <TitlePage key={post.id} size={size} post={post} />;
+          return (
+            <Link key={post.id} href={`/post/${post.id}`}>
+              <TitlePage size={size} post={post} />
+            </Link>
+          );
         })}
       </div>
       <div ref={loaderRef}></div>

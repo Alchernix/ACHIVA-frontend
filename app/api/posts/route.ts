@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import type { DraftPost } from "@/types/Post";
 
-export async function PUT(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const { post } = await req.json();
   const draft = post as DraftPost;
   const cookieStore = await cookies();
@@ -27,9 +27,35 @@ export async function PUT(req: NextRequest) {
           question: subtitle ?? "",
           content,
         })),
-        backgroundColor: draft.backgroundColor
+        backgroundColor: draft.backgroundColor,
       }),
     }
   );
+  return res;
+}
+
+// 단일 게시물 불러오기 프록시 api
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const postId = searchParams.get("postId");
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
+    return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
+  }
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${postId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
   return res;
 }

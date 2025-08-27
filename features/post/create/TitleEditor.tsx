@@ -6,8 +6,6 @@ import { useState, useRef, useLayoutEffect } from "react";
 import { useCurrentUserInfoStore } from "@/store/userStore";
 import { motion } from "motion/react";
 import { AnimatePresence } from "motion/react";
-import { LoadingIcon } from "@/components/Icons";
-// import { TitlePage } from "../Pages";
 
 export default function TitleEditor() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -99,7 +97,7 @@ export default function TitleEditor() {
             setIsLoading(true);
             try {
               const res = await fetch("/api/posts", {
-                method: "PUT",
+                method: "POST",
                 body: JSON.stringify({
                   post: draft,
                 }),
