@@ -12,7 +12,7 @@ import EmailValidationForm from "@/features/auth/EmailValidation";
 import Terms from "@/features/auth/Terms";
 import CategoryForm from "@/features/auth/CategoryForm";
 import BirthdayForm from "@/features/auth/BirthdayForm";
-import MobileOathForm from "@/features/auth/MobileOathForm";
+import OathForm from "@/features/auth/OathForm";
 
 export default function Page() {
   const currentStep = useSignupStepStore.use.currentStep();
@@ -86,7 +86,7 @@ export default function Page() {
           <div className="hidden sm:block">
             <TextLogo />
           </div>
-          <MobileOathForm />
+          <OathForm />
         </>
       );
   }

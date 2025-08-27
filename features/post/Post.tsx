@@ -8,7 +8,13 @@ import type { PostRes } from "@/types/Post";
 import { ContentPage, TitlePage } from "./Pages";
 import PostImg from "@/components/PostImg";
 
-export default function Post({ post }: { post: PostRes }) {
+export default function Post({
+  post,
+  handleSlideChange = undefined,
+}: {
+  post: PostRes;
+  handleSlideChange?: (idx: number) => void;
+}) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
@@ -133,6 +139,9 @@ export default function Post({ post }: { post: PostRes }) {
             setIsEnd(sw.isEnd);
           }}
           onSlideChange={(sw) => {
+            if (handleSlideChange) {
+              handleSlideChange(sw.activeIndex);
+            }
             setIsBeginning(sw.isBeginning);
             setIsEnd(sw.isEnd);
           }}

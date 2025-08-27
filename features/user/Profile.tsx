@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { User } from "@/types/User";
 import ProfileImg from "@/components/ProfileImg";
 import { SettingIcon } from "@/components/Icons";
-import FriendShipBtn from "./FriendshipBtn";
 
 type Props = {
   user: User;
@@ -17,15 +16,13 @@ export function Profile({ user, currentUser }: Props) {
       <div className="flex-1 flex flex-col items-start justify-center gap-3">
         <div className="w-full flex items-center gap-10">
           <h1 className="font-semibold text-2xl">{user.nickName}</h1>
-          {user.nickName === currentUser.nickName ? (
+          {user.nickName === currentUser.nickName && (
             <Link
               href="/accounts/edit"
               className="bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5"
             >
               프로필 수정
             </Link>
-          ) : (
-            <FriendShipBtn userId={user.id} />
           )}
           <div className="ml-auto">
             {/* {user.nickName === currentUser.nickName && <BellIcon />}
@@ -33,7 +30,7 @@ export function Profile({ user, currentUser }: Props) {
               <FollowerIcon />
             </Link> */}
             {user.nickName === currentUser.nickName && (
-              <Link href={`/settings`}>
+              <Link href={`/settings/accounts/password`}>
                 <SettingIcon />
               </Link>
             )}
@@ -80,15 +77,13 @@ export default function MobileProfile({ user, currentUser }: Props) {
         <div className="flex flex-col justify-center">
           <h1 className="font-semibold text-2xl">{user.nickName}</h1>
           <p className="text-[#7F7F7F]">{user.description}</p>
-          {user.nickName === currentUser.nickName ? (
+          {user.nickName === currentUser.nickName && (
             <Link
               href="/accounts/edit"
               className="self-start bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2"
             >
               프로필 수정
             </Link>
-          ) : (
-            <FriendShipBtn userId={user.id} />
           )}
         </div>
       </div>
