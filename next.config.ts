@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com"],
   },
+  productionBrowserSourceMaps: true,
 };
 
 export default nextConfig;
