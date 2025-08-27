@@ -24,13 +24,32 @@ export default function Post({ post }: { post: PostRes }) {
   const [isBeginning, setIsBeginning] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
 
+  // hover 시에만 보이게 하기 위함
+  const [isNavShowing, setIsNavShowing] = useState(false);
+  const navTimerRef = useRef<number | null>(null);
+
   return (
-    <div className="relative w-full">
+    <div
+      className="relative w-full"
+      onMouseMove={() => {
+        if (navTimerRef.current !== null) {
+          window.clearTimeout(navTimerRef.current);
+          navTimerRef.current = null;
+        }
+        setIsNavShowing(true);
+        navTimerRef.current = window.setTimeout(() => {
+          setIsNavShowing(false);
+          navTimerRef.current = null;
+        }, 1000);
+      }}
+    >
       <button
         ref={prevRef}
         className={`${
           isBeginning ? "!hidden" : ""
-        } absolute left-3 top-1/2 -translate-y-1/2 hidden sm:flex justify-center items-center z-5 bg-white rounded-full w-[30px] h-[30px] opacity-50 shadow`}
+        } absolute left-3 top-1/2 -translate-y-1/2 hidden sm:flex justify-center items-center z-5 bg-white rounded-full w-[30px] h-[30px] ${
+          isNavShowing ? "opacity-50" : "opacity-0"
+        } transition-opacity duration-300 shadow`}
       >
         <svg
           width="9"
@@ -52,7 +71,9 @@ export default function Post({ post }: { post: PostRes }) {
         ref={nextRef}
         className={`${
           isEnd ? "!hidden" : ""
-        } absolute right-3 top-1/2 -translate-y-1/2 hidden sm:flex justify-center items-center z-5 bg-white rounded-full w-[30px] h-[30px] opacity-50 shadow`}
+        } absolute right-3 top-1/2 -translate-y-1/2 hidden sm:flex justify-center items-center z-5 bg-white rounded-full w-[30px] h-[30px] ${
+          isNavShowing ? "opacity-50" : "opacity-0"
+        } transition-opacity duration-300 shadow`}
       >
         <svg
           width="9"
