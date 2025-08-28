@@ -55,7 +55,20 @@ export default function HomePost({ post }: { post: PostRes }) {
           onClose={() => setIsModalOpen(false)}
         >
           {currentUser?.id !== post.memberId && (
-            <li className="py-2 cursor-pointer text-[#DF171B] font-semibold">
+            <li
+              className="py-2 cursor-pointer text-[#DF171B] font-semibold"
+              onClick={async () => {
+                await fetch(`/api/report`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    postId: post.id,
+                    reporterName: currentUser?.nickName,
+                  }),
+                });
+                alert("신고가 접수되었습니다.");
+              }}
+            >
               신고
             </li>
           )}
