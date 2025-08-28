@@ -1,3 +1,5 @@
+"use client";
+
 import type { PostRes } from "@/types/Post";
 import dateFormatter from "@/lib/dateFormatter";
 import Post from "../post/Post";

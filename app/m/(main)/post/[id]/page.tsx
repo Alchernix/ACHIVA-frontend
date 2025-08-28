@@ -11,7 +11,6 @@ export default async function Page({
   const { id } = await params;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
   const postRes = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${id}`,
     {
