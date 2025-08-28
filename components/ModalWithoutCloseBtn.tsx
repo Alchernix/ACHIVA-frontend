@@ -7,13 +7,13 @@ import { useEffect } from "react";
 // import { createPortal } from "react-dom";
 
 type ModalProps = {
-  title: React.ReactNode;
+  title?: React.ReactNode;
   children: React.ReactNode; // 버튼 목록을 받음
   onClose: () => void; // 모달 닫기
 };
 
 export default function ModalWithoutCloseBtn({
-  title,
+  title = null,
   children,
   onClose,
 }: ModalProps) {
@@ -53,9 +53,11 @@ export default function ModalWithoutCloseBtn({
         onClick={(e) => e.stopPropagation()}
         className="relative rounded-lg bg-white flex flex-col text-lg text-center text-theme"
       >
-        <div className="flex items-center justify-center relative w-full border-b border-b-[#e6e6e6]">
-          <div className="py-8 font-bold w-full">{title}</div>
-        </div>
+        {title && (
+          <div className="flex items-center justify-center relative w-full border-b border-b-[#e6e6e6]">
+            <div className="py-8 font-bold w-full">{title}</div>
+          </div>
+        )}
         <ul className="flex-1 overflow-auto divide-y divide-[#e6e6e6]">
           {children}
         </ul>

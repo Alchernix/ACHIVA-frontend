@@ -59,3 +59,29 @@ export async function GET(req: NextRequest) {
 
   return res;
 }
+
+// 게시물 삭제 프록시 api
+export async function DELETE(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const postId = searchParams.get("postId");
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  if (!token) {
+    return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
+  }
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${postId}/delete?articleId=${postId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return res;
+}
