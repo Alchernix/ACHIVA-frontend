@@ -66,7 +66,7 @@ export default function Settings() {
       <div className="mt-auto flex flex-col gap-4 items-start sm:px-2.5">
         <div className="w-full flex justify-between">
           <span className="font-semibold text-lg">버전</span>
-          <span>5.11.0</span>
+          <span>1.0.0</span>
         </div>
         <LogoutBtn />
       </div>
