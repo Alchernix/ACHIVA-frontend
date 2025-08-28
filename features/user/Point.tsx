@@ -1,4 +1,4 @@
-import { BronzeMedallion } from "@/components/Badges";
+import { BronzeMedallion, SilverMedallion } from "@/components/Badges";
 
 // 유저 프로필의 성취 포인트 응원 포인트 어쩌구
 type PointSectionProps = {
@@ -14,8 +14,16 @@ export default function PointSection({ label }: PointSectionProps) {
       }}
       className="cursor-pointer py-4 px-6 sm:px-12 flex flex-col items-center gap-2 text-center"
     >
-      <BronzeMedallion />
-      <p className="bg-[#d0c6aa]/20 text-[#a59e8e] text-sm font-semibold py-1 rounded-md w-full">
+      {label === "받은 응원 기록" && <SilverMedallion />}
+      {label === "보낸 응원 기록" && <BronzeMedallion />}
+
+      <p
+        className={`${
+          label === "받은 응원 기록"
+            ? "bg-[#101010]/10 text-[#778390]"
+            : "bg-[#d0c6aa]/20 text-[#a59e8e]"
+        } text-sm font-semibold py-1 rounded-md w-full`}
+      >
         {label}
       </p>
     </div>
