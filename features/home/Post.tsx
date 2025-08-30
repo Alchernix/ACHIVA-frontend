@@ -29,7 +29,10 @@ export default function HomePost({ post }: { post: PostRes }) {
               {dateFormatter(post.createdAt)}
             </p>
           )}
-          <button className="ml-auto" onClick={() => setIsModalOpen(true)}>
+          <button
+            className="ml-auto px-0.5"
+            onClick={() => setIsModalOpen(true)}
+          >
             <svg
               width="21"
               height="4"

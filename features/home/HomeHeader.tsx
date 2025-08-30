@@ -4,10 +4,10 @@ import { TextLogo } from "@/components/Logo";
 export default function HomeHeader() {
   return (
     <>
-      <div className="flex sm:hidden pt-5 px-5 sm:px-0">
-        <TextLogo />
-      </div>
       <div className="px-5 sm:px-0">
+        <div className="flex sm:hidden pt-5">
+          <TextLogo />
+        </div>
         <Link
           href={"/post/create"}
           className="flex items-center justify-center py-3 gap-6 w-full bg-theme rounded-md mt-5 mb-3 sm:mt-10 sm:mb-8"

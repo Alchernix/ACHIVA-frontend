@@ -53,7 +53,10 @@ export default function Settings() {
                     : ""
                 }`}
               >
-                <Icon />
+                <div className="w-9 flex justify-center">
+                  <Icon />
+                </div>
+
                 <p className="font-semibold text-lg">{label}</p>
                 <div className="ml-auto">
                   <SettingNextIcon />

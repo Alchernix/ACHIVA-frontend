@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Banner() {
   return (
     <Link
-      className="fixed top-1/2 -translate-y-1/2 border border-[#d9d9d9] bg-white rounded-md"
+      className="mt-45 sticky top-5 h-fit border border-[#d9d9d9] bg-white rounded-md"
       href="https://achivamain.notion.site/25df9799dbb8807291dee19394e1347b"
     >
       <section className="flex flex-col gap-7 px-5 py-10">

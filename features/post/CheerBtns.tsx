@@ -49,10 +49,10 @@ export default function CheerBtns({
   }, {});
 
   const [cheeringsState, setCheeringsState] = useState(initialCheeringsState);
-
+  // gap-1.5
   return (
     <div
-      className="flex gap-1.5 items-center justify-center py-3.5"
+      className="flex gap-1.5 sm:gap-2 items-center justify-center py-3.5"
       ref={scope}
     >
       {labels.map((label, idx) => {
@@ -108,7 +108,7 @@ export default function CheerBtns({
               }));
             }}
             key={label}
-            className={`text-xs sm:text-base flex items-center gap-[2px] sm:gap-1 rounded-full border border-theme px-3 py-1 ${
+            className={`text-base flex items-center gap-[2px] sm:gap-1 rounded-full border border-theme px-1.5 sm:px-3 py-1 ${
               active ? "bg-theme text-white" : ""
             }`}
           >

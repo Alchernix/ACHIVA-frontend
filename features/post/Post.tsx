@@ -110,7 +110,9 @@ export default function Post({
           width: "52px",
           color: "white",
         }}
-        className={`z-5 absolute bg-black/35 text-[15px] flex items-center justify-center text-white rounded-full`}
+        className={`z-5 absolute bg-black/35 text-[15px] flex items-center justify-center text-white rounded-full ${
+          isNavShowing ? "opacity-100" : "opacity-0"
+        } transition-opacity duration-300`}
       ></div>
       <div ref={containerRef}>
         <Swiper
