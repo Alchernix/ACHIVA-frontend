@@ -82,7 +82,7 @@ export function ContentPage({
             </h2>
           )}
 
-          <pre className="text-[16px] font-[inherit]">{page.content}</pre>
+          <div className="whitespace-pre-wrap">{page.content}</div>
         </div>
       </div>
     </div>

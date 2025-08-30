@@ -1,5 +1,4 @@
 // 모달로 겹쳐지는 페이지
-export const dynamic = "force-dynamic";
 import Modal from "@/components/Modal";
 import EditProfile from "@/features/user/EditProfile";
 import getAuthStatus from "@/lib/getAuthStatus";
