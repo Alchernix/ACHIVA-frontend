@@ -106,7 +106,7 @@ export default function OathForm() {
         </p>
       </div>
 
-      <div className="sm:scale-110 my-6">
+      <div className="mt-2 mb-5">
         {/* @ts-ignore */}
         <Post post={post} handleSlideChange={(idx) => setCurrentPage(idx)} />
       </div>

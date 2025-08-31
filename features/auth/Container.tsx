@@ -8,7 +8,7 @@ type Props = {
 export default function Container({ classes, children }: Props) {
   return (
     <div
-      className={`w-screen sm:w-90 ${classes} rounded-[15px] sm:border sm:border-theme px-10 py-7 flex items-center justify-center`}
+      className={`w-screen sm:w-90 ${classes} rounded-[15px] sm:border sm:border-theme px-7 py-7 flex items-center justify-center`}
     >
       {children}
     </div>

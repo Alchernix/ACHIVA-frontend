@@ -1,7 +1,25 @@
 export function TextLogo({ width = 134 }: { width?: number }) {
-  return <img style={{ width: width }} src="/textLogo.svg" alt="로고" />;
+  return (
+    <div
+      style={{
+        width, // 원하는 너비
+        aspectRatio: "147.85 / 43.35", // viewBox 비율 그대로
+      }}
+    >
+      <img className="w-full" src="/textLogo.svg" alt="로고" />
+    </div>
+  );
 }
 
 export function TextLogoWhite({ width = 134 }: { width?: number }) {
-  return <img style={{ width: width }} src="/textLogoWhite.svg" alt="로고" />;
+  return (
+    <div
+      style={{
+        width, // 원하는 너비
+        aspectRatio: "147.85 / 43.35", // viewBox 비율 그대로
+      }}
+    >
+      <img style={{ width: width }} src="/textLogoWhite.svg" alt="로고" />
+    </div>
+  );
 }
