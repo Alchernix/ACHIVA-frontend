@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
+  openGraph: {
+    title: "ACHIVA",
+    description: "성취 중심 SNS 플랫폼",
+    images: ["/logo.png"],
+  },
 };
 
 export default function RootLayout({
