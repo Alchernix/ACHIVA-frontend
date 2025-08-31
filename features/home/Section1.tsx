@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import type { PostsData } from "@/types/responses";
 import HomePost from "@/features/home/Post";
 import { getFirstPage } from "@/features/post/firstPost";
+import PostSkeleton from "./PostSkeleton";
 
 export default function HomeSection1() {
   async function fetchPosts(pageParam: number = 0) {
@@ -68,9 +69,14 @@ export default function HomeSection1() {
     <>
       <HomeHeader />
       {isLoading && (
-        <div className="w-full flex justify-center">
-          <LoadingIcon color="text-theme" />
-        </div>
+        <>
+          <PostSkeleton />
+          <PostSkeleton />
+          <PostSkeleton />
+        </>
+        // <div className="w-full flex justify-center">
+        //   <LoadingIcon color="text-theme" />
+        // </div>
       )}
       {posts.length === 0 && !isLoading && <HomePost post={getFirstPage()} />}
       <div className="flex flex-col gap-7">

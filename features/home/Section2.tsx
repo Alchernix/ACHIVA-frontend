@@ -2,7 +2,7 @@
 
 import { HomeSectionHeader } from "./HomeHeader";
 import { LoadingIcon } from "@/components/Icons";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useIsFetching } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import type { PostsData } from "@/types/responses";
 import HomePost from "@/features/home/Post";
@@ -10,6 +10,12 @@ import { useCurrentUserInfoStore } from "@/store/userStore";
 
 export default function HomeSection2() {
   const currentUserId = useCurrentUserInfoStore.use.user()?.id;
+
+  // 첫번째 섹션이 우선적으로 로딩되도록
+  const isFetchingFirstSection =
+    useIsFetching({
+      queryKey: ["home"],
+    }) > 0;
 
   async function fetchPosts(pageParam: number = 0) {
     const response = await fetch(
@@ -49,7 +55,7 @@ export default function HomeSection2() {
         const next = lastPage.number + 1;
         return next < lastPage.totalPages ? next : undefined;
       },
-      enabled: !!currentUserId, // id가 없으면 query 실행 안 함
+      enabled: !!currentUserId && !isFetchingFirstSection, // id가 없으면 query 실행 안 함
     });
 
   // 센티넬 IO
