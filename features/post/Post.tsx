@@ -39,7 +39,7 @@ export default function Post({
   return (
     <div
       className="relative w-full"
-      onMouseMove={() => {
+      onPointerMove={() => {
         if (navTimerRef.current !== null) {
           window.clearTimeout(navTimerRef.current);
           navTimerRef.current = null;
