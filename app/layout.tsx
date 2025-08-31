@@ -6,6 +6,9 @@ import Wrapper from "@/QueryClientProvider";
 export const metadata: Metadata = {
   title: "ACHIVA",
   description: "성취 중심 SNS 플랫폼",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

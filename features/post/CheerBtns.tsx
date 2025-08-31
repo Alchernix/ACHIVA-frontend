@@ -108,7 +108,7 @@ export default function CheerBtns({
               }));
             }}
             key={label}
-            className={`text-base flex items-center gap-[2px] sm:gap-1 rounded-full border border-theme px-1.5 sm:px-3 py-1 ${
+            className={`text-[15px] sm:text-base flex items-center gap-[2px] sm:gap-1 rounded-full border border-theme px-1.5 sm:px-3 py-1 ${
               active ? "bg-theme text-white" : ""
             }`}
           >

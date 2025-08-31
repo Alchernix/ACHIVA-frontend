@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { SignupButton } from "@/features/onboarding/Button";
+import { TextLogoWhite } from "@/components/Logo";
 
 export default function Page() {
   return (
     <div className="h-dvh bg-theme flex flex-col items-center p-10">
       <div className="my-auto">
-        <h1 className="w-[196px] h-[55px] text-4xl font-bold text-center text-white">
-          ACHIVA
+        <h1 className="w-[196px] h-[55px] text-4xl font-bold flex justify-center text-white">
+          <TextLogoWhite />
         </h1>
         <div className="w-[196px] h-[65px] text-xl font-thin text-center text-white">
           <p>성취를 나누고 응원하는</p>
