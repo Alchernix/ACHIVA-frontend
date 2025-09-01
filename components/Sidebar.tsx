@@ -3,7 +3,12 @@ import Link from "next/link";
 import type { User } from "@/types/User";
 import { usePathname } from "next/navigation";
 import { TextLogo } from "./Logo";
-import { HomeIcon, PostIcon, SidebarSettingIcon } from "./Icons";
+import {
+  HomeIcon,
+  PostIcon,
+  NotificationIcon,
+  SidebarSettingIcon,
+} from "./Icons";
 import { motion } from "motion/react";
 import ProfileImg from "./ProfileImg";
 
@@ -16,6 +21,8 @@ export default function Sidebar({ user }: { user: User }) {
     selected = "설정";
   } else if (pathname === "/post/create") {
     selected = "글쓰기";
+  } else if (pathname === "/accounts/notification") {
+    selected = "응원함";
   } else {
     selected = "프로필";
   }
@@ -50,6 +57,14 @@ export default function Sidebar({ user }: { user: User }) {
             selected={selected === "글쓰기"}
           />
         </Link>
+        <Link href="/accounts/notification" scroll={false}>
+          <ListItem
+            label="응원함"
+            icon={<NotificationIcon fill={selected === "응원함"} />}
+            selected={selected === "응원함"}
+          />
+        </Link>
+
         <Link href={`/${user.nickName}`}>
           <ListItem
             label="프로필"

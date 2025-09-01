@@ -48,3 +48,32 @@ export type CheerPoint = {
   count: number;
   points: number;
 };
+
+export type NotificationsRes = {
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  content: Notification[];
+  number: number;
+  sort: Sort;
+  numberOfElements: number;
+  pageable: Pageable;
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+};
+
+export type Notification = {
+  id: number;
+  content: string;
+  cheeringCategory: "최고예요" | "수고했어요" | "응원해요" | "동기부여";
+  senderId: number;
+  senderName: string;
+  receiverId: number;
+  receiverName: string;
+  articleId: number;
+  isRead: boolean;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  senderProfileImageUrl?: string;
+};
