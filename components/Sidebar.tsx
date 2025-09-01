@@ -43,7 +43,7 @@ export default function Sidebar({ user }: { user: User }) {
             selected={selected === "홈"}
           />
         </Link>
-        <Link href="/post/create">
+        <Link href="/post/create" scroll={false}>
           <ListItem
             label="글쓰기"
             icon={<PostIcon fill={selected === "글쓰기"} />}

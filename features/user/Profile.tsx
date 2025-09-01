@@ -20,6 +20,7 @@ export function Profile({ user, currentUser }: Props) {
             <Link
               href="/accounts/edit"
               className="bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5"
+              scroll={false}
             >
               프로필 수정
             </Link>
