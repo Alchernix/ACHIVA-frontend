@@ -2,6 +2,7 @@ import PostModal from "@/features/post/PostModal";
 import { cookies } from "next/headers";
 import type { PostRes } from "@/types/Post";
 import HomePost from "@/features/home/Post";
+import { notFound } from "next/navigation";
 
 export default async function Page({
   params,
@@ -23,6 +24,11 @@ export default async function Page({
     }
   );
   const postData = await postRes.json();
+
+  if (postData.code === 2000) {
+    notFound();
+  }
+
   const cheeringRes = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api/articles/${id}/cheerings`,
     {
