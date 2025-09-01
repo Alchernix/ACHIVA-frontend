@@ -11,6 +11,8 @@ export default function Posts({ userId }: { userId: number }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
   const size = containerWidth ? (containerWidth - 2) / 3 : 0;
+  const [sortBy, setSortBy] = useState("DESC");
+
   useLayoutEffect(() => {
     if (containerRef.current) {
       setContainerWidth(containerRef.current.offsetWidth);
@@ -20,7 +22,7 @@ export default function Posts({ userId }: { userId: number }) {
   async function fetchPosts(pageParam: number = 0) {
     // 포스트 데이터 가져오기
     const response = await fetch(
-      `/api/members/getPosts?pageParam=${pageParam}&id=${userId}`,
+      `/api/members/getPosts?pageParam=${pageParam}&id=${userId}&sort=${sortBy}`,
       {
         method: "GET",
         headers: {
@@ -37,7 +39,7 @@ export default function Posts({ userId }: { userId: number }) {
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ["posts", userId],
+      queryKey: ["posts", userId, sortBy],
       queryFn: ({ pageParam = 0 }) => fetchPosts(pageParam),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
@@ -73,9 +75,16 @@ export default function Posts({ userId }: { userId: number }) {
         <p className="text-theme/50">
           게시글 <span>{postsCnt}</span>
         </p>
-        <select name="" id="">
-          <option value="" className="text-theme">
+        <select
+          className="text-right"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <option value="DESC" className="text-theme">
             최신순
+          </option>
+          <option value="ASC" className="text-theme">
+            오래된순
           </option>
         </select>
       </div>

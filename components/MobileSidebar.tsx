@@ -36,7 +36,10 @@ export default function Sidebar({ user }: { user: User }) {
   }
 
   return (
-    <nav className="text-theme w-full shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] h-auto fixed bottom-0 items-center lg:w-60 py-5 bg-white z-50">
+    <motion.nav
+      layoutScroll
+      className="text-theme w-full shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] h-auto fixed bottom-0 items-center lg:w-60 py-5 bg-white z-50"
+    >
       <div className="hidden mb-15 lg:hidden">
         <Link href="/">
           <h1 className="text-4xl font-bold text-center text-theme">A</h1>
@@ -81,7 +84,7 @@ export default function Sidebar({ user }: { user: User }) {
           />
         </Link>
       </ul>
-    </nav>
+    </motion.nav>
   );
 }
 
