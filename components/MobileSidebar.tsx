@@ -29,7 +29,8 @@ export default function Sidebar({ user }: { user: User }) {
     /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
     pathname === "/post/create" ||
     pathname.startsWith("/settings") ||
-    pathname === "/accounts/edit";
+    pathname === "/accounts/edit" ||
+    pathname === "/accounts/notification"; // 나중에 사이드바로 옮기면 없앨것
 
   if (isInvisible) {
     return null; // 렌더링 안 함

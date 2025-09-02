@@ -14,6 +14,7 @@ import {
   CloverCheerIcon,
 } from "@/components/Icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // 유저별 프로필 이미지(임시)
 const userCache = new Map<number, string | undefined>();
@@ -21,6 +22,11 @@ const userCache = new Map<number, string | undefined>();
 const postCache = new Map<number, PostRes | undefined>();
 
 export default function Notifications() {
+  const router = useRouter();
+  useEffect(() => {
+    router.refresh(); // 현재 라우트의 서버 데이터 다시 가져오기
+  }, [router]);
+
   const icons = {
     최고예요: ThumbUpCheerIcon,
     수고했어요: FireCheerIcon,
@@ -105,7 +111,7 @@ export default function Notifications() {
   return (
     <div className="flex-1">
       {isLoading && (
-        <div className="mt-5 divide-y divide-black/15">
+        <div className="divide-y divide-black/15">
           {Array(10)
             .fill(0)
             .map((_, idx) => (
@@ -129,7 +135,9 @@ export default function Notifications() {
               {hasTitle && (
                 <Link
                   href={`/post/${n.articleId}`}
-                  className="flex items-center gap-3 mt-5 mb-3"
+                  className={`flex items-center gap-3 ${
+                    idx === 0 ? "" : "mt-5"
+                  } mb-3`}
                 >
                   <div className="font-semibold text-xl bg-theme text-white rounded-sm px-4 py-1.5">
                     {postCache.get(n.articleId)?.category}
