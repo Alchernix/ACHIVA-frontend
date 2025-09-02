@@ -1,7 +1,6 @@
 import getAuthStatus from "@/lib/getAuthStatus";
 import AuthHydrator from "@/features/auth/AuthHydrator";
 import Sidebar from "@/components/Sidebar";
-import { AnimatePresence } from "motion/react";
 
 export default async function Layout({
   children,
@@ -21,7 +20,7 @@ export default async function Layout({
             {children}
             {/* <Footer /> */}
           </div>
-          <AnimatePresence>{modal}</AnimatePresence>
+          {modal}
         </>
       );
     // case "unauthenticated":
