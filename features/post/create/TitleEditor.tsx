@@ -92,7 +92,7 @@ export default function TitleEditor() {
       <div className="w-full mt-5">
         <NextStepButton
           isLoading={isLoading}
-          disabled={!draft.title}
+          // disabled={!draft.title}
           onClick={async () => {
             setIsLoading(true);
             try {

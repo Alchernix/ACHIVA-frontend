@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         photoUrl: draft.titleImageUrl,
-        title: draft.title,
+        title: draft.title || "오늘의 성취",
         category: draft.category,
         question: draft.pages!.map(({ subtitle, content }) => ({
           question: subtitle ?? "",
