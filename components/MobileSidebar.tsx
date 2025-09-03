@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { User } from "@/types/User";
 import { usePathname } from "next/navigation";
 import { TextLogo } from "./Logo";
-import { HomeIcon, PostIcon } from "./Icons";
+import { HomeIcon, PostIcon, SearchIcon, NotificationIcon } from "./Icons";
 import { motion } from "motion/react";
 import ProfileImg from "./ProfileImg";
 
@@ -17,6 +17,10 @@ export default function Sidebar({ user }: { user: User }) {
     selected = "설정";
   } else if (pathname === "/post/create") {
     selected = "글쓰기";
+  } else if (pathname === "/accounts/notifications") {
+    selected = "응원함";
+  } else if (pathname === "/search") {
+    selected = "검색";
   } else {
     selected = "프로필";
   }
@@ -29,8 +33,7 @@ export default function Sidebar({ user }: { user: User }) {
     /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
     pathname === "/post/create" ||
     pathname.startsWith("/settings") ||
-    pathname === "/accounts/edit" ||
-    pathname === "/accounts/notification"; // 나중에 사이드바로 옮기면 없앨것
+    pathname === "/accounts/edit";
 
   if (isInvisible) {
     return null; // 렌더링 안 함
@@ -59,11 +62,13 @@ export default function Sidebar({ user }: { user: User }) {
             selected={selected === "홈"}
           />
         </Link>
-        {/* <ListItem
-          label="검색"
-          icon={<SearchIcon fill={selected === "검색"} />}
-          selected={selected === "검색"}
-        /> */}
+        <Link href="/search">
+          <ListItem
+            label="검색"
+            icon={<SearchIcon fill={selected === "검색"} />}
+            selected={selected === "검색"}
+          />
+        </Link>
         <Link href="/post/create">
           <ListItem
             label="글쓰기"
@@ -71,12 +76,13 @@ export default function Sidebar({ user }: { user: User }) {
             selected={selected === "글쓰기"}
           />
         </Link>
-        {/* <ListItem
-          label="응원함"
-          icon={<NotificationIcon fill={selected === "응원함"} />}
-          selected={selected === "응원함"}
-        /> */}
-        {/* 임시방편.... 나중에 user가 늦게 로딩되는 문제 해결 필요 */}
+        <Link href="/accounts/notifications">
+          <ListItem
+            label="응원함"
+            icon={<NotificationIcon fill={selected === "응원함"} />}
+            selected={selected === "응원함"}
+          />
+        </Link>
         <Link href={`/${user?.nickName ?? ""}`}>
           <ListItem
             label="프로필"
