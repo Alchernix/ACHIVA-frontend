@@ -67,5 +67,6 @@ export function getFirstPage(): PostRes {
     authorCategorySeq: 0,
     createdAt: "", // 계정 생성 시각
     updatedAt: "",
+    cheerings: [],
   };
 }
