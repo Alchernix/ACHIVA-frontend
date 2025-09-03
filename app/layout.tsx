@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { pretendard } from "@/lib/fonts";
 import "./globals.css";
 import Wrapper from "@/QueryClientProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "ACHIVA",
@@ -31,6 +32,7 @@ export default function RootLayout({
       </head>
       <body className={`${pretendard.className} antialiased min-h-dvh`}>
         <Wrapper>{children}</Wrapper>
+        <Analytics />
       </body>
     </html>
   );

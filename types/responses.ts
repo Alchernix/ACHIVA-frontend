@@ -69,11 +69,11 @@ export type Notification = {
   cheeringCategory: "최고예요" | "수고했어요" | "응원해요" | "동기부여";
   senderId: number;
   senderName: string;
+  senderProfileImageUrl: string;
   receiverId: number;
   receiverName: string;
   articleId: number;
   isRead: boolean;
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
-  senderProfileImageUrl?: string;
 };

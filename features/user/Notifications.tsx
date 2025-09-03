@@ -16,8 +16,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// 유저별 프로필 이미지(임시)
-const userCache = new Map<number, string | undefined>();
 // 포스트 캐시
 const postCache = new Map<number, PostRes | undefined>();
 
@@ -46,20 +44,6 @@ export default function Notifications() {
     );
     if (!response.ok) throw new Error("Failed to fetch");
     const json = await response.json();
-
-    await Promise.all(
-      json.data.content.map(async (notification: any) => {
-        if (!userCache.has(notification.senderId)) {
-          userCache.set(notification.senderId, undefined);
-          const userRes = await fetch(
-            `/api/members?memberId=${notification.senderId}`
-          );
-          const userJson = await userRes.json();
-          userCache.set(notification.senderId, userJson.data.profileImageUrl);
-          return userJson;
-        }
-      })
-    );
 
     await Promise.all(
       json.data.content.map(async (notification: any) => {
@@ -168,7 +152,7 @@ export default function Notifications() {
                 }`}
               >
                 <Link href={`/${n.senderName}`}>
-                  <ProfileImg url={userCache.get(n.senderId)!} size={50} />
+                  <ProfileImg url={n.senderProfileImageUrl} size={50} />
                 </Link>
                 <div className="flex-1 flex gap-2.5 items-center">
                   <Link href={`/${n.senderName}`} className="font-semibold">
@@ -177,7 +161,7 @@ export default function Notifications() {
                   <p className="font-light text-black/50">
                     {dateFormatter(n.createdAt)}
                   </p>
-                  <div className="ml-auto text-[15px] sm:text-base flex items-center gap-[2px] sm:gap-1 rounded-full border border-theme px-1.5 sm:px-3 py-1 text-white bg-theme">
+                  <div className="ml-auto text-[15px] sm:text-base flex items-center gap-[2px] sm:gap-1 rounded-full border border-theme px-3 py-1 text-white bg-theme">
                     <p>{n.cheeringCategory}</p>
                     <Icon active />
                   </div>

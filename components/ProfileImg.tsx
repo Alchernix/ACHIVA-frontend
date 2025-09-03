@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { defaultProfileImg } from "@/features/user/defaultProfileImg";
 
 type ProfileImgProps = {
   url: string;
@@ -21,7 +22,7 @@ export default function ProfileImg({ url, size }: ProfileImgProps) {
       )}
       <Image
         className={`w-full h-full object-cover ${loaded ? "" : "opacity-0"}`}
-        src={url}
+        src={url || defaultProfileImg}
         alt="profile image"
         width={size}
         height={size}
