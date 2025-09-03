@@ -163,31 +163,22 @@ export default function ImageUploader({
               objectFit="contain"
             />
           </div>
-
-          {imageSrc ? (
-            <button
-              onClick={onUpload}
-              disabled={isUploading}
-              className="z-99 absolute top-2.5 right-5 sm:top-7 sm:right-17 font-semibold bg-theme text-white flex items-center justify-center h-9 w-14 border border-theme rounded-sm"
-            >
-              {isUploading ? <LoadingIcon /> : "다음"}
-            </button>
-          ) : (
-            <button
-              onClick={onUpload}
-              disabled
-              className="z-99 top-2.5 right-5 absolute sm:top-7 sm:right-17 font-semibold text-[#808080] flex items-center h-9 justify-center w-14 border border-[#d9d9d9] rounded-sm cursor-default"
-            ></button>
-          )}
         </div>
       )}
 
       <div className="mt-5 w-full">
         <NextStepButton
-          disabled={!!imageSrc}
-          onClick={() => input.current?.click()}
+          // disabled={isUploading}
+          isLoading={isUploading}
+          onClick={() => {
+            if (!imageSrc) {
+              input.current?.click();
+            } else {
+              onUpload();
+            }
+          }}
         >
-          {isMobile ? "갤러리에서 선택" : "컴퓨터에서 선택"}
+          {imageSrc ? "다음" : isMobile ? "갤러리에서 선택" : "컴퓨터에서 선택"}
         </NextStepButton>
       </div>
 
