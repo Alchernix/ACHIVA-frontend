@@ -8,7 +8,7 @@ import {
 } from "@/components/Icons";
 import type { Cheering } from "@/types/responses";
 import { useCurrentUserInfoStore } from "@/store/userStore";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAnimate } from "motion/react";
 
 export default function CheerBtns({
@@ -21,7 +21,10 @@ export default function CheerBtns({
   const [scope, animate] = useAnimate();
   const currentUserId = useCurrentUserInfoStore.use.user()?.id;
 
-  const labels = ["최고예요", "수고했어요", "응원해요", "동기부여"];
+  const labels = useMemo(
+    () => ["최고예요", "수고했어요", "응원해요", "동기부여"],
+    []
+  );
   const icons = [
     ThumbUpCheerIcon,
     FireCheerIcon,
@@ -35,20 +38,41 @@ export default function CheerBtns({
       { active: boolean; id: number | undefined; isPending: boolean }
     >
   >((acc, label) => {
-    const cheering = cheerings.find(
-      (cheering) =>
-        cheering.cheeringCategory === label &&
-        cheering.senderId === currentUserId
-    );
     acc[label] = {
-      active: !!cheering,
-      id: cheering?.id ?? undefined,
-      isPending: false,
+      active: false,
+      id: undefined,
+      isPending: true,
     };
     return acc;
   }, {});
 
   const [cheeringsState, setCheeringsState] = useState(initialCheeringsState);
+
+  useEffect(() => {
+    if (!currentUserId) {
+      return;
+    }
+    const newCheeringsState = labels.reduce<
+      Record<
+        string,
+        { active: boolean; id: number | undefined; isPending: boolean }
+      >
+    >((acc, label) => {
+      const cheering = cheerings.find(
+        (cheering) =>
+          cheering.cheeringCategory === label &&
+          cheering.senderId === currentUserId
+      );
+      acc[label] = {
+        active: !!cheering,
+        id: cheering?.id ?? undefined,
+        isPending: false,
+      };
+      return acc;
+    }, {});
+    setCheeringsState(newCheeringsState);
+  }, [cheerings, currentUserId, labels]);
+
   // gap-1.5
   return (
     <div
@@ -57,11 +81,12 @@ export default function CheerBtns({
     >
       {labels.map((label, idx) => {
         const active = cheeringsState[label].active;
+        const pending = cheeringsState[label].isPending;
         const Icon = icons[idx];
         return (
           <button
             id={label}
-            disabled={cheeringsState[label].isPending}
+            disabled={pending}
             onClick={async () => {
               setCheeringsState((prev) => ({
                 ...prev,
