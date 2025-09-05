@@ -1,4 +1,4 @@
-export const categories = [
+export const categories: Category[] = [
   "공부",
   "운동",
   "커리어",
