@@ -142,10 +142,21 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
                     }`}
                   >
                     <div>
-                      {page.subtitle && (
-                        <h2 className="font-semibold text-[32px] mb-[24px] leading-[50px]">
-                          {page.subtitle}
-                        </h2>
+                      {page.subtitle !== undefined && (
+                        <input
+                          maxLength={14}
+                          onChange={(e) => {
+                            setPost((prev) => ({
+                              pages: prev.pages?.map((p) =>
+                                p.id == page.id
+                                  ? { ...p, subtitle: e.target.value }
+                                  : p
+                              ),
+                            }));
+                          }}
+                          value={page.subtitle}
+                          className="w-full font-semibold text-[32px] mb-[24px] leading-[50px]"
+                        />
                       )}
 
                       <textarea
@@ -155,10 +166,7 @@ export default function Slides({ currentPage, setCurrentPage }: Props) {
                             ? "text-theme"
                             : "text-white"
                         } resize-none outline-none overflow-hidden`}
-                        value={
-                          draft.pages?.find((p) => p.id === page.id)?.content ??
-                          ""
-                        }
+                        value={page.content ?? ""}
                         onChange={(e) => {
                           if (
                             e.target.scrollHeight <=
