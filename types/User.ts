@@ -9,6 +9,7 @@ export type SignupUser = {
   categories: string[];
 };
 
+// 서버에서 응답으로 받는 유저 정보
 export type User = {
   id: number;
   email: string;
@@ -19,6 +20,6 @@ export type User = {
   categories: string[];
   profileImageUrl: string;
   role?: string;
-  description?: string;
-  createdAt?: string;
+  description: string;
+  createdAt: string;
 };

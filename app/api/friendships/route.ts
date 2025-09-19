@@ -1,6 +1,7 @@
 // 친구신청 프록시 api
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { revalidateTag } from "next/cache";
 
 export async function POST(req: NextRequest) {
   const { userId } = await req.json();
@@ -24,5 +25,6 @@ export async function POST(req: NextRequest) {
     }
   );
 
+  revalidateTag("friends");
   return res;
 }

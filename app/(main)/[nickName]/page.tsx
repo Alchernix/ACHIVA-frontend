@@ -13,15 +13,17 @@ export default async function Page({
 }: {
   params: Promise<{ nickName: string }>;
 }) {
-  const currentUser = (await getAuthStatus()).user; // 로그인 한 유저
+  const currentUserData = await getAuthStatus();
+  const currentUser = currentUserData.user; // 로그인 한 유저
   if (!currentUser) {
     redirect("/");
   }
+
   const { nickName } = await params; // 이 페이지 유저 닉네임
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-
+  console.log(token);
   // 유저 데이터 가져오기
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}`,
@@ -39,10 +41,15 @@ export default async function Page({
   }
 
   const user = data as User;
+
   return (
     <div className="flex-1 w-full flex flex-col pb-22 sm:pb-0 sm:pt-15 px-5">
       <div className="flex-1 flex flex-col mx-auto w-full max-w-160">
-        <Profile user={user} currentUser={currentUser} />
+        <Profile
+          user={user}
+          currentUser={currentUser}
+          friendStatus={currentUserData.friends!}
+        />
         <div className="flex gap-5 my-5 sm:my-10">
           <Link
             href={`/${nickName}/cheers/received`}

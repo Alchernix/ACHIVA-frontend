@@ -1,22 +1,25 @@
 import Link from "next/link";
 import type { User } from "@/types/User";
 import ProfileImg from "@/components/ProfileImg";
-import { SettingIcon } from "@/components/Icons";
+import { SettingIcon, FollowerIcon } from "@/components/Icons";
+import FriendShipBtn from "./FriendshipBtn";
+import { FriendData } from "@/types/Friends";
 
 type Props = {
   user: User;
   currentUser: User;
+  friendStatus: FriendData[];
 };
 
 // PC전용
-export function Profile({ user, currentUser }: Props) {
+export function Profile({ user, currentUser, friendStatus }: Props) {
   return (
     <div className="w-full flex gap-12">
       <ProfileImg url={user.profileImageUrl!} size={160} />
       <div className="flex-1 flex flex-col items-start justify-center gap-3">
         <div className="w-full flex items-center gap-10">
           <h1 className="font-semibold text-2xl">{user.nickName}</h1>
-          {user.nickName === currentUser.nickName && (
+          {user.nickName === currentUser.nickName ? (
             <Link
               href="/accounts/edit"
               className="bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5"
@@ -24,12 +27,13 @@ export function Profile({ user, currentUser }: Props) {
             >
               프로필 수정
             </Link>
+          ) : (
+            <FriendShipBtn userId={user.id} friendStatus={friendStatus} />
           )}
-          <div className="ml-auto">
-            {/* {user.nickName === currentUser.nickName && <BellIcon />}
+          <div className="ml-auto flex gap-4 items-center">
             <Link href={`/${user.nickName}/friends`}>
               <FollowerIcon />
-            </Link> */}
+            </Link>
             {user.nickName === currentUser.nickName && (
               <Link href={`/settings/accounts/password`}>
                 <SettingIcon />
@@ -61,10 +65,9 @@ export default function MobileProfile({ user, currentUser }: Props) {
   return (
     <div className="sm:hidden">
       <div className="h-14 flex items-center justify-end gap-3">
-        {/* {user.nickName === currentUser.nickName && <BellIcon />}
         <Link href={`/${user.nickName}/friends`}>
           <FollowerIcon />
-        </Link> */}
+        </Link>
         {user.nickName === currentUser.nickName && (
           <Link href={`/settings`}>
             <SettingIcon />
@@ -78,13 +81,15 @@ export default function MobileProfile({ user, currentUser }: Props) {
         <div className="flex flex-col justify-center">
           <h1 className="font-semibold text-2xl">{user.nickName}</h1>
           <p className="text-[#7F7F7F]">{user.description}</p>
-          {user.nickName === currentUser.nickName && (
+          {user.nickName === currentUser.nickName ? (
             <Link
               href="/accounts/edit"
               className="self-start bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2"
             >
               프로필 수정
             </Link>
+          ) : (
+            <FriendShipBtn userId={user.id} />
           )}
         </div>
       </div>
