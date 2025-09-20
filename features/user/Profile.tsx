@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { User } from "@/types/User";
 import ProfileImg from "@/components/ProfileImg";
 import { SettingIcon, FollowerIcon } from "@/components/Icons";
-import FriendShipBtn from "./FriendshipBtn";
+import FriendShipBtn from "../friends/FriendshipBtn";
 import { FriendData } from "@/types/Friends";
 
 type Props = {
