@@ -8,11 +8,11 @@ import { FriendData } from "@/types/Friends";
 type Props = {
   user: User;
   currentUser: User;
-  friendStatus: FriendData[];
+  currentUserFriends: FriendData[];
 };
 
 // PC전용
-export function Profile({ user, currentUser, friendStatus }: Props) {
+export function Profile({ user, currentUser, currentUserFriends }: Props) {
   return (
     <div className="w-full flex gap-12">
       <ProfileImg url={user.profileImageUrl!} size={160} />
@@ -28,7 +28,10 @@ export function Profile({ user, currentUser, friendStatus }: Props) {
               프로필 수정
             </Link>
           ) : (
-            <FriendShipBtn userId={user.id} friendStatus={friendStatus} />
+            <FriendShipBtn
+              userId={user.id}
+              currentUserFriends={currentUserFriends}
+            />
           )}
           <div className="ml-auto flex gap-4 items-center">
             <Link href={`/${user.nickName}/friends`}>
@@ -61,7 +64,11 @@ export function Profile({ user, currentUser, friendStatus }: Props) {
 }
 
 // 모바일 전용
-export default function MobileProfile({ user, currentUser }: Props) {
+export default function MobileProfile({
+  user,
+  currentUser,
+  currentUserFriends,
+}: Props) {
   return (
     <div className="sm:hidden">
       <div className="h-14 flex items-center justify-end gap-3">
@@ -89,7 +96,10 @@ export default function MobileProfile({ user, currentUser }: Props) {
               프로필 수정
             </Link>
           ) : (
-            <FriendShipBtn userId={user.id} />
+            <FriendShipBtn
+              userId={user.id}
+              currentUserFriends={currentUserFriends}
+            />
           )}
         </div>
       </div>

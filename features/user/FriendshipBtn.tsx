@@ -1,16 +1,18 @@
 "use client";
 
-import { FriendStatus, FriendData } from "@/types/Friends";
+import { FriendData } from "@/types/Friends";
 import { useState } from "react";
 
 type Props = {
   userId: number;
-  friendStatus: FriendData[];
+  currentUserFriends: FriendData[];
 };
 
-export default function FriendShipBtn({ userId, friendStatus }: Props) {
-  const data = friendStatus.findLast((friend) => friend.receiverId === userId);
-  const initialState = {
+export default function FriendShipBtn({ userId, currentUserFriends }: Props) {
+  const data = currentUserFriends.findLast(
+    (friend) => friend.receiverId === userId
+  );
+  const initialfriendStatus = {
     // 해당 페이지의 유저가 나의 친구인가?
     // rejected거나 undefined일 경우 친구 아님
     status: data?.status,
@@ -18,8 +20,7 @@ export default function FriendShipBtn({ userId, friendStatus }: Props) {
   };
 
   // 친구신청 버튼 클릭 시
-  const [friendStatusState, setFriendStatusState] = useState(initialState);
-  console.log(friendStatusState);
+  const [friendStatus, setFriendStatus] = useState(initialfriendStatus);
   // const [optimisticFriendStatus, setOptimisticFriendStatus] = useOptimistic(
   //   initialState,
   //   (state) => {
@@ -39,7 +40,7 @@ export default function FriendShipBtn({ userId, friendStatus }: Props) {
 
   let label;
 
-  switch (friendStatusState.status) {
+  switch (friendStatus.status) {
     case "ACCEPTED":
       label = "내 친구";
       break;
@@ -54,10 +55,10 @@ export default function FriendShipBtn({ userId, friendStatus }: Props) {
     <button
       onClick={async () => {
         if (
-          friendStatusState.status === "REJECTED" ||
-          friendStatusState.status === undefined
+          friendStatus.status === "REJECTED" ||
+          friendStatus.status === undefined
         ) {
-          setFriendStatusState((prev) => ({ ...prev, status: "PENDING" }));
+          setFriendStatus((prev) => ({ ...prev, status: "PENDING" }));
           const response = await fetch(`/api/friendships`, {
             method: "POST",
             headers: {
@@ -68,13 +69,17 @@ export default function FriendShipBtn({ userId, friendStatus }: Props) {
             }),
           });
           const data = await response.json();
-          setFriendStatusState((prev) => ({ ...prev, id: data.id }));
+          setFriendStatus((prev) => ({ ...prev, id: data.data.id }));
           // 왜 id가 안담기냐.... 나중에 삭제API 나오면 해결하자
-        } else if (friendStatusState.status === "PENDING") {
+        } else if (friendStatus.status === "PENDING") {
           // 친구신청 취소 API 나오면 취소하도록 해야함
         }
       }}
-      className="self-start bg-theme rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2 sm:mt-0"
+      className={`self-start ${
+        friendStatus.status === "ACCEPTED"
+          ? "bg-theme/50 !cursor-default"
+          : "bg-theme"
+      } rounded-sm text-white font-semibold text-sm px-2.5 py-1.5 mt-2 sm:mt-0`}
     >
       {label}
     </button>
