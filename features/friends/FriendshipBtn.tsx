@@ -10,7 +10,10 @@ type Props = {
 
 export default function FriendShipBtn({ userId, currentUserFriends }: Props) {
   const data = currentUserFriends.findLast(
-    (friend) => friend.receiverId === userId
+    (friend) =>
+      (friend.status === "ACCEPTED" &&
+        (friend.receiverId === userId || friend.requesterId === userId)) ||
+      friend.receiverId === userId
   );
   const initialfriendStatus = {
     // 해당 페이지의 유저가 나의 친구인가?
