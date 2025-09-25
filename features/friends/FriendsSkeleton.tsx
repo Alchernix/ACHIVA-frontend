@@ -1,7 +1,7 @@
 export default function FriendsSkeleton() {
   return (
     <ul className="flex flex-col gap-5">
-      {Array(6)
+      {Array(5)
         .fill(0)
         .map((_, i: number) => (
           <li key={i} className="flex items-center gap-5">

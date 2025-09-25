@@ -1,28 +1,97 @@
+"use client";
+
 import ProfileImg from "@/components/ProfileImg";
-import { notFound } from "next/navigation";
 import Link from "next/link";
 import { FriendData } from "@/types/Friends";
 import { User } from "@/types/User";
+import { useQueries } from "@tanstack/react-query";
+import FriendsSkeleton from "./FriendsSkeleton";
+import { useState } from "react";
 
 type Props = {
+  nickName: string;
+  isMe: boolean; // 내 친구 목록을 보고 있는가?
+};
+
+type FriendsResponse = {
   friends: FriendData[];
   user: User;
   userCache: Map<number, User | undefined>;
 };
 
-export default async function Friends({ friends, user, userCache }: Props) {
-  try {
-    return (
+type FriendsRequestsResponse = {
+  friends: FriendData[];
+  userCache: Map<number, User | undefined>;
+};
+
+export default function Friends({ nickName, isMe }: Props) {
+  const [selectedMenu, setSelectedMenu] = useState<"친구 목록" | "친구 요청">(
+    "친구 목록"
+  );
+  let content;
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ["friends", nickName],
+        queryFn: async (): Promise<FriendsResponse> => {
+          const res = await fetch(`/api/friendships/?nickName=${nickName}`, {
+            method: "GET",
+          });
+
+          if (!res.ok) {
+            throw new Error("Failed to fetch friends with cache");
+          }
+          const data = await res.json();
+          return data;
+        },
+      },
+      {
+        queryKey: ["receivedFriendRequests", nickName],
+        queryFn: async (): Promise<FriendsRequestsResponse> => {
+          const res = await fetch(`/api/friendships/requests`, {
+            method: "GET",
+          });
+
+          if (!res.ok) {
+            throw new Error("Failed to fetch friends with cache");
+          }
+          const data = await res.json();
+          return data;
+        },
+        enabled: isMe,
+      },
+    ],
+  });
+
+  const [friends, receivedFriendRequests] = results;
+
+  const userCacheRecord: Record<number, User> = {
+    ...(friends.data?.userCache ?? {}),
+    ...(receivedFriendRequests.data?.userCache ?? {}),
+  };
+
+  const userCache: Map<number, User> = new Map(
+    Object.entries(userCacheRecord).map(([key, value]) => [Number(key), value])
+  );
+
+  const isPending = friends.isPending || receivedFriendRequests.isPending;
+
+  if (isPending) {
+    content = <FriendsSkeleton />;
+  }
+
+  if (friends.data && selectedMenu === "친구 목록") {
+    content = (
       <>
-        {friends.length === 0 && (
+        {friends.data.friends.length === 0 && (
           <div className="w-full h-full flex items-center justify-center">
             <p className="font-bold text-xl">아직 친구가 없습니다.</p>
           </div>
         )}
         <ul className="flex flex-col gap-5">
-          {friends.map((friend, i) => {
+          {friends.data.friends.map((friend, i) => {
             const id =
-              user.id === friend.receiverId
+              friends.data.user.id === friend.receiverId
                 ? friend.requesterId
                 : friend.receiverId;
 
@@ -62,8 +131,84 @@ export default async function Friends({ friends, user, userCache }: Props) {
         </ul>
       </>
     );
-  } catch (err) {
-    console.log(err);
-    notFound();
   }
+
+  if (receivedFriendRequests.data && selectedMenu === "친구 요청") {
+    content = (
+      <>
+        {receivedFriendRequests.data.friends.length === 0 && (
+          <div className="w-full h-full flex items-center justify-center">
+            <p className="font-bold text-xl">새로운 친구 요청이 없습니다.</p>
+          </div>
+        )}
+        <ul className="flex flex-col gap-5">
+          {receivedFriendRequests.data.friends.map((friend, i) => {
+            const id = friend.requesterId;
+
+            return (
+              <li key={i} className="flex items-center gap-5">
+                <Link href={`/${userCache.get(id)?.nickName}`}>
+                  <ProfileImg
+                    url={
+                      userCache.get(id)?.profileImageUrl ??
+                      "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb"
+                    }
+                    size={60}
+                  />
+                </Link>
+                <Link href={`/${userCache.get(id)?.nickName}`}>
+                  <p className="font-medium text-lg">
+                    {userCache.get(id)?.nickName}
+                  </p>
+                </Link>
+                <div className="ml-auto flex gap-2">
+                  <button className="font-semibold text-lg px-6 py-2 rounded-md bg-theme text-white">
+                    수락
+                  </button>
+                  <button className="font-semibold text-lg px-6 py-2 rounded-md bg-[#F2F2F2] text-[#4D4D4D]">
+                    거절
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </>
+    );
+  }
+
+  return (
+    <div className="flex flex-col h-full">
+      {isMe && (
+        <div className="flex gap-2 mb-8">
+          <button
+            onClick={() => setSelectedMenu("친구 목록")}
+            className={`rounded-full font-semibold text-lg px-4 py-2 ${
+              selectedMenu === "친구 목록"
+                ? "bg-theme text-white"
+                : "bg-white text-theme border border-theme"
+            }`}
+          >
+            친구 목록
+          </button>
+          <button
+            onClick={() => setSelectedMenu("친구 요청")}
+            className={`relative rounded-full font-semibold text-lg px-4 py-2  ${
+              selectedMenu === "친구 요청"
+                ? "bg-theme text-white"
+                : "bg-white text-theme border border-theme"
+            }`}
+          >
+            친구 요청
+            {receivedFriendRequests.data !== undefined &&
+              receivedFriendRequests.data.friends.length > 0 && (
+                <div className="absolute top-2 right-3 w-1 h-1 bg-[#FF0000] rounded-full" />
+              )}
+          </button>
+        </div>
+      )}
+
+      {content}
+    </div>
+  );
 }
