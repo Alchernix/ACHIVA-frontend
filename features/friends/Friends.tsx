@@ -84,8 +84,8 @@ export default function Friends({ nickName, isMe }: Props) {
     content = (
       <>
         {friends.data.friends.length === 0 && (
-          <div className="w-full h-full flex items-center justify-center">
-            <p className="font-bold text-xl">아직 친구가 없습니다.</p>
+          <div className="flex-1 w-full h-full flex items-center justify-center">
+            <p className="text-xl text-[#7F7F7F]">아직 친구가 없습니다.</p>
           </div>
         )}
         <ul className="flex flex-col gap-5">
@@ -137,8 +137,10 @@ export default function Friends({ nickName, isMe }: Props) {
     content = (
       <>
         {receivedFriendRequests.data.friends.length === 0 && (
-          <div className="w-full h-full flex items-center justify-center">
-            <p className="font-bold text-xl">새로운 친구 요청이 없습니다.</p>
+          <div className="flex-1 w-full h-full flex items-center justify-center">
+            <p className="text-xl text-[#7F7F7F]">
+              새로운 친구 요청이 없습니다.
+            </p>
           </div>
         )}
         <ul className="flex flex-col gap-5">
@@ -178,9 +180,9 @@ export default function Friends({ nickName, isMe }: Props) {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex-1 flex flex-col h-full">
       {isMe && (
-        <div className="flex gap-2 mb-8">
+        <div className="flex gap-2 mb-5 sm:mb-8">
           <button
             onClick={() => setSelectedMenu("친구 목록")}
             className={`rounded-full font-semibold text-lg px-4 py-2 ${
