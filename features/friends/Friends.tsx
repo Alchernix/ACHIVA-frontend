@@ -4,9 +4,10 @@ import ProfileImg from "@/components/ProfileImg";
 import Link from "next/link";
 import { FriendData } from "@/types/Friends";
 import { User } from "@/types/User";
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, useMutation, useQueryClient } from "@tanstack/react-query";
 import FriendsSkeleton from "./FriendsSkeleton";
 import { useState } from "react";
+import { defaultProfileImg } from "@/features/user/defaultProfileImg";
 
 type Props = {
   nickName: string;
@@ -28,7 +29,55 @@ export default function Friends({ nickName, isMe }: Props) {
   const [selectedMenu, setSelectedMenu] = useState<"친구 목록" | "친구 요청">(
     "친구 목록"
   );
-  let content;
+  let content; // 친구 혹은 친구 요청 목록
+
+  const queryClient = useQueryClient();
+
+  // 친구 수락 시 뮤테이션 함수
+  const acceptFriendMutation = useMutation({
+    mutationFn: async (friendshipId: number) => {
+      const res = await fetch(
+        `/api/friendships/accept?friendshipId=${friendshipId}`,
+        {
+          method: "PATCH",
+        }
+      );
+      if (!res.ok) {
+        throw new Error("친구 수락 과정에서 문제가 발생했습니다.");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["friends", nickName] });
+      queryClient.invalidateQueries({
+        queryKey: ["receivedFriendRequests", nickName],
+      });
+    },
+  });
+
+  // 친구 거절 시 뮤테이션 함수
+  const rejectFriendMutation = useMutation({
+    mutationFn: async (friendshipId: number) => {
+      const res = await fetch(
+        `/api/friendships/reject?friendshipId=${friendshipId}`,
+        {
+          method: "PATCH",
+        }
+      );
+      if (!res.ok) {
+        throw new Error("친구 거절 과정에서 문제가 발생했습니다.");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["friends", nickName] });
+      queryClient.invalidateQueries({
+        queryKey: ["receivedFriendRequests", nickName],
+      });
+    },
+  });
+
+  // 불러올 친구+신청받은 목록
   const results = useQueries({
     queries: [
       {
@@ -65,6 +114,7 @@ export default function Friends({ nickName, isMe }: Props) {
 
   const [friends, receivedFriendRequests] = results;
 
+  // 유저 프로필 캐시해서 api 요청 줄였음 - 나중에 더 간단한 api가 나오면 바꿀지도
   const userCacheRecord: Record<number, User> = {
     ...(friends.data?.userCache ?? {}),
     ...(receivedFriendRequests.data?.userCache ?? {}),
@@ -90,25 +140,26 @@ export default function Friends({ nickName, isMe }: Props) {
         )}
         <ul className="flex flex-col gap-5">
           {friends.data.friends.map((friend, i) => {
-            const id =
+            // 상대방 아이디 - 나중에 더 나은 api가 나오면 바꿀 예정.....
+            const userId =
               friends.data.user.id === friend.receiverId
                 ? friend.requesterId
                 : friend.receiverId;
 
             return (
               <li key={i} className="flex items-center gap-5">
-                <Link href={`/${userCache.get(id)?.nickName}`}>
+                <Link href={`/${userCache.get(userId)?.nickName}`}>
                   <ProfileImg
                     url={
-                      userCache.get(id)?.profileImageUrl ??
-                      "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb"
+                      userCache.get(userId)?.profileImageUrl ??
+                      defaultProfileImg
                     }
                     size={60}
                   />
                 </Link>
-                <Link href={`/${userCache.get(id)?.nickName}`}>
+                <Link href={`/${userCache.get(userId)?.nickName}`}>
                   <p className="font-medium text-lg">
-                    {userCache.get(id)?.nickName}
+                    {userCache.get(userId)?.nickName}
                   </p>
                 </Link>
                 <div className="ml-auto cursor-pointer">
@@ -145,29 +196,36 @@ export default function Friends({ nickName, isMe }: Props) {
         )}
         <ul className="flex flex-col gap-5">
           {receivedFriendRequests.data.friends.map((friend, i) => {
-            const id = friend.requesterId;
+            // 상대방 아이디
+            const userId = friend.requesterId;
 
             return (
               <li key={i} className="flex items-center gap-5">
-                <Link href={`/${userCache.get(id)?.nickName}`}>
+                <Link href={`/${userCache.get(userId)?.nickName}`}>
                   <ProfileImg
                     url={
-                      userCache.get(id)?.profileImageUrl ??
-                      "https://achiva-s3-bucket.s3.ap-northeast-2.amazonaws.com/70350cda-00e1-475b-aa63-a27388f65cdb"
+                      userCache.get(userId)?.profileImageUrl ??
+                      defaultProfileImg
                     }
                     size={60}
                   />
                 </Link>
-                <Link href={`/${userCache.get(id)?.nickName}`}>
+                <Link href={`/${userCache.get(userId)?.nickName}`}>
                   <p className="font-medium text-lg">
-                    {userCache.get(id)?.nickName}
+                    {userCache.get(userId)?.nickName}
                   </p>
                 </Link>
                 <div className="ml-auto flex gap-2">
-                  <button className="font-semibold text-lg px-6 py-2 rounded-md bg-theme text-white">
+                  <button
+                    onClick={() => acceptFriendMutation.mutate(friend.id)}
+                    className="font-semibold text-lg px-6 py-2 rounded-md bg-theme text-white"
+                  >
                     수락
                   </button>
-                  <button className="font-semibold text-lg px-6 py-2 rounded-md bg-[#F2F2F2] text-[#4D4D4D]">
+                  <button
+                    onClick={() => rejectFriendMutation.mutate(friend.id)}
+                    className="font-semibold text-lg px-6 py-2 rounded-md bg-[#F2F2F2] text-[#4D4D4D]"
+                  >
                     거절
                   </button>
                 </div>
@@ -181,6 +239,7 @@ export default function Friends({ nickName, isMe }: Props) {
 
   return (
     <div className="flex-1 flex flex-col h-full">
+      {/* 친구 목록 & 친구 요청 버튼 - 내 페이지에서만 보임 */}
       {isMe && (
         <div className="flex gap-2 mb-5 sm:mb-8">
           <button
@@ -209,7 +268,7 @@ export default function Friends({ nickName, isMe }: Props) {
           </button>
         </div>
       )}
-
+      {/* 친구 혹은 친구 요청 목록 */}
       {content}
     </div>
   );
