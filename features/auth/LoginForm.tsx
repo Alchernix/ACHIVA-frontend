@@ -109,7 +109,7 @@ export default function LoginForm() {
           handleBlur("password");
         }}
         required
-        error={!isEditing ? errors.password : ""}
+        error={errors.password}
       />
       {/* <button
         className="font-medium text-white bg-theme rounded-[5px] px-3 py-1.5 disabled:bg-theme-gray"
