@@ -33,7 +33,8 @@ export default function Sidebar({ user }: { user: User }) {
     /^\/[^/]+\/supports\/detail$/.test(pathname) || // /[nickName]/supports/detail
     pathname === "/post/create" ||
     pathname.startsWith("/settings") ||
-    pathname === "/accounts/edit";
+    pathname === "/accounts/edit" ||
+    pathname.startsWith("/post");
 
   if (isInvisible) {
     return null; // 렌더링 안 함

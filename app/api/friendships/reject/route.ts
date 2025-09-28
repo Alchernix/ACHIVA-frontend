@@ -1,0 +1,27 @@
+// 친구신청 거절 프록시 api
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+
+export async function PATCH(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const friendshipId = searchParams.get("friendshipId");
+
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token) {
+    return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
+  }
+
+  const res = await fetch(
+    // 왜 path로 안 받고 쿼리로 받는거임??
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/friendships/{friendshipId}/reject?friendshipId=${friendshipId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res;
+}

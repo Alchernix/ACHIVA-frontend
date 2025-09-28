@@ -14,8 +14,8 @@ export default async function Layout({
     case "authenticated":
       return (
         <>
-          <AuthHydrator user={auth.user} />
-          <Sidebar user={auth.user} />
+          <AuthHydrator user={auth.user!} />
+          <Sidebar user={auth.user!} />
           <div className="flex flex-col sm:ml-20 lg:ml-60 min-h-dvh">
             {children}
             {/* <Footer /> */}

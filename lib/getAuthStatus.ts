@@ -2,10 +2,11 @@ import { cookies } from "next/headers";
 import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import crypto from "node:crypto";
+import type { User } from "@/types/User";
 
 type AuthResult = {
   status: string;
-  user?: any;
+  user?: User;
   error?: any;
 };
 
