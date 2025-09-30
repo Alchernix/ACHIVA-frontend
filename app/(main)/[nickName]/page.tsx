@@ -139,9 +139,11 @@ export default async function Page({
         </div>
       </div>
       <div>
-        <GoalSummary 
-          summaryData={mySummaryData}
-        />
+        <Link href={`/${nickName}/goals`}>
+          <GoalSummary 
+            summaryData={mySummaryData}
+          />
+        </Link>  
       </div>
       <Footer />
     </div>
