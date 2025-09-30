@@ -2,19 +2,11 @@
 
 import React from 'react';
 import { HeartIcon } from '@/components/Icons';
+import useGoalStore from '@/store/GoalStore';
 
-type Mindset = { 
-  id: number; 
-  text: string; 
-  count: number; 
-};
+const MindsetCard: React.FC = () => {
+  const { mindsets, handleHeartClick } = useGoalStore();
 
-type MindsetCardProps = {
-  mindsets: Mindset[];
-  onHeartClick: (id: number) => void;
-};
-
-const MindsetCard: React.FC<MindsetCardProps> = ({ mindsets, onHeartClick }) => {
   return (
     <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
       <h2 className="text-lg font-semibold mb-4 text-gray-800">마음가짐</h2>
@@ -28,7 +20,7 @@ const MindsetCard: React.FC<MindsetCardProps> = ({ mindsets, onHeartClick }) => 
                 <p className="text-xs text-gray-500">{mindset.count.toLocaleString()}번째 쌓이는 중</p>
               </div>
             </div>
-            <button onClick={() => onHeartClick(mindset.id)} className="p-2">
+            <button onClick={() => handleHeartClick(mindset.id, 'mindset')} className="p-2">
               <HeartIcon />
             </button>
           </li>

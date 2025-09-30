@@ -1,18 +1,12 @@
+"use client";
+
 import React from "react";
 import { HeartIcon } from "@/components/Icons";
+import useGoalStore from "@/store/GoalStore";
 
-type Mission = { 
-  id: number; 
-  text: string; 
-  count: number; 
-};
+const MissionCard: React.FC = () => {
+  const { missions, handleHeartClick } = useGoalStore();
 
-type MissionCardProps = {
-  missions: Mission[];
-  onHeartClick: (id: number) => void; // API 연결 필요
-};
-
-const MissionCard: React.FC<MissionCardProps> = ({ missions, onHeartClick }) => {
   return (
     <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
       <h2 className="text-lg font-semibold mb-4 text-gray-800">나의 미션</h2>
@@ -26,7 +20,7 @@ const MissionCard: React.FC<MissionCardProps> = ({ missions, onHeartClick }) => 
                 <p className="text-xs text-gray-500">{mission.count.toLocaleString()}번째 쌓이는 중</p>
               </div>
             </div>
-            <button onClick={() => onHeartClick(mission.id)} className="p-2">
+            <button onClick={() => handleHeartClick(mission.id, 'mission')} className="p-2">
               <HeartIcon />
             </button>
           </li>

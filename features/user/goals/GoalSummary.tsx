@@ -16,7 +16,7 @@ type ProfileSummaryProps = {
 // 개별 정보 카드
 const GoalSummaryCard: React.FC<GoalSummaryProps> = ({ icon, value, title, description }) => {
   return (
-    <div className="flex w-[282px] h-[94px] items-center justify-start p-4 bg-white border border-gray-200 rounded-2xl cursor-pointer hover:shadow-md transition-shadow">
+    <div className="flex w-[282px] h-[94px] items-center justify-start p-4 bg-white border border-gray-200 rounded-2xl hover:shadow-md transition-shadow">
       <div className="text-4xl mr-4">{icon}</div>
       
       <div className="flex flex-col">

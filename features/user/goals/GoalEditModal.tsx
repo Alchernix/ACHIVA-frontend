@@ -1,37 +1,46 @@
 "use client";
 
+import useGoalStore from "@/store/GoalStore";
 import React, { useState, useEffect } from "react";
 import { CloseIcon, PencilIcon } from "@/components/Icons";
-import { Mission, Mindset, Vision, ModalData } from "@/types/Goal";
+import type { Mission, Mindset, Vision, ModalData } from "@/types/Goal";
 
-// 모달에서는 단순 데이터 수정만 하고 전부 부모로 올려보냄
-// API 연결할거면 /goals 경로에서 한번에
+const GoalEditModal = () => {
+  const {
+    isModalOpen,
+    toggleModal,
+    vision,
+    missions,
+    mindsets,
+    handleSaveChanges,
+  } = useGoalStore();
 
-type GoalEditModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  initialData: ModalData;
-  onSave: (updatedData: ModalData) => void;
-};
+  // 렌더 방지용 임시저장
+  const [data, setData] = useState<ModalData>({
+    vision: vision.vision,
+    text: vision.text,
+    missions,
+    mindsets,
+  });
 
-const GoalEditModal: React.FC<GoalEditModalProps> = ({
-  isOpen,
-  onClose,
-  initialData,
-  onSave,
-}) => {
-  const [data, setData] = useState(initialData);
-
+  // Modal 열리면 갱신
   useEffect(() => {
-    setData(initialData);
-  }, [initialData]);
+    if (isModalOpen) {
+      setData({
+        vision: vision.vision,
+        text: vision.text,
+        missions,
+        mindsets,
+      });
+    }
+  }, [isModalOpen, vision, missions, mindsets]);
 
-  if (!isOpen) return null;
+  if (!isModalOpen) return null;
 
   // 일반 입력 계열
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: keyof ModalData
+    field: "vision" | "text"
   ) => {
     setData((prev) => ({ ...prev, [field]: e.target.value }));
   };
@@ -55,8 +64,17 @@ const GoalEditModal: React.FC<GoalEditModalProps> = ({
   };
 
   const handleSave = () => {
-    onSave(data);
-    onClose();
+    const cleanedData = { ...data };
+
+    cleanedData.missions = data.missions.filter(
+      (mission) => mission.text.trim() !== ""
+    );
+    cleanedData.mindsets = data.mindsets.filter(
+      (mindset) => mindset.text.trim() !== ""
+    );
+
+    handleSaveChanges(cleanedData);
+    toggleModal(false);
   };
 
   // 하는 동작은 다 비슷하고 디자인도 똑같은데 통합?
@@ -65,14 +83,18 @@ const GoalEditModal: React.FC<GoalEditModalProps> = ({
     <div
       className="fixed inset-0 flex justify-center items-center z-50 
                   before:absolute before:inset-0 before:bg-black before:opacity-50"
-      onClick={onClose}
     >
       <div
         className="bg-white rounded-lg w-full max-w-md mx-4 shadow-xl relative"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <button onClick={onClose} className="p-1">
+          <button
+            onClick={() => {
+              toggleModal(false);
+            }}
+            className="p-1"
+          >
             <CloseIcon />
           </button>
           <h2 className="text-lg font-semibold">성취기록 수정</h2>
