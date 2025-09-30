@@ -4,6 +4,7 @@ import type { User } from "@/types/User";
 import type { FriendData } from "@/types/Friends";
 import Footer from "@/components/Footer";
 import PointSection from "@/features/user/Point";
+import GoalSummary from "@/features/user/goals/GoalSummary"
 import Posts from "@/features/user/Posts";
 import getAuthStatus from "@/lib/getAuthStatus";
 import Link from "next/link";
@@ -61,7 +62,7 @@ export default async function Page({
       notFound();
     }
     return data as FriendData[];
-  }
+  } 
 
   async function getMyPendingFriends() {
     // 로그인한 유저의 수락 대기 친구 목록
@@ -82,13 +83,32 @@ export default async function Page({
     }
     return data as FriendData[];
   }
-
+/*
+  async function getGoalSummaryData() {
+    const response = await fetch(
+      `NotImplementedAPIrequest`
+    );
+    const data = await response.json();
+    if (!data) {
+      notFound();
+    }
+    return data;
+  }
+*/
+  
   const [user, myFriends, myPendingFriends] = await Promise.all([
     getUser(),
     getMyFriends(),
     getMyPendingFriends(),
+    //getGoalSummaryData(),
   ]);
   const myAllFriends = [...myFriends, ...myPendingFriends];
+
+  const mySummaryData =  {
+    letters: 20,
+    count: 125,
+    points: 1700,
+}
 
   return (
     <div className="flex-1 w-full flex flex-col pb-22 sm:pb-0 sm:pt-15 px-5">
@@ -117,6 +137,11 @@ export default async function Page({
         <div className="flex-1 flex flex-col">
           <Posts userId={user.id} />
         </div>
+      </div>
+      <div>
+        <GoalSummary 
+          summaryData={mySummaryData}
+        />
       </div>
       <Footer />
     </div>
