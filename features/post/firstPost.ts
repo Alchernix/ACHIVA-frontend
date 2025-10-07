@@ -60,7 +60,7 @@ export function getFirstPage(): PostRes {
 지금 시작해보세요`,
       },
     ],
-    memberId: 0,
+    memberId: "string", // 임시
     memberNickName: "Achiva",
     memberProfileUrl: defaultProfileImg,
     backgroundColor: "#f9f9f9",
