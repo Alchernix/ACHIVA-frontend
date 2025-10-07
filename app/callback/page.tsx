@@ -1,6 +1,7 @@
 // 인증 절차 후 돌아오는 콜백 페이지
 "use client";
 
+import Loading from "@/components/Loading";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAuth } from "react-oidc-context";
@@ -40,5 +41,5 @@ export default function Page() {
     return <div>로그인 에러</div>;
   }
 
-  return <div>로그인 처리 중</div>;
+  return <Loading />;
 }
