@@ -1,10 +1,7 @@
-// 비밀번호 재설정 프록시 api
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export async function POST(req: NextRequest) {
-  const body = await req.text();
-
+export async function GET() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
 
@@ -12,14 +9,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/me`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body,
     }
   );
 

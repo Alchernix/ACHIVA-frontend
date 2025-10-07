@@ -59,7 +59,13 @@ export default function Accounts() {
             onClick={async () => {
               await fetch("/api/auth", { method: "DELETE" });
               await fetch("/api/auth/logout", { method: "POST" });
-              redirect("/");
+              const domain =
+                "https://ap-northeast-2mmvclnrmp.auth.ap-northeast-2.amazoncognito.com";
+              const clientId = "a3kaacto97fom3ved1bjivbiu";
+              const logoutUri = `${window.location.origin}/`;
+              window.location.href = `${domain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
+                logoutUri
+              )}`;
             }}
           >
             삭제

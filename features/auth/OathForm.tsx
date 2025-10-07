@@ -51,7 +51,6 @@ export default function OathForm() {
   async function handleSignUp() {
     setIsLoading(true);
     const payload = {
-      nickName: "alchernix", // 테스트용
       profileImageUrl: defaultProfileImg,
       birth: format(user.birth!, "yyyy-MM-dd"),
       categories: user.categories,
@@ -71,21 +70,6 @@ export default function OathForm() {
       }
 
       window.location.href = "/";
-      // // 회원가입 후 자동 로그인
-      // const loginResponse = await fetch("/api/auth/login", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   credentials: "include", // 쿠키 저장
-      //   body: JSON.stringify({
-      //     email: user.email,
-      //     password: user.password,
-      //   }),
-      // });
-      // if (loginResponse.ok) {
-      //   window.location.href = "/"; // 미들웨어 실행(서버 요청)
-      // } else {
-      //   throw new Error("로그인 중 서버 에러");
-      // }
     } catch (err) {
       console.error(err);
       alert(
