@@ -37,7 +37,7 @@ export async function GET() {
         }
       );
       const userJson = await userRes.json();
-      return userJson;
+      return userJson.data;
     })
   );
 

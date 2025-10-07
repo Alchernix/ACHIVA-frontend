@@ -4,7 +4,7 @@ import { revalidateTag } from "next/cache";
 import type { User } from "@/types/User";
 import type { FriendData } from "@/types/Friends";
 
-// 친구 목록 가져오기 + 캐시
+// 친구 목록 가져오기
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const nickName = searchParams.get("nickName");
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
       );
       const userJson = await userRes.json();
 
-      return userJson;
+      return userJson.data;
     })
   );
 
