@@ -26,7 +26,8 @@ export async function middleware(req: NextRequest) {
     !isLoggedIn &&
     pathname !== "/" &&
     pathname !== "/login" &&
-    pathname !== "/signup"
+    pathname !== "/signup" &&
+    pathname !== "/callback"
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }

@@ -51,44 +51,41 @@ export default function OathForm() {
   async function handleSignUp() {
     setIsLoading(true);
     const payload = {
-      email: user.email,
-      password: user.password,
-      confirmPassword: user.password, // 어차피 클라이언트에서 검증하니 필요없음
-      nickName: user.nickName,
+      nickName: "alchernix", // 테스트용
       profileImageUrl: defaultProfileImg,
       birth: format(user.birth!, "yyyy-MM-dd"),
       categories: user.categories,
     };
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      const response = await fetch(`/api/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
       if (!response.ok) {
         throw new Error("회원가입 중 서버 에러");
       }
-      // 회원가입 후 자동 로그인
-      const loginResponse = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // 쿠키 저장
-        body: JSON.stringify({
-          email: user.email,
-          password: user.password,
-        }),
-      });
-      if (loginResponse.ok) {
-        window.location.href = "/"; // 미들웨어 실행(서버 요청)
-      } else {
-        throw new Error("로그인 중 서버 에러");
-      }
+
+      window.location.href = "/";
+      // // 회원가입 후 자동 로그인
+      // const loginResponse = await fetch("/api/auth/login", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   credentials: "include", // 쿠키 저장
+      //   body: JSON.stringify({
+      //     email: user.email,
+      //     password: user.password,
+      //   }),
+      // });
+      // if (loginResponse.ok) {
+      //   window.location.href = "/"; // 미들웨어 실행(서버 요청)
+      // } else {
+      //   throw new Error("로그인 중 서버 에러");
+      // }
     } catch (err) {
       console.error(err);
       alert(
