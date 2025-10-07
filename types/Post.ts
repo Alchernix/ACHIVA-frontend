@@ -39,7 +39,7 @@ export type PostRes = {
   title: string;
   category: string;
   question: Question[];
-  memberId: number;
+  memberId: string;
   memberNickName: string;
   memberProfileUrl: string;
   backgroundColor: BackgroundColor;

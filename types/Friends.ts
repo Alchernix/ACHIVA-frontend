@@ -1,8 +1,8 @@
 // 서버에서 응답으로 받는
 export type FriendData = {
   id: number;
-  requesterId: number;
-  receiverId: number;
+  requesterId: string;
+  receiverId: string;
   status: FriendStatus;
 };
 
