@@ -8,7 +8,6 @@ import type { FriendData } from "@/types/Friends";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const nickName = searchParams.get("nickName");
-  const userCache = new Map<number, User | undefined>();
 
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
@@ -43,33 +42,31 @@ export async function GET(req: NextRequest) {
 
   const [friends, user] = await Promise.all([getFriends(), getUser()]);
 
-  await Promise.all(
+  // 각 친구에 대한 유저 데이터(닉네임, 프로필 등)
+  const users = await Promise.all(
     friends.map(async (friend) => {
       const id =
         user.id === friend.receiverId ? friend.requesterId : friend.receiverId;
-      if (!userCache.has(id)) {
-        userCache.set(id, undefined);
-        const userRes = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const userJson = await userRes.json();
-        userCache.set(id, userJson.data);
-        return userJson;
-      }
+      const userRes = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/members/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const userJson = await userRes.json();
+
+      return userJson;
     })
   );
 
   const response = {
     friends,
     user,
-    userCache: Object.fromEntries(userCache),
+    users,
   };
 
   return Response.json(response);

@@ -17,12 +17,12 @@ type Props = {
 type FriendsResponse = {
   friends: FriendData[];
   user: User;
-  userCache: Map<number, User | undefined>;
+  users: User[];
 };
 
 type FriendsRequestsResponse = {
   friends: FriendData[];
-  userCache: Map<number, User | undefined>;
+  users: User[];
 };
 
 export default function Friends({ nickName, isMe }: Props) {
@@ -114,16 +114,6 @@ export default function Friends({ nickName, isMe }: Props) {
 
   const [friends, receivedFriendRequests] = results;
 
-  // 유저 프로필 캐시해서 api 요청 줄였음 - 나중에 더 간단한 api가 나오면 바꿀지도
-  const userCacheRecord: Record<number, User> = {
-    ...(friends.data?.userCache ?? {}),
-    ...(receivedFriendRequests.data?.userCache ?? {}),
-  };
-
-  const userCache: Map<number, User> = new Map(
-    Object.entries(userCacheRecord).map(([key, value]) => [Number(key), value])
-  );
-
   const isPending = friends.isPending || receivedFriendRequests.isPending;
 
   if (isPending) {
@@ -139,28 +129,19 @@ export default function Friends({ nickName, isMe }: Props) {
           </div>
         )}
         <ul className="flex flex-col gap-5">
-          {friends.data.friends.map((friend, i) => {
+          {friends.data.users.map((user, i) => {
             // 상대방 아이디 - 나중에 더 나은 api가 나오면 바꿀 예정.....
-            const userId =
-              friends.data.user.id === friend.receiverId
-                ? friend.requesterId
-                : friend.receiverId;
 
             return (
               <li key={i} className="flex items-center gap-5">
-                <Link href={`/${userCache.get(userId)?.nickName}`}>
+                <Link href={`/${user.nickName}`}>
                   <ProfileImg
-                    url={
-                      userCache.get(userId)?.profileImageUrl ??
-                      defaultProfileImg
-                    }
+                    url={user.profileImageUrl ?? defaultProfileImg}
                     size={60}
                   />
                 </Link>
-                <Link href={`/${userCache.get(userId)?.nickName}`}>
-                  <p className="font-medium text-lg">
-                    {userCache.get(userId)?.nickName}
-                  </p>
+                <Link href={`/${user.nickName}`}>
+                  <p className="font-medium text-lg">{user.nickName}</p>
                 </Link>
                 <div className="ml-auto cursor-pointer">
                   <svg
@@ -197,23 +178,18 @@ export default function Friends({ nickName, isMe }: Props) {
         <ul className="flex flex-col gap-5">
           {receivedFriendRequests.data.friends.map((friend, i) => {
             // 상대방 아이디
-            const userId = friend.requesterId;
+            const user = receivedFriendRequests.data.users[i];
 
             return (
               <li key={i} className="flex items-center gap-5">
-                <Link href={`/${userCache.get(userId)?.nickName}`}>
+                <Link href={`/${user.nickName}`}>
                   <ProfileImg
-                    url={
-                      userCache.get(userId)?.profileImageUrl ??
-                      defaultProfileImg
-                    }
+                    url={user.profileImageUrl ?? defaultProfileImg}
                     size={60}
                   />
                 </Link>
-                <Link href={`/${userCache.get(userId)?.nickName}`}>
-                  <p className="font-medium text-lg">
-                    {userCache.get(userId)?.nickName}
-                  </p>
+                <Link href={`/${user.nickName}`}>
+                  <p className="font-medium text-lg">{user.nickName}</p>
                 </Link>
                 <div className="ml-auto flex gap-2">
                   <button
