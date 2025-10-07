@@ -36,6 +36,7 @@ export default function Page() {
   }, [auth, router]);
 
   if (auth.error) {
+    console.log(auth.error);
     return <div>로그인 에러</div>;
   }
 
