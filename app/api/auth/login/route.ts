@@ -11,7 +11,7 @@ export async function POST(req: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/", // 전역 쿠키
-      maxAge: 60 * 60 * 24 * 7, // 1시간
+      maxAge: 60 * 60, // 1시간
     });
     res.cookies.set({
       name: "idToken",
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/", // 전역 쿠키
-      maxAge: 60 * 60 * 24 * 7, // 1시간
+      maxAge: 60 * 60, // 1시간
     });
     return res;
   } catch (err) {
