@@ -26,7 +26,8 @@ export async function middleware(req: NextRequest) {
     !isLoggedIn &&
     pathname !== "/" &&
     pathname !== "/login" &&
-    pathname !== "/signup"
+    pathname !== "/signup" &&
+    pathname !== "/callback"
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -51,7 +52,9 @@ export async function middleware(req: NextRequest) {
   // -------------------------
   if (isMobile) {
     const url = req.nextUrl.clone();
-    url.pathname = `/m${pathname}`;
+    if (!url.pathname.startsWith("/callback")) {
+      url.pathname = `/m${pathname}`;
+    }
     const res = NextResponse.rewrite(url);
 
     res.headers.set(

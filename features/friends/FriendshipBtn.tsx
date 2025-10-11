@@ -4,7 +4,7 @@ import { FriendData } from "@/types/Friends";
 import { useState } from "react";
 
 type Props = {
-  userId: number;
+  userId: string;
   currentUserFriends: FriendData[];
 };
 

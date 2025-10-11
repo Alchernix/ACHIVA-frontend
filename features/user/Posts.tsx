@@ -10,7 +10,7 @@ import { Category, categories } from "@/types/Categories";
 import type { CategoryCount } from "@/types/Post";
 import { AnimatePresence, motion } from "motion/react";
 
-export default function Posts({ userId }: { userId: number }) {
+export default function Posts({ userId }: { userId: string }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
   const size = containerWidth ? (containerWidth - 2) / 3 : 0;

@@ -39,6 +39,7 @@ export default async function Page({
         },
       }
     );
+
     const { data } = await response.json();
     if (!data) {
       notFound();
