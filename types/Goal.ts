@@ -18,7 +18,6 @@ export type Vision = {
 
 export type ModalData = {
     vision: string;
-    text: string;
     missions: { id: number; text: string; count: number }[];
     mindsets: { id: number; text: string; count: number }[];
 };

@@ -82,7 +82,7 @@ const useGoalStore = create<GoalState & GoalActions>((set, get) => ({
     set({
       vision: { 
         id: originalVision.id,
-        vision: updatedData.vision, 
+        vision: updatedData.vision,
         count: originalVision.count,
       },
       missions: updatedData.missions.map((m) => {

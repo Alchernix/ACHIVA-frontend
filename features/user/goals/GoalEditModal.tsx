@@ -18,7 +18,6 @@ const GoalEditModal = () => {
   // 렌더 방지용 임시저장
   const [data, setData] = useState<ModalData>({
     vision: vision.vision,
-    text: vision.text,
     missions,
     mindsets,
   });
@@ -28,7 +27,6 @@ const GoalEditModal = () => {
     if (isModalOpen) {
       setData({
         vision: vision.vision,
-        text: vision.text,
         missions,
         mindsets,
       });
@@ -39,10 +37,9 @@ const GoalEditModal = () => {
 
   // 일반 입력 계열
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: "vision" | "text"
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setData((prev) => ({ ...prev, [field]: e.target.value }));
+    setData((prev) => ({ ...prev, vision: e.target.value }));
   };
 
   // 리스트 입력 계열
@@ -115,24 +112,7 @@ const GoalEditModal = () => {
               <input
                 type="text"
                 value={data.vision}
-                onChange={(e) => handleChange(e, "vision")}
-                className="w-full border border-gray-300 rounded-md p-2 pr-10"
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2">
-                <PencilIcon />
-              </span>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-sm font-semibold text-gray-500 mb-2 block">
-              좌우명
-            </label>
-            <div className="relative">
-              <input
-                type="text"
-                value={data.text}
-                onChange={(e) => handleChange(e, "text")}
+                onChange={(e) => handleChange(e)}
                 className="w-full border border-gray-300 rounded-md p-2 pr-10"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2">
