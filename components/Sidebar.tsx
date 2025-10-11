@@ -5,58 +5,62 @@ import { usePathname } from "next/navigation";
 import { TextLogo, Logo } from "./Logo";
 import {
   HomeIcon,
-  PostIcon,
-  SearchIcon,
-  NotificationIcon,
-  SidebarSettingIcon,
+  GoalIcon,
+  FeedIcon,
+  SideBarHeartIcon,
+  MyPageIcon,
 } from "./Icons";
 import { AnimatePresence, motion } from "motion/react";
-import ProfileImg from "./ProfileImg";
 import { useState } from "react";
 import Drawer from "./Drawer";
 import Notifications from "@/features/user/Notifications";
 
 export default function Sidebar({ user }: { user: User }) {
-  const [openedDrawer, setOpenedDrawer] = useState<"검색" | "응원함" | null>(
+  const [openedDrawer, setOpenedDrawer] = useState<"응원" | null>(
     null
   );
+  const [isClosing, setIsClosing] = useState(false);
 
-  const drawerContent =
-    openedDrawer === "검색" ? (
-      <Drawer title="검색" onClose={() => setOpenedDrawer(null)}>
-        <div className="w-full h-full flex items-center justify-center text-[#808080]">
-          아직 준비중인 기능이에요.
-        </div>
-      </Drawer>
-    ) : (
-      <Drawer title="응원함" onClose={() => setOpenedDrawer(null)}>
+  // flickering 제거 위한 코드
+  const handleCloseDrawer = () => {
+    setIsClosing(true);
+    setOpenedDrawer(null);
+  };
+
+  const handleExitComplete = () => {
+    setIsClosing(false);
+  };
+
+  const drawerContent = (
+      <Drawer title="응원" onClose={handleCloseDrawer}>
         <Notifications />
       </Drawer>
     );
 
   const pathname = usePathname();
+  
   let selected;
-  if (openedDrawer === "응원함") {
-    selected = "응원함";
-  } else if (openedDrawer === "검색") {
-    selected = "검색";
-  } else if (pathname === "/") {
+  if (openedDrawer === "응원" || isClosing) {
+    selected = "응원";
+  } else if (pathname === `/${user.nickName}`) {
     selected = "홈";
-  } else if (pathname.startsWith("/settings")) {
-    selected = "설정";
-  } else if (pathname === "/post/create") {
-    selected = "글쓰기";
+  } else if (pathname === `/${user.nickName}/goals`) {
+    selected = "목표";
+  } else if (pathname.startsWith('/settings')) {
+    selected = "MY";
+  // 현재는 피드가 기본화면에 묶여 있어서 이렇게 처리했는데
+  // 나중에 기능 추가되면 아마 다른 페이지로 분리될 거 같아서 그때 다시 수정해야할듯?
   } else {
-    selected = "프로필";
+    selected = "피드";
   }
-
+  
   return (
     <>
       <motion.nav
         layoutScroll
-        className={`text-theme z-10 h-dvh fixed bottom-0 top-0 flex flex-col items-center w-auto lg:w-60 ${
+        className={`text-theme z-10 h-dvh fixed bottom-0 top-0 flex flex-col items-center w-auto lg:w-[250px] ${
           openedDrawer ? "!w-auto" : ""
-        } py-8 border-r border-r-[#d9d9d9] bg-white`}
+        } py-8 border-r border-r-[#412A2A] bg-white`}
       >
         <div
           className={`mb-15 w-full h-[39.29px] flex px-6 justify-start lg:hidden ${
@@ -77,7 +81,7 @@ export default function Sidebar({ user }: { user: User }) {
           </Link>
         </div>
         <ul className="flex-1 flex flex-col w-full justify-around gap-5">
-          <Link href="/">
+          <Link href={`/${user.nickName}`}>
             <ListItem
               isNavFolded={!!openedDrawer}
               label="홈"
@@ -85,50 +89,43 @@ export default function Sidebar({ user }: { user: User }) {
               selected={selected === "홈"}
             />
           </Link>
-          <button onClick={() => setOpenedDrawer("검색")}>
+          <Link href={`/${user.nickName}/goals`}>
             <ListItem
               isNavFolded={!!openedDrawer}
-              label="검색"
-              icon={<SearchIcon fill={selected === "검색"} />}
-              selected={selected === "검색"}
-            />
-          </button>
-          <Link href="/post/create" scroll={false}>
-            <ListItem
-              isNavFolded={!!openedDrawer}
-              label="글쓰기"
-              icon={<PostIcon fill={selected === "글쓰기"} />}
-              selected={selected === "글쓰기"}
+              label="목표"
+              icon={<GoalIcon fill={selected === "목표"} />}
+              selected={selected === "목표"}
             />
           </Link>
-          <button onClick={() => setOpenedDrawer("응원함")}>
+          <Link href="/">
             <ListItem
               isNavFolded={!!openedDrawer}
-              label="응원함"
-              icon={<NotificationIcon fill={selected === "응원함"} />}
-              selected={selected === "응원함"}
-            />
-          </button>
-          <Link href={`/${user.nickName}`}>
-            <ListItem
-              isNavFolded={!!openedDrawer}
-              label="프로필"
-              icon={<ProfileImg size={32} url={user.profileImageUrl} />}
-              selected={selected === "프로필"}
+              label="피드"
+              icon={<FeedIcon fill={selected === "피드"} />}
+              selected={selected === "피드"}
             />
           </Link>
-
-          <Link href={`/settings/accounts/password`} className="mt-auto">
+          <button onClick={() => setOpenedDrawer("응원")}>
             <ListItem
               isNavFolded={!!openedDrawer}
-              label="설정"
-              icon={<SidebarSettingIcon fill={selected === "설정"} />}
-              selected={selected === "설정"}
+              label="응원"
+              icon={<SideBarHeartIcon fill={selected === "응원"} />}
+              selected={selected === "응원"}
+            />
+          </button>
+          <Link href={`/settings/accounts/password`} className="mb-auto">
+            <ListItem
+              isNavFolded={!!openedDrawer}
+              label="MY"
+              icon={<MyPageIcon fill={selected === "MY"} />}
+              selected={selected === "MY"}
             />
           </Link>
         </ul>
       </motion.nav>
-      <AnimatePresence>{openedDrawer && drawerContent}</AnimatePresence>
+      <AnimatePresence onExitComplete={handleExitComplete}>
+        {openedDrawer && drawerContent}
+      </AnimatePresence>
     </>
   );
 }
