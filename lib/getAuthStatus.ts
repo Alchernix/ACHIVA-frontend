@@ -40,6 +40,7 @@ const getAuthStatus = cache(
               },
             }
           );
+
           if (response.status === 401) {
             return { status: "unauthenticated" };
           }
