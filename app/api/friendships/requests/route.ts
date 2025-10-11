@@ -1,11 +1,11 @@
 // 받은 친구 신청 목록 조회
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import type { FriendData } from "@/types/Friends";
 
 // 목록 가져오기 + 캐시
 export async function GET() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
 
   async function getFriends() {
     const res = await fetch(

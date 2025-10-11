@@ -9,7 +9,7 @@ import {
   SettingInquiryIcon,
   SettingNextIcon,
 } from "@/components/Icons";
-import LogoutBtn from "@/components/LogoutBtn";
+import { handleLogout } from "./handleLogout";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -71,7 +71,9 @@ export default function Settings() {
           <span className="font-semibold text-lg">버전</span>
           <span>1.0.0</span>
         </div>
-        <LogoutBtn />
+        <form action={handleLogout}>
+          <button className="font-semibold text-lg">로그아웃</button>
+        </form>
       </div>
     </div>
   );

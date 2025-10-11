@@ -1,12 +1,12 @@
-// 비밀번호 재설정 프록시 api
+// cognito에서 받는 것 외의 카테고리 등의 회원정보 등록 위함
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });

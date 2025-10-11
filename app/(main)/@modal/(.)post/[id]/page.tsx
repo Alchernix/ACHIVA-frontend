@@ -1,5 +1,5 @@
 import PostModal from "@/features/post/PostModal";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import type { PostRes } from "@/types/Post";
 import HomePost from "@/features/home/Post";
 import { notFound } from "next/navigation";
@@ -10,8 +10,8 @@ export default async function Page({
   params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
 
   async function getPost() {
     const postRes = await fetch(

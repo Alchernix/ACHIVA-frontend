@@ -1,29 +1,8 @@
 import { NextResponse } from "next/server";
 
-export async function POST() {
-  const res = NextResponse.json({ success: true });
-  res.cookies.set({
-    name: "token",
-    value: "",
-    path: "/",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    expires: new Date(0), // 즉시 만료
-  });
-  return res;
-}
-
 export async function GET() {
-  const res = NextResponse.json({ success: true });
-  res.cookies.set({
-    name: "token",
-    value: "",
-    path: "/",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    expires: new Date(0), // 즉시 만료
-  });
-  return res;
+  const logoutUrl = new URL(`${process.env.AUTH_COGNITO_ISSUER}/logout`);
+  logoutUrl.searchParams.set("client_id", process.env.AUTH_COGNITO_ID!);
+  logoutUrl.searchParams.set("logout_uri", process.env.NEXTAUTH_URL!);
+  return NextResponse.redirect(logoutUrl.toString());
 }

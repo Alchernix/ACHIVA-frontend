@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import { revalidateTag } from "next/cache";
 import type { User } from "@/types/User";
 import type { FriendData } from "@/types/Friends";
@@ -9,8 +9,8 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const nickName = searchParams.get("nickName");
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
 
   async function getFriends() {
     const res = await fetch(
@@ -75,8 +75,8 @@ export async function GET(req: NextRequest) {
 // 친구신청
 export async function POST(req: NextRequest) {
   const { userId } = await req.json();
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });

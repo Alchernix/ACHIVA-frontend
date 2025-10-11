@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import MobileProfile from "@/features/user/Profile";
 import type { User } from "@/types/User";
 import type { FriendData } from "@/types/Friends";
@@ -22,8 +22,8 @@ export default async function Page({
       redirect("/");
     }
 
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const session = await auth();
+    const token = session?.accessToken;
 
     async function getUser() {
       // 유저 데이터 가져오기

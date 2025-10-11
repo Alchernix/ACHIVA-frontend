@@ -1,13 +1,13 @@
 // 응원 관련 프록시 api
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const postId = searchParams.get("postId");
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
@@ -29,8 +29,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const { postId, cheeringType } = await req.json();
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
   }
@@ -58,8 +58,8 @@ export async function DELETE(req: NextRequest) {
   const postId = searchParams.get("postId");
   const cheeringId = searchParams.get("cheeringId");
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });

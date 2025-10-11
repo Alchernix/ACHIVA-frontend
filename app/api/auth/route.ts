@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import { revalidateTag } from "next/cache";
 
 // 회원정보 수정 프록시 api
 export async function PUT(req: NextRequest) {
   const { user } = await req.json();
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
   }
@@ -33,8 +33,8 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.accessToken;
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
   }
