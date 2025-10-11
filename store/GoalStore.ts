@@ -16,7 +16,7 @@ interface GoalActions {
     mindsets: Mindset[];
   }) => void;
   // 하트클릭
-  handleHeartClick: (id: number, type: "mission" | "mindset") => void;
+  handleHeartClick: (id: number, type: "vision" | "mission" | "mindset") => void;
   // Modal 수정사항 저장
   handleSaveChanges: (updatedData: ModalData) => void;
   // Modal 열림, 닫힘
@@ -26,8 +26,9 @@ interface GoalActions {
 // 초기값 하드코딩
 const initialState: GoalState = {
   vision: {
+    id: 1,
     vision: "살아가다보면 뭐가 있겠지",
-    text: "엄청난 사람이 되어 있을걸",
+    count: 25,
   },
   missions: [
     { id: 1, text: "국어 공부한 날", count: 10 },
@@ -49,7 +50,13 @@ const useGoalStore = create<GoalState & GoalActions>((set, get) => ({
 
   handleHeartClick: (id, type) => {
     set((state) => {
-      if (type === "mission") {
+      if (type === "vision") {
+        return {
+          vision: state.vision.id === id
+            ? { ...state.vision, count: state.vision.count + 1 }
+            : state.vision,
+        };
+      } else if (type === "mission") {
         return {
           missions: state.missions.map((mission) =>
             mission.id === id
@@ -70,10 +77,14 @@ const useGoalStore = create<GoalState & GoalActions>((set, get) => ({
   },
 
   handleSaveChanges: (updatedData) => {
-    const { missions: originalMissions, mindsets: originalMindsets } = get();
+    const { vision: originalVision, missions: originalMissions, mindsets: originalMindsets } = get();
 
     set({
-      vision: { vision: updatedData.vision, text: updatedData.text },
+      vision: { 
+        id: originalVision.id,
+        vision: updatedData.vision, 
+        count: originalVision.count,
+      },
       missions: updatedData.missions.map((m) => {
         const originalMission = originalMissions.find(
           (original) => original.id === m.id

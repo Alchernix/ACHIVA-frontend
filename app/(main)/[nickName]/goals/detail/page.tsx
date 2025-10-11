@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import getAuthStatus from "@/lib/getAuthStatus";
 import useGoalStore from "@/store/GoalStore";
 import GoalWrapper from "@/features/user/goals/GoalWrapper";
+import Banner from "@/features/event/Banner";
 
 export default async function GoalsPage({
   params,
@@ -33,5 +34,14 @@ export default async function GoalsPage({
     mindsets: initialData.mindsets,
   };
 
-  return <GoalWrapper initialData={processedInitialData} />;
+  return (
+    <div className="w-full flex-1 flex">
+      <div className="flex-1 flex flex-col justify-between">
+        <GoalWrapper initialData={processedInitialData} />
+      </div>
+      <div className="bg-[#fafafa] w-60 hidden md:flex justify-center">
+        <Banner />
+      </div>
+    </div>
+  );
 }

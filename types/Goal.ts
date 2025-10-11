@@ -11,14 +11,15 @@ export type Mindset = {
 };
 
 export type Vision = { 
+  id: number;
   vision: string; 
-  text: string; 
+  count: number;
 };
 
 export type ModalData = {
     vision: string;
     text: string;
-    missions: { id: number; text: string, count: number }[];
-    mindsets: { id: number; text: string, count: number }[];
+    missions: { id: number; text: string; count: number }[];
+    mindsets: { id: number; text: string; count: number }[];
 };
 
