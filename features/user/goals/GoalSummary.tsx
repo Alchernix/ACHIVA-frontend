@@ -1,3 +1,5 @@
+import { CaretLeftIcon } from "@/components/Icons";
+
 type GoalSummaryProps = {
   icon: string;
   value: number;
@@ -16,14 +18,24 @@ type ProfileSummaryProps = {
 // 개별 정보 카드
 const GoalSummaryCard: React.FC<GoalSummaryProps> = ({ icon, value, title, description }) => {
   return (
-    <div className="flex w-[282px] h-[94px] items-center justify-start p-4 bg-white border border-gray-200 rounded-2xl hover:shadow-md transition-shadow">
-      <div className="text-4xl mr-4">{icon}</div>
-      
-      <div className="flex flex-col">
-        <h3 className="text-lg font-semibold text-black">
-          {value.toLocaleString()} {title}
-        </h3>
-        <p className="text-sm font-light text-gray-500">{description}</p>
+    <div className="flex justify-center items-center w-full max-w-[844px] min-h-[88px] bg-white border border-[#E4E4E4] rounded-[10px] py-4 px-4 sm:px-6">
+      <div className="flex justify-between items-center w-full gap-4">
+        <div className="flex items-center gap-3 sm:gap-6">
+          <div className={`font-semibold font-['Urbanist'] leading-[130%] text-2xl sm:text-3xl`}>
+            {icon}
+          </div>
+          <div className="flex flex-col gap-1">
+            <h3 className="font-['Pretendard'] font-semibold text-base sm:text-lg text-black"> 
+              {value.toLocaleString()} {title}
+            </h3>
+            <p className="font-['Pretendard'] font-light text-sm sm:text-[15px] text-[#808080]">
+              {description}
+            </p>
+          </div>
+        </div>
+        <div className="flex-shrink-0">
+            <CaretLeftIcon />
+        </div>
       </div>
     </div>
   );
@@ -33,7 +45,7 @@ const GoalSummaryCard: React.FC<GoalSummaryProps> = ({ icon, value, title, descr
 const GoalSummary: React.FC<ProfileSummaryProps> = ({ summaryData }) => {
   return (
     <div 
-      className="flex justify-center items-center gap-x-2 p-4"
+      className="flex flex-col justify-center items-center gap-4 mb-auto px-4 sm:px-6"
     >
       <GoalSummaryCard
         icon="📚"

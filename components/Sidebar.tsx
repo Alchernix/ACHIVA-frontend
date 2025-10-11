@@ -44,7 +44,7 @@ export default function Sidebar({ user }: { user: User }) {
     selected = "응원";
   } else if (pathname === `/${user.nickName}`) {
     selected = "홈";
-  } else if (pathname === `/${user.nickName}/goals`) {
+  } else if (pathname.startsWith(`/${user.nickName}/goals`)) {
     selected = "목표";
   } else if (pathname.startsWith('/settings')) {
     selected = "MY";
@@ -53,7 +53,7 @@ export default function Sidebar({ user }: { user: User }) {
   } else {
     selected = "피드";
   }
-  
+    
   return (
     <>
       <motion.nav
