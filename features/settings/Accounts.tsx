@@ -6,10 +6,10 @@ import {
   SettingNextIcon,
 } from "@/components/Icons";
 import Link from "next/link";
-import { handleLogout } from "./handleLogout";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ModalWithoutCloseBtn from "@/components/ModalWithoutCloseBtn";
+import { handleLogout } from "./handleLogout";
 // 생년월일 표시 안되게
 export default function Accounts() {
   const pathname = usePathname();
@@ -55,12 +55,21 @@ export default function Accounts() {
           title={<p className="w-xs">정말 계정을 삭제하시겠습니까?</p>}
           onClose={() => setIsCloseModalOpen(false)}
         >
-          <li className="py-2 cursor-pointer text-[#DF171B] font-semibold">
-            <form action={handleLogout}>
-              <button onClick={async () => {
+          <li
+            className="py-2 cursor-pointer text-[#DF171B] font-semibold"
+            onClick={async () => {
               await fetch("/api/auth", { method: "DELETE" });
-            }}>삭제</button>
-            </form>
+              await handleLogout();
+              const domain =
+                "https://ap-northeast-2mmvclnrmp.auth.ap-northeast-2.amazoncognito.com";
+              const clientId = "a3kaacto97fom3ved1bjivbiu";
+              const logoutUri = `${window.location.origin}/`;
+              window.location.href = `${domain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
+                logoutUri
+              )}`;
+            }}
+          >
+            삭제
           </li>
           <li
             className="py-2 cursor-pointer"
