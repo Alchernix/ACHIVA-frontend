@@ -1,14 +1,14 @@
 "use client";
 
 import useGoalStore from "@/store/GoalStore";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { CaretRightIcon, ThreeDotsIcon } from "@/components/Icons";
 import TwoElementsButton from "@/components/TwoElementsButton";
 import type { Mission, Mindset, Vision, ModalData } from "@/types/Goal";
 
 type PendingAction = {
   type: "archive" | "delete";
-  itemType: "vision" | "mission" | "mindset";
+  itemType: "mission" | "mindset";
   id: number;
 };
 
@@ -33,8 +33,14 @@ const GoalEditModal = () => {
   // 백엔드 연결 대비 Queue
   const [pendingActions, setPendingActions] = useState<PendingAction[]>([]);
 
-  // 드롭다운 상태 관리
+  // 버튼 위치 처리 관련
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<{
+    top?: number;
+    bottom?: number;
+    right: number;
+  }>({ right: 0 });
+  const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   // Modal 열리면 갱신
   useEffect(() => {
@@ -77,19 +83,40 @@ const GoalEditModal = () => {
   };
 
   // 드롭다운 토글
-  const toggleDropdown = (id: string) => {
-    setOpenDropdown(openDropdown === id ? null : id);
+  const toggleDropdown = (
+    id: string,
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    if (openDropdown === id) {
+      setOpenDropdown(null);
+      return;
+    }
+
+    const button = e.currentTarget;
+    const rect = button.getBoundingClientRect();
+    const dropdownHeight = 70;
+    const spaceBelow = window.innerHeight - rect.bottom;
+
+    if (spaceBelow < dropdownHeight + 10) {
+      setDropdownPosition({
+        bottom: window.innerHeight - rect.top + 8,
+        right: window.innerWidth - rect.right,
+      });
+    } else {
+      setDropdownPosition({
+        top: rect.bottom + 8,
+        right: window.innerWidth - rect.right,
+      });
+    }
+    setOpenDropdown(id);
   };
 
   // 보관함 이동
-  const queueArchive = (
-    type: "missions" | "mindsets",
-    id: number
-  ) => {
+  const queueArchive = (type: "missions" | "mindsets", id: number) => {
     // UI에서 우선 제거
     const newList = data[type].filter((item) => item.id !== id);
     setData((prev) => ({ ...prev, [type]: newList }));
-    
+
     setPendingActions((prev) => [
       ...prev,
       {
@@ -118,6 +145,12 @@ const GoalEditModal = () => {
   };
 
   const handleSave = () => {
+    pendingActions.forEach((action) => {
+      if (action.type === "archive") {
+        handleArchive(action.id, action.itemType);
+      }
+    });
+
     const cleanedData = { ...data };
     cleanedData.missions = data.missions.filter(
       (mission) => mission.text.trim() !== ""
@@ -126,13 +159,6 @@ const GoalEditModal = () => {
       (mindset) => mindset.text.trim() !== ""
     );
     handleSaveChanges(cleanedData);
-
-    // Queue 실행
-    pendingActions.forEach((action) => {
-      if (action.type === "archive") {
-        handleArchive(action.id, action.itemType);
-      }
-    });
 
     toggleModal(false);
   };
@@ -193,7 +219,6 @@ const GoalEditModal = () => {
             </label>
             <div className="flex flex-col gap-2">
               {data.missions.map((mission, index) => {
-                const isLastTwo = index >= data.missions.length - 2;
                 return (
                   <div
                     key={mission.id}
@@ -208,19 +233,25 @@ const GoalEditModal = () => {
                       className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
                     />
                     <button
+                      ref={(el) => {
+                        buttonRefs.current[`mission-${mission.id}`] = el;
+                      }}
                       className="absolute right-4 cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
-                        toggleDropdown(`mission-${mission.id}`);
+                        toggleDropdown(`mission-${mission.id}`, e);
                       }}
                     >
                       <ThreeDotsIcon />
                     </button>
                     {openDropdown === `mission-${mission.id}` && (
                       <div
-                        className={`absolute right-0 z-10 ${
-                          isLastTwo ? "bottom-full mb-2" : "top-full mt-2"
-                        }`}
+                        className="fixed z-[100]"
+                        style={{
+                          top: dropdownPosition.top,
+                          bottom: dropdownPosition.bottom,
+                          right: dropdownPosition.right,
+                        }}
                       >
                         <TwoElementsButton
                           firstButtonText="보관함으로 이동"
@@ -252,7 +283,6 @@ const GoalEditModal = () => {
             </label>
             <div className="flex flex-col gap-2">
               {data.mindsets.map((mindset, index) => {
-                const isLastTwo = index >= data.mindsets.length - 2;
                 return (
                   <div
                     key={mindset.id}
@@ -267,19 +297,25 @@ const GoalEditModal = () => {
                       className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
                     />
                     <button
+                      ref={(el) => {
+                        buttonRefs.current[`mindset-${mindset.id}`] = el;
+                      }}
                       className="absolute right-4 cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
-                        toggleDropdown(`mindset-${mindset.id}`);
+                        toggleDropdown(`mindset-${mindset.id}`, e);
                       }}
                     >
                       <ThreeDotsIcon />
                     </button>
                     {openDropdown === `mindset-${mindset.id}` && (
                       <div
-                        className={`absolute right-0 z-10 ${
-                          isLastTwo ? "bottom-full mb-2" : "top-full mt-2"
-                        }`}
+                        className="fixed z-[100]"
+                        style={{
+                          top: dropdownPosition.top,
+                          bottom: dropdownPosition.bottom,
+                          right: dropdownPosition.right,
+                        }}
                       >
                         <TwoElementsButton
                           firstButtonText="보관함으로 이동"

@@ -6,6 +6,7 @@ import MindsetCard from "@/features/user/goals/MindsetCard";
 import VisionCard from "@/features/user/goals/VisionCard";
 import Footer from "@/components/Footer";
 import GoalEditModal from "@/features/user/goals/GoalEditModal";
+import GoalArchiveModal from "@/features/user/goals/GoalArchiveModal";
 import { GoalEditIcon, GoalArchiveIcon } from "@/components/Icons";
 import useGoalStore from "@/store/GoalStore";
 import type { Mission, Mindset, Vision } from "@/types/Goal";
@@ -19,7 +20,7 @@ interface GoalWrapperProps {
 }
 
 const GoalWrapper: React.FC<GoalWrapperProps> = ({ initialData }) => {
-  const { setInitialData, toggleModal } = useGoalStore();
+  const { setInitialData, toggleModal, toggleArchiveModal } = useGoalStore();
 
   useEffect(() => {
     setInitialData(initialData);
@@ -29,7 +30,7 @@ const GoalWrapper: React.FC<GoalWrapperProps> = ({ initialData }) => {
     <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 space-y-4">
       <div className="flex justify-end items-center gap-4">
         <button
-          onClick={() => toggleModal(true)}
+          onClick={() => toggleArchiveModal(true)}
           className="w-6 h-6 flex items-center justify-center text-[#412A2A] hover:opacity-70"
         >
           <GoalArchiveIcon />
@@ -50,6 +51,7 @@ const GoalWrapper: React.FC<GoalWrapperProps> = ({ initialData }) => {
 
       <Footer />
       <GoalEditModal />
+      <GoalArchiveModal />
     </div>
   );
 };
