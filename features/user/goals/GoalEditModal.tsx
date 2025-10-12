@@ -2,7 +2,8 @@
 
 import useGoalStore from "@/store/GoalStore";
 import React, { useState, useEffect } from "react";
-import { CloseIcon, PencilIcon } from "@/components/Icons";
+import { CaretRightIcon, ThreeDotsIcon } from "@/components/Icons";
+import TwoElementsButton from "@/components/TwoElementsButton";
 import type { Mission, Mindset, Vision, ModalData } from "@/types/Goal";
 
 const GoalEditModal = () => {
@@ -22,6 +23,9 @@ const GoalEditModal = () => {
     mindsets,
   });
 
+  // 드롭다운 상태 관리
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
   // Modal 열리면 갱신
   useEffect(() => {
     if (isModalOpen) {
@@ -30,12 +34,13 @@ const GoalEditModal = () => {
         missions,
         mindsets,
       });
+      setOpenDropdown(null);
     }
   }, [isModalOpen, vision, missions, mindsets]);
 
   if (!isModalOpen) return null;
 
-  // 일반 입력 계열
+  // 일반 입력 계열 - 비전
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -54,10 +59,21 @@ const GoalEditModal = () => {
   };
 
   // 추가 관련
-  // 삭제는 UI 배치가 고민되어서 일단 디자인 나올때까지 미룸
   const addNewItem = (type: "missions" | "mindsets") => {
     const newItem = { id: Date.now(), text: "" };
     setData((prev) => ({ ...prev, [type]: [...prev[type], newItem] }));
+  };
+
+  // 드롭다운 토글
+  const toggleDropdown = (id: string) => {
+    setOpenDropdown(openDropdown === id ? null : id);
+  };
+
+  // 삭제 관련
+  const handleDelete = (type: "missions" | "mindsets", id: number) => {
+    const newList = data[type].filter(item => item.id !== id);
+    setData((prev) => ({ ...prev, [type]: newList }));
+    setOpenDropdown(null);
   };
 
   const handleSave = () => {
@@ -80,99 +96,146 @@ const GoalEditModal = () => {
     <div
       className="fixed inset-0 flex justify-center items-center z-50 
                   before:absolute before:inset-0 before:bg-black before:opacity-50"
+      onClick={() => setOpenDropdown(null)}
     >
       <div
-        className="bg-white rounded-lg w-full max-w-md mx-4 shadow-xl relative"
-        onClick={(e) => e.stopPropagation()}
+        className="bg-[#F9F9F9] rounded-[10px] w-full max-w-[440px] mx-4 shadow-xl relative px-6 py-8 flex flex-col gap-8"
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpenDropdown(null);
+        }}
       >
-        <div className="flex justify-between items-center p-4 border-b">
+        <div className="flex justify-between items-center h-[41px]">
           <button
             onClick={() => {
               toggleModal(false);
-            }}
-            className="p-1"
+            }} 
+            className="w-8 h-8"
           >
-            <CloseIcon />
+            <CaretRightIcon />
           </button>
-          <h2 className="text-lg font-semibold">성취기록 수정</h2>
           <button
             onClick={handleSave}
-            className="bg-[#412A2A] text-white font-semibold px-4 py-1.5 rounded-md text-sm"
+            className="bg-[#412A2A] text-white font-semibold px-[15px] py-[10px] rounded-[5px] text-[18px] leading-[21px] h-[41px] w-20 flex items-center justify-center"
           >
             저장
           </button>
         </div>
 
-        <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
-          <div>
-            <label className="text-sm font-semibold text-gray-500 mb-2 block">
-              나의 비전
+        <div 
+          className="flex flex-col gap-6 max-h-[calc(100vh-200px)] overflow-y-auto [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <div className="flex flex-col gap-2">
+            <label className="text-[14px] leading-[17px] font-semibold text-[#808080]">
+              나의 꿈
             </label>
-            <div className="relative">
+            <div className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4">
               <input
                 type="text"
                 value={data.vision}
                 onChange={(e) => handleChange(e)}
-                className="w-full border border-gray-300 rounded-md p-2 pr-10"
+                className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2">
-                <PencilIcon />
-              </span>
             </div>
           </div>
 
-          <div>
-            <label className="text-sm font-semibold text-gray-500 mb-2 block">
+          <div className="flex flex-col gap-2">
+            <label className="text-[14px] leading-[17px] font-semibold text-[#808080]">
               나의 미션
             </label>
-            <div className="space-y-2">
-              {data.missions.map((mission, index) => (
-                <div key={mission.id} className="relative">
-                  <input
-                    type="text"
-                    value={mission.text}
-                    onChange={(e) =>
-                      handleListItemChange(index, e.target.value, "missions")
-                    }
-                    className="w-full border border-gray-300 rounded-md p-2 pr-10"
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2">
-                    <PencilIcon />
-                  </span>
-                </div>
-              ))}
+            <div className="flex flex-col gap-2">
+              {data.missions.map((mission, index) => {
+                const isLastTwo = index >= data.missions.length - 2;
+                return (
+                  <div key={mission.id} className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4">
+                    <input
+                      type="text"
+                      value={mission.text}
+                      onChange={(e) =>
+                        handleListItemChange(index, e.target.value, "missions")
+                      }
+                      className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
+                    />
+                    <button 
+                      className="absolute right-4 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleDropdown(`mission-${mission.id}`);
+                      }}
+                    >
+                      <ThreeDotsIcon />
+                    </button>
+                    {openDropdown === `mission-${mission.id}` && (
+                      <div className={`absolute right-0 z-10 ${isLastTwo ? 'bottom-full mb-2' : 'top-full mt-2'}`}>
+                        <TwoElementsButton
+                          firstButtonText="보관함으로 이동"
+                          secondButtonText="지우기"
+                          onFirstClick={() => {
+                            // 보관함 기능 추가 예정
+                            setOpenDropdown(null);
+                          }}
+                          onSecondClick={() => handleDelete("missions", mission.id)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
               <button
                 onClick={() => addNewItem("missions")}
-                className="w-full text-left p-2 text-gray-400"
+                className="bg-white rounded-[5px] h-[52px] flex items-center px-4 text-[15px] leading-[18px] font-medium text-[#B3B3B3]"
               >
                 + 새로운 미션 추가하기
               </button>
             </div>
           </div>
 
-          <div>
-            <label className="text-sm font-semibold text-gray-500 mb-2 block">
-              나의 마음가짐
+          <div className="flex flex-col gap-2">
+            <label className="text-[14px] leading-[17px] font-semibold text-[#808080]">
+              마음가짐
             </label>
-            <div className="space-y-2">
-              {data.mindsets.map((mindset, index) => (
-                <div key={mindset.id} className="relative">
-                  <input
-                    type="text"
-                    value={mindset.text}
-                    onChange={(e) =>
-                      handleListItemChange(index, e.target.value, "mindsets")
-                    }
-                    className="w-full border border-gray-300 rounded-md p-2 pr-10"
-                  />
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2">
-                    <PencilIcon />
-                  </span>
-                </div>
-              ))}
+            <div className="flex flex-col gap-2">
+              {data.mindsets.map((mindset, index) => {
+                const isLastTwo = index >= data.mindsets.length - 2;
+                return (
+                  <div key={mindset.id} className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4">
+                    <input
+                      type="text"
+                      value={mindset.text}
+                      onChange={(e) =>
+                        handleListItemChange(index, e.target.value, "mindsets")
+                      }
+                      className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
+                    />
+                    <button 
+                      className="absolute right-4 cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleDropdown(`mindset-${mindset.id}`);
+                      }}
+                    >
+                      <ThreeDotsIcon />
+                    </button>
+                    {openDropdown === `mindset-${mindset.id}` && (
+                      <div className={`absolute right-0 z-10 ${isLastTwo ? 'bottom-full mb-2' : 'top-full mt-2'}`}>
+                        <TwoElementsButton
+                          firstButtonText="보관함으로 이동"
+                          secondButtonText="지우기"
+                          onFirstClick={() => {
+                            // 보관함 기능 추가 예정
+                            setOpenDropdown(null);
+                          }}
+                          onSecondClick={() => handleDelete("mindsets", mindset.id)}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
               <button
                 onClick={() => addNewItem("mindsets")}
-                className="w-full text-left p-2 text-gray-400"
+                className="bg-white rounded-[5px] h-[52px] flex items-center px-4 text-[15px] leading-[18px] font-medium text-[#B3B3B3]"
               >
                 + 새로운 마음가짐 추가하기
               </button>

@@ -31,14 +31,14 @@ const initialState: GoalState = {
     count: 25,
   },
   missions: [
-    { id: 1, text: "국어 공부한 날", count: 10 },
-    { id: 2, text: "수학 공부", count: 5 },
+    { id: 1, text: "수학을 잘 해보자", count: 10 },
+    { id: 2, text: "벌크업 해보자!", count: 5 },
     { id: 3, text: "영어 공부", count: 22 },
   ],
   mindsets: [
-    { id: 101, text: "아 공부하기 싫다", count: 150 },
-    { id: 102, text: "수업 듣기 싫다", count: 99 },
-    { id: 103, text: "과제하기 싫다", count: 180 },
+    { id: 101, text: "일찍 좀 일어나라", count: 150 },
+    { id: 102, text: "수업 때 졸지 않기", count: 99 },
+    { id: 103, text: "귀찮다고 미루지 않기", count: 180 },
   ],
   isModalOpen: false,
 };
