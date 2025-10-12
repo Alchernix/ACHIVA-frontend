@@ -1,24 +1,16 @@
-export type Mission = { 
-  id: number; 
-  text: string; 
-  count: number; 
-};
-
-export type Mindset = { 
-  id: number; 
-  text: string; 
-  count: number; 
-};
-
-export type Vision = { 
+export type GoalItem = {
   id: number;
-  vision: string; 
+  text: string;
   count: number;
+  isArchived: boolean;
 };
+
+export type Mission = GoalItem;
+export type Mindset = GoalItem;
+export type Vision = GoalItem;
 
 export type ModalData = {
-    vision: string;
-    missions: { id: number; text: string; count: number }[];
-    mindsets: { id: number; text: string; count: number }[];
+  vision: GoalItem;
+  missions: GoalItem[];
+  mindsets: GoalItem[];
 };
-

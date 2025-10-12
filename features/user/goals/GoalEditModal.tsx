@@ -6,6 +6,12 @@ import { CaretRightIcon, ThreeDotsIcon } from "@/components/Icons";
 import TwoElementsButton from "@/components/TwoElementsButton";
 import type { Mission, Mindset, Vision, ModalData } from "@/types/Goal";
 
+type PendingAction = {
+  type: "archive" | "delete";
+  itemType: "vision" | "mission" | "mindset";
+  id: number;
+};
+
 const GoalEditModal = () => {
   const {
     isModalOpen,
@@ -14,14 +20,18 @@ const GoalEditModal = () => {
     missions,
     mindsets,
     handleSaveChanges,
+    handleArchive,
   } = useGoalStore();
 
   // 렌더 방지용 임시저장
   const [data, setData] = useState<ModalData>({
-    vision: vision.vision,
-    missions,
-    mindsets,
+    vision,
+    missions: missions.filter((m) => !m.isArchived),
+    mindsets: mindsets.filter((m) => !m.isArchived),
   });
+
+  // 백엔드 연결 대비 Queue
+  const [pendingActions, setPendingActions] = useState<PendingAction[]>([]);
 
   // 드롭다운 상태 관리
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -30,10 +40,11 @@ const GoalEditModal = () => {
   useEffect(() => {
     if (isModalOpen) {
       setData({
-        vision: vision.vision,
-        missions,
-        mindsets,
+        vision,
+        missions: missions.filter((m) => !m.isArchived),
+        mindsets: mindsets.filter((m) => !m.isArchived),
       });
+      setPendingActions([]);
       setOpenDropdown(null);
     }
   }, [isModalOpen, vision, missions, mindsets]);
@@ -41,10 +52,11 @@ const GoalEditModal = () => {
   if (!isModalOpen) return null;
 
   // 일반 입력 계열 - 비전
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setData((prev) => ({ ...prev, vision: e.target.value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData((prev) => ({
+      ...prev,
+      vision: { ...prev.vision, text: e.target.value },
+    }));
   };
 
   // 리스트 입력 계열
@@ -60,7 +72,7 @@ const GoalEditModal = () => {
 
   // 추가 관련
   const addNewItem = (type: "missions" | "mindsets") => {
-    const newItem = { id: Date.now(), text: "" };
+    const newItem = { id: Date.now(), text: "", count: 0, isArchived: false };
     setData((prev) => ({ ...prev, [type]: [...prev[type], newItem] }));
   };
 
@@ -69,24 +81,59 @@ const GoalEditModal = () => {
     setOpenDropdown(openDropdown === id ? null : id);
   };
 
-  // 삭제 관련
-  const handleDelete = (type: "missions" | "mindsets", id: number) => {
-    const newList = data[type].filter(item => item.id !== id);
+  // 보관함 이동
+  const queueArchive = (
+    type: "missions" | "mindsets",
+    id: number
+  ) => {
+    // UI에서 우선 제거
+    const newList = data[type].filter((item) => item.id !== id);
     setData((prev) => ({ ...prev, [type]: newList }));
+    
+    setPendingActions((prev) => [
+      ...prev,
+      {
+        type: "archive",
+        itemType: type === "missions" ? "mission" : "mindset",
+        id,
+      },
+    ]);
+    setOpenDropdown(null);
+  };
+
+  // 삭제
+  const queueDelete = (type: "missions" | "mindsets", id: number) => {
+    // UI에서 우선 제거
+    const newList = data[type].filter((item) => item.id !== id);
+    setData((prev) => ({ ...prev, [type]: newList }));
+    setPendingActions((prev) => [
+      ...prev,
+      {
+        type: "delete",
+        itemType: type === "missions" ? "mission" : "mindset",
+        id,
+      },
+    ]);
     setOpenDropdown(null);
   };
 
   const handleSave = () => {
     const cleanedData = { ...data };
-
     cleanedData.missions = data.missions.filter(
       (mission) => mission.text.trim() !== ""
     );
     cleanedData.mindsets = data.mindsets.filter(
       (mindset) => mindset.text.trim() !== ""
     );
-
     handleSaveChanges(cleanedData);
+
+    // Queue 실행
+    pendingActions.forEach((action) => {
+      if (action.type === "archive") {
+        handleArchive(action.id, action.itemType);
+      }
+    });
+
     toggleModal(false);
   };
 
@@ -109,7 +156,7 @@ const GoalEditModal = () => {
           <button
             onClick={() => {
               toggleModal(false);
-            }} 
+            }}
             className="w-8 h-8"
           >
             <CaretRightIcon />
@@ -122,9 +169,9 @@ const GoalEditModal = () => {
           </button>
         </div>
 
-        <div 
+        <div
           className="flex flex-col gap-6 max-h-[calc(100vh-200px)] overflow-y-auto [&::-webkit-scrollbar]:hidden"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           <div className="flex flex-col gap-2">
             <label className="text-[14px] leading-[17px] font-semibold text-[#808080]">
@@ -133,9 +180,9 @@ const GoalEditModal = () => {
             <div className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4">
               <input
                 type="text"
-                value={data.vision}
+                value={data.vision.text}
                 onChange={(e) => handleChange(e)}
-                className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
+                className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black"
               />
             </div>
           </div>
@@ -148,7 +195,10 @@ const GoalEditModal = () => {
               {data.missions.map((mission, index) => {
                 const isLastTwo = index >= data.missions.length - 2;
                 return (
-                  <div key={mission.id} className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4">
+                  <div
+                    key={mission.id}
+                    className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4"
+                  >
                     <input
                       type="text"
                       value={mission.text}
@@ -157,7 +207,7 @@ const GoalEditModal = () => {
                       }
                       className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
                     />
-                    <button 
+                    <button
                       className="absolute right-4 cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -167,15 +217,20 @@ const GoalEditModal = () => {
                       <ThreeDotsIcon />
                     </button>
                     {openDropdown === `mission-${mission.id}` && (
-                      <div className={`absolute right-0 z-10 ${isLastTwo ? 'bottom-full mb-2' : 'top-full mt-2'}`}>
+                      <div
+                        className={`absolute right-0 z-10 ${
+                          isLastTwo ? "bottom-full mb-2" : "top-full mt-2"
+                        }`}
+                      >
                         <TwoElementsButton
                           firstButtonText="보관함으로 이동"
                           secondButtonText="지우기"
-                          onFirstClick={() => {
-                            // 보관함 기능 추가 예정
-                            setOpenDropdown(null);
-                          }}
-                          onSecondClick={() => handleDelete("missions", mission.id)}
+                          onFirstClick={() =>
+                            queueArchive("missions", mission.id)
+                          }
+                          onSecondClick={() =>
+                            queueDelete("missions", mission.id)
+                          }
                         />
                       </div>
                     )}
@@ -199,7 +254,10 @@ const GoalEditModal = () => {
               {data.mindsets.map((mindset, index) => {
                 const isLastTwo = index >= data.mindsets.length - 2;
                 return (
-                  <div key={mindset.id} className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4">
+                  <div
+                    key={mindset.id}
+                    className="relative bg-white rounded-[5px] h-[52px] flex items-center px-4"
+                  >
                     <input
                       type="text"
                       value={mindset.text}
@@ -208,7 +266,7 @@ const GoalEditModal = () => {
                       }
                       className="w-full bg-transparent outline-none text-[15px] leading-[18px] font-medium text-black pr-8"
                     />
-                    <button 
+                    <button
                       className="absolute right-4 cursor-pointer"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -218,15 +276,20 @@ const GoalEditModal = () => {
                       <ThreeDotsIcon />
                     </button>
                     {openDropdown === `mindset-${mindset.id}` && (
-                      <div className={`absolute right-0 z-10 ${isLastTwo ? 'bottom-full mb-2' : 'top-full mt-2'}`}>
+                      <div
+                        className={`absolute right-0 z-10 ${
+                          isLastTwo ? "bottom-full mb-2" : "top-full mt-2"
+                        }`}
+                      >
                         <TwoElementsButton
                           firstButtonText="보관함으로 이동"
                           secondButtonText="지우기"
-                          onFirstClick={() => {
-                            // 보관함 기능 추가 예정
-                            setOpenDropdown(null);
-                          }}
-                          onSecondClick={() => handleDelete("mindsets", mindset.id)}
+                          onFirstClick={() =>
+                            queueArchive("mindsets", mindset.id)
+                          }
+                          onSecondClick={() =>
+                            queueDelete("mindsets", mindset.id)
+                          }
                         />
                       </div>
                     )}
