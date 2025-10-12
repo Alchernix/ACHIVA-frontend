@@ -2,7 +2,6 @@
 import Link from "next/link";
 import type { User } from "@/types/User";
 import { usePathname } from "next/navigation";
-import { TextLogo } from "./Logo";
 import {
   HomeIcon,
   GoalIcon,
@@ -42,14 +41,14 @@ export default function Sidebar({ user }: { user: User }) {
   let selected;
   if (openedDrawer === "응원" || isClosing) {
     selected = "응원";
-  } else if (pathname === `/${user.nickName}`) {
+  } else if (pathname === `/${user.nickName}/home`) {
     selected = "홈";
   } else if (pathname.startsWith(`/${user.nickName}/goals`)) {
     selected = "목표";
+  } else if (pathname === `/${user.nickName}`) {
+    selected = "MY";
   } else if (pathname.startsWith('/settings')) {
     selected = "MY";
-  // 현재는 피드가 기본화면에 묶여 있어서 이렇게 처리했는데
-  // 나중에 기능 추가되면 아마 다른 페이지로 분리될 거 같아서 그때 다시 수정해야할듯?
   } else {
     selected = "피드";
   }
@@ -76,7 +75,7 @@ export default function Sidebar({ user }: { user: User }) {
         className="text-theme w-full shadow-[0px_-5px_15px_0_rgba(0,0,0,0.05)] h-auto fixed bottom-0 items-center bg-white z-50"
       >
         <ul className="flex w-full justify-around px-[7px] py-[19px]">
-          <Link href={`/${user.nickName}`}>
+          <Link href={`/${user.nickName}/home`}>
             <ListItem
               label="홈"
               icon={<HomeIcon fill={selected === "홈"} />}
@@ -104,7 +103,7 @@ export default function Sidebar({ user }: { user: User }) {
               selected={selected === "응원"}
             />
           </button>
-          <Link href={`/settings/accounts/password`}>
+          <Link href={`/${user.nickName}`}>
             <ListItem
               label="MY"
               icon={<MyPageIcon fill={selected === "MY"} />}

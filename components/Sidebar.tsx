@@ -22,6 +22,7 @@ export default function Sidebar({ user }: { user: User }) {
   const [isClosing, setIsClosing] = useState(false);
 
   // flickering 제거 위한 코드
+  // 근데도 간헐적으로 발생하긴하네요.. 나중에 더 수정해볼게요
   const handleCloseDrawer = () => {
     setIsClosing(true);
     setOpenedDrawer(null);
@@ -42,10 +43,13 @@ export default function Sidebar({ user }: { user: User }) {
   let selected;
   if (openedDrawer === "응원" || isClosing) {
     selected = "응원";
-  } else if (pathname === `/${user.nickName}`) {
+  } else if (pathname === `/${user.nickName}/home`) {
     selected = "홈";
   } else if (pathname.startsWith(`/${user.nickName}/goals`)) {
     selected = "목표";
+  } else if (pathname === `/${user.nickName}`) {
+    selected = "MY";
+  // 사이드바에서 설정 버튼 빠짐 -> 임시로 MY로 처리
   } else if (pathname.startsWith('/settings')) {
     selected = "MY";
   // 현재는 피드가 기본화면에 묶여 있어서 이렇게 처리했는데
@@ -81,7 +85,7 @@ export default function Sidebar({ user }: { user: User }) {
           </Link>
         </div>
         <ul className="flex-1 flex flex-col w-full justify-around gap-5">
-          <Link href={`/${user.nickName}`}>
+          <Link href={`/${user.nickName}/home`}>
             <ListItem
               isNavFolded={!!openedDrawer}
               label="홈"
@@ -113,7 +117,7 @@ export default function Sidebar({ user }: { user: User }) {
               selected={selected === "응원"}
             />
           </button>
-          <Link href={`/settings/accounts/password`} className="mb-auto">
+          <Link href={`${user.nickName}`} className="mb-auto">
             <ListItem
               isNavFolded={!!openedDrawer}
               label="MY"
