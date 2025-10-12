@@ -10,7 +10,7 @@ export default async function Page({
 }) {
   const { nickName } = await params;
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   const userRes = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}`,

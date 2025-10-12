@@ -15,7 +15,7 @@ const getAuthStatus = cache(
   async function getAuthStatus(): Promise<AuthResult> {
     try {
       const session = await auth();
-      const token = session?.accessToken;
+      const token = session?.access_token;
 
       if (!token) {
         return { status: "unauthenticated" };

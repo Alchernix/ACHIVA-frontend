@@ -5,7 +5,7 @@ import type { FriendData } from "@/types/Friends";
 // 목록 가져오기 + 캐시
 export async function GET() {
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   async function getFriends() {
     const res = await fetch(

@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const nickName = searchParams.get("nickName");
 
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   async function getFriends() {
     const res = await fetch(
@@ -76,7 +76,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const { userId } = await req.json();
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });

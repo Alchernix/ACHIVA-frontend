@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const contentType = file.type || "application/octet-stream";
 
     const session = await auth();
-    const token = session?.accessToken;
+    const token = session?.access_token;
     if (!token) {
       return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
     }

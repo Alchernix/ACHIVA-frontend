@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 
 export async function GET() {
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });

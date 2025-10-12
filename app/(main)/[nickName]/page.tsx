@@ -23,7 +23,7 @@ export default async function Page({
   const { nickName } = await params; // 이 페이지 유저 닉네임
 
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   async function getUser() {
     // 유저 데이터 가져오기

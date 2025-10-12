@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   const { post } = await req.json();
   const draft = post as DraftPost;
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
   }
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   const postId = searchParams.get("postId");
 
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
@@ -66,7 +66,7 @@ export async function DELETE(req: NextRequest) {
   const postId = searchParams.get("postId");
 
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });

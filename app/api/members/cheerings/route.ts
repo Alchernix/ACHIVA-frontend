@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   const pageParam = searchParams.get("pageParam");
 
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   if (!token) {
     return NextResponse.json({ error: "미인증 유저" }, { status: 401 });

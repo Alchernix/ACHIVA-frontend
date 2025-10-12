@@ -11,7 +11,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   const session = await auth();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   async function getPost() {
     const postRes = await fetch(
