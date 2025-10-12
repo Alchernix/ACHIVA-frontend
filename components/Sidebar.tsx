@@ -32,6 +32,8 @@ export default function Sidebar({ user }: { user: User }) {
     setIsClosing(false);
   };
 
+  // 현재 drawer 관련해서 어색한 UI가 조금 보입니다..만
+  // 나중에 전체적으로 응원탭을 변경하게 되지 않을까 싶어서 일단 그대로 두겠습니다
   const drawerContent = (
       <Drawer title="응원" onClose={handleCloseDrawer}>
         <Notifications />
@@ -62,7 +64,7 @@ export default function Sidebar({ user }: { user: User }) {
     <>
       <motion.nav
         layoutScroll
-        className={`text-theme z-10 h-dvh fixed bottom-0 top-0 flex flex-col items-center w-auto lg:w-[250px] ${
+        className={`text-theme z-50 h-dvh fixed bottom-0 top-0 flex flex-col items-center w-auto lg:w-[250px] ${
           openedDrawer ? "!w-auto" : ""
         } py-8 border-r border-r-[#412A2A] bg-white`}
       >
@@ -117,7 +119,7 @@ export default function Sidebar({ user }: { user: User }) {
               selected={selected === "응원"}
             />
           </button>
-          <Link href={`${user.nickName}`} className="mb-auto">
+          <Link href={`/${user.nickName}`} className="mb-auto">
             <ListItem
               isNavFolded={!!openedDrawer}
               label="MY"
