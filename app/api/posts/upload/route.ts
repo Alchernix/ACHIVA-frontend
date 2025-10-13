@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
 
     const contentType = file.type || "application/octet-stream";
 
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const session = await auth();
+    const token = session?.access_token;
     if (!token) {
       return NextResponse.json({ error: "미인증 유저" }, { status: 401 });
     }

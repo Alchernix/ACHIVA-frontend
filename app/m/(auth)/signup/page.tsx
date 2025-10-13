@@ -90,23 +90,6 @@ export default function Page() {
           </motion.div>
         </AnimatePresence>
       </Container>
-      {currentStep === 0 && (
-        <div className="hidden sm:flex">
-          <Container classes="h-20">
-            <p className="flex justify-center gap-2">
-              <span className="font-light text-center text-black">
-                계정이 있으신가요?
-              </span>
-              <Link
-                href="/login"
-                className="font-semibold text-center text-theme"
-              >
-                로그인
-              </Link>
-            </p>
-          </Container>
-        </div>
-      )}
     </div>
   );
 }

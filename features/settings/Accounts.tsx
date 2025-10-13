@@ -6,9 +6,10 @@ import {
   SettingNextIcon,
 } from "@/components/Icons";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ModalWithoutCloseBtn from "@/components/ModalWithoutCloseBtn";
+import { handleLogout } from "./handleLogout";
 // 생년월일 표시 안되게
 export default function Accounts() {
   const pathname = usePathname();
@@ -58,7 +59,7 @@ export default function Accounts() {
             className="py-2 cursor-pointer text-[#DF171B] font-semibold"
             onClick={async () => {
               await fetch("/api/auth", { method: "DELETE" });
-              await fetch("/api/auth/logout", { method: "POST" });
+              await handleLogout();
               const domain =
                 "https://ap-northeast-2mmvclnrmp.auth.ap-northeast-2.amazoncognito.com";
               const clientId = "a3kaacto97fom3ved1bjivbiu";

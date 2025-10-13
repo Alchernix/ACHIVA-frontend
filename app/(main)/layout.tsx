@@ -1,6 +1,7 @@
 import getAuthStatus from "@/lib/getAuthStatus";
 import AuthHydrator from "@/features/auth/AuthHydrator";
 import Sidebar from "@/components/Sidebar";
+import { redirect } from "next/navigation";
 
 export default async function Layout({
   children,
@@ -32,6 +33,11 @@ export default async function Layout({
     //     </div>
     //   );
     case "error":
+      // 아직 회원가입을 마치지 않은 경우
+      if (auth.error.message === "서버 에러 428") {
+        return redirect("/signup");
+      }
+
     default:
       console.error("로그인 확인 에러", auth.error);
       return (

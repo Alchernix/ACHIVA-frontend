@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import { Profile } from "@/features/user/Profile";
 import type { User } from "@/types/User";
 import type { FriendData } from "@/types/Friends";
@@ -22,8 +22,8 @@ export default async function Page({
 
   const { nickName } = await params; // 이 페이지 유저 닉네임
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.access_token;
 
   async function getUser() {
     // 유저 데이터 가져오기
