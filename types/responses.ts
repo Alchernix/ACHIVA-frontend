@@ -33,9 +33,9 @@ export type Cheering = {
   id: number;
   content: string;
   cheeringCategory: string;
-  senderId: number;
+  senderId: string;
   senderName: string;
-  receiverId: number;
+  receiverId: string;
   receiverName: string;
   articleId: number;
   isRead: boolean;
@@ -67,10 +67,10 @@ export type Notification = {
   id: number;
   content: string;
   cheeringCategory: "최고예요" | "수고했어요" | "응원해요" | "동기부여";
-  senderId: number;
+  senderId: string;
   senderName: string;
   senderProfileImageUrl: string;
-  receiverId: number;
+  receiverId: string;
   receiverName: string;
   articleId: number;
   isRead: boolean;

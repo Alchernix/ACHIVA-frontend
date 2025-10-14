@@ -1,6 +1,7 @@
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import MobileProfile from "@/features/user/Profile";
 import type { User } from "@/types/User";
+import type { FriendData } from "@/types/Friends";
 import Footer from "@/components/Footer";
 import PointSection from "@/features/user/Point";
 import Posts from "@/features/user/Posts";
@@ -21,32 +22,82 @@ export default async function Page({
       redirect("/");
     }
 
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const session = await auth();
+    const token = session?.access_token;
 
-    // 유저 데이터 가져오기
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
+    async function getUser() {
+      // 유저 데이터 가져오기
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = await response.json();
+      if (!data) {
+        notFound();
       }
-    );
-    const { data } = await response.json();
-    if (!data) {
-      notFound();
+      return data as User;
     }
 
-    const user = data as User;
+    async function getMyFriends() {
+      // 로그인한 유저의 친구 목록
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/friendships`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = await response.json();
+      if (!data) {
+        notFound();
+      }
+      return data as FriendData[];
+    }
+
+    async function getMyPendingFriends() {
+      // 로그인한 유저의 수락 대기 친구 목록
+      // 하..... 걍 api 하나로 통합하면 안되나
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/friendships/sent-requests`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = await response.json();
+      if (!data) {
+        notFound();
+      }
+      return data as FriendData[];
+    }
+
+    const [user, myFriends, myPendingFriends] = await Promise.all([
+      getUser(),
+      getMyFriends(),
+      getMyPendingFriends(),
+    ]);
+    const myAllFriends = [...myFriends, ...myPendingFriends];
 
     return (
       <div className="flex-1 w-full flex pb-22 flex-col px-5">
         <div className="flex-1 flex flex-col mx-auto w-full max-w-160">
-          <MobileProfile user={user} currentUser={currentUser} />
+          <MobileProfile
+            user={user}
+            currentUser={currentUser}
+            currentUserFriends={myAllFriends}
+          />
           <div className="flex gap-5 my-5 sm:my-10">
             <Link
               href={`/${nickName}/cheers/received`}

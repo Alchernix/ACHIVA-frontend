@@ -1,11 +1,12 @@
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import { cache } from "react";
 import { unstable_cache } from "next/cache";
 import crypto from "node:crypto";
+import type { User } from "@/types/User";
 
 type AuthResult = {
   status: string;
-  user?: any;
+  user?: User;
   error?: any;
 };
 
@@ -13,8 +14,8 @@ type AuthResult = {
 const getAuthStatus = cache(
   async function getAuthStatus(): Promise<AuthResult> {
     try {
-      const cookieStore = await cookies();
-      const token = cookieStore.get("token")?.value;
+      const session = await auth();
+      const token = session?.access_token;
 
       if (!token) {
         return { status: "unauthenticated" };
@@ -39,6 +40,7 @@ const getAuthStatus = cache(
               },
             }
           );
+
           if (response.status === 401) {
             return { status: "unauthenticated" };
           }

@@ -11,7 +11,7 @@ type SignupStepState = {
 };
 
 const useSignupStepStoreBase = create<SignupStepState>()((set) => ({
-  currentStep: 0,
+  currentStep: 2,
   handlePrevStep: () =>
     set((state) => ({ currentStep: state.currentStep - 1 })),
   handleNextStep: () =>
@@ -28,8 +28,6 @@ type EnteredInfoState = {
 };
 
 const initialUser: SignupUser = {
-  email: "",
-  password: "",
   nickName: "",
   profileImg: undefined,
   birth: undefined,

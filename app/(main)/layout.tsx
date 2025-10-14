@@ -1,6 +1,7 @@
 import getAuthStatus from "@/lib/getAuthStatus";
 import AuthHydrator from "@/features/auth/AuthHydrator";
 import Sidebar from "@/components/Sidebar";
+import { redirect } from "next/navigation";
 
 export default async function Layout({
   children,
@@ -14,8 +15,8 @@ export default async function Layout({
     case "authenticated":
       return (
         <>
-          <AuthHydrator user={auth.user} />
-          <Sidebar user={auth.user} />
+          <AuthHydrator user={auth.user!} />
+          <Sidebar user={auth.user!} />
           <div className="flex flex-col sm:ml-20 lg:ml-60 min-h-dvh">
             {children}
             {/* <Footer /> */}
@@ -32,6 +33,11 @@ export default async function Layout({
     //     </div>
     //   );
     case "error":
+      // 아직 회원가입을 마치지 않은 경우
+      if (auth.error.message === "서버 에러 428") {
+        return redirect("/signup");
+      }
+
     default:
       console.error("로그인 확인 에러", auth.error);
       return (

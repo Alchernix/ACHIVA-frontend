@@ -1,6 +1,6 @@
 import MobileModal from "@/components/MobileModal";
 import CheersTitle from "@/features/user/CheersTitle";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import type { CheerPoint } from "@/types/responses";
 import Cheers from "@/features/user/Cheers";
 
@@ -10,8 +10,8 @@ export default async function Page({
   params: Promise<{ nickName: string }>;
 }) {
   const { nickName } = await params;
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.access_token;
 
   const userRes = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/api2/members/${nickName}`,

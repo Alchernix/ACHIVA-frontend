@@ -9,10 +9,10 @@ import {
   SettingInquiryIcon,
   SettingNextIcon,
 } from "@/components/Icons";
-import LogoutBtn from "@/components/LogoutBtn";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { handleLogout } from "./handleLogout";
 
 export default function Settings() {
   const pathname = usePathname();
@@ -71,7 +71,21 @@ export default function Settings() {
           <span className="font-semibold text-lg">버전</span>
           <span>1.0.0</span>
         </div>
-        <LogoutBtn />
+        <button
+          className="font-semibold text-lg"
+          onClick={async () => {
+            await handleLogout();
+            const domain =
+              "https://ap-northeast-2mmvclnrmp.auth.ap-northeast-2.amazoncognito.com";
+            const clientId = "a3kaacto97fom3ved1bjivbiu";
+            const logoutUri = `${window.location.origin}/`;
+            window.location.href = `${domain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(
+              logoutUri
+            )}`;
+          }}
+        >
+          로그아웃
+        </button>
       </div>
     </div>
   );

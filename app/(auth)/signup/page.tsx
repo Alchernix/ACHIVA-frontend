@@ -6,8 +6,6 @@ import { useSignupStepStore } from "@/store/SignupStore";
 import Link from "next/link";
 import Container from "@/features/auth/Container";
 import { TextLogo } from "@/components/Logo";
-import SignupForm from "@/features/auth/SignupForm";
-import EmailValidationForm from "@/features/auth/EmailValidation";
 import Terms from "@/features/auth/Terms";
 import CategoryForm from "@/features/auth/CategoryForm";
 import BirthdayForm from "@/features/auth/BirthdayForm";
@@ -17,34 +15,6 @@ export default function Page() {
   const currentStep = useSignupStepStore.use.currentStep();
   let content;
   switch (currentStep) {
-    case 0: // 기본정보
-      content = (
-        <>
-          <div className="hidden sm:block mb-5">
-            <TextLogo />
-          </div>
-          <div className="w-full text-left sm:hidden mb-5">
-            <p className="font-semibold text-lg">회원정보를 입력해주세요.</p>
-            {/* <p className="font-light text-sm text-theme-gray">
-                    가입을 위해 약관에 동의가 필요합니다
-                  </p> */}
-          </div>
-          <SignupForm />
-        </>
-      );
-      break;
-    case 1: // 이메일 인증
-      content = (
-        <>
-          <div className="hidden sm:block mb-15">
-            <TextLogo />
-          </div>
-          <div className="w-full flex flex-col gap-7">
-            <EmailValidationForm />
-          </div>
-        </>
-      );
-      break;
     case 2: // 약관
       content = (
         <>
@@ -111,23 +81,6 @@ export default function Page() {
           </motion.div>
         </AnimatePresence>
       </Container>
-      {currentStep === 0 && (
-        <div className="hidden sm:flex">
-          <Container classes="h-20">
-            <p className="flex justify-center gap-2">
-              <span className="font-light text-center text-black">
-                계정이 있으신가요?
-              </span>
-              <Link
-                href="/login"
-                className="font-semibold text-center text-theme"
-              >
-                로그인
-              </Link>
-            </p>
-          </Container>
-        </div>
-      )}
     </div>
   );
 }

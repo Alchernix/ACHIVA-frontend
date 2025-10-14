@@ -14,8 +14,8 @@ export default async function Layout({
     case "authenticated":
       return (
         <>
-          <AuthHydrator user={auth.user} />
-          <MobileSidebar user={auth.user} />
+          <AuthHydrator user={auth.user!} />
+          <MobileSidebar user={auth.user!} />
           <div className="min-h-dvh flex flex-col">{children}</div>
           {modal}
         </>

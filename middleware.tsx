@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse, userAgent } from "next/server";
+import { NextResponse, userAgent } from "next/server";
+import { auth } from "@/auth";
 
-export async function middleware(req: NextRequest) {
+export default auth((req) => {
   const { device } = userAgent(req);
   const isMobile = device.type === "mobile" || device.type === "tablet";
   const { pathname } = req.nextUrl;
@@ -16,8 +17,7 @@ export async function middleware(req: NextRequest) {
   ) {
     return NextResponse.next();
   }
-  const token = req.cookies.get("token")?.value;
-  const isLoggedIn = !!token;
+  const isLoggedIn = !!req.auth;
 
   // -------------------------
   // 1. 로그인 안 된 유저는 "/"로 강제 리다이렉트
@@ -26,7 +26,8 @@ export async function middleware(req: NextRequest) {
     !isLoggedIn &&
     pathname !== "/" &&
     pathname !== "/login" &&
-    pathname !== "/signup"
+    pathname !== "/signup" &&
+    pathname !== "/callback"
   ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -51,7 +52,9 @@ export async function middleware(req: NextRequest) {
   // -------------------------
   if (isMobile) {
     const url = req.nextUrl.clone();
-    url.pathname = `/m${pathname}`;
+    if (!url.pathname.startsWith("/callback")) {
+      url.pathname = `/m${pathname}`;
+    }
     const res = NextResponse.rewrite(url);
 
     res.headers.set(
@@ -66,7 +69,7 @@ export async function middleware(req: NextRequest) {
   // 4. 데스크탑은 그대로 진행
   // -------------------------
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: "/:path*", // 모든 경로 적용

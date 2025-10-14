@@ -110,7 +110,6 @@ export default function Terms() {
 
   function handleScroll() {
     const isMobile = window.innerWidth < 640;
-    console.log(isMobile);
     if (!isMobile) {
       scrollContainerRef.current?.scrollTo({
         top: scrollContainerRef.current.scrollHeight,
