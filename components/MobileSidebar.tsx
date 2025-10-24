@@ -12,7 +12,7 @@ import {
 import { motion } from "motion/react";
 
 export default function Sidebar({ user }: { user: User }) {
-  const pathname = usePathname();
+  const pathname = decodeURIComponent(usePathname());
 
   let selected;
   if (pathname === `/accounts/notifications`) {

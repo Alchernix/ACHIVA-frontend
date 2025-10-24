@@ -11,7 +11,7 @@ export function getFirstPage(): PostRes {
   // }
 
   return {
-    id: 5,
+    id: "5",
     photoUrl: "",
     title: "",
     category: "",
