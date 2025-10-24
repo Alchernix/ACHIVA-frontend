@@ -15,7 +15,7 @@ export default function CheerBtns({
   postId,
   cheerings = [],
 }: {
-  postId: number;
+  postId: string;
   cheerings?: Cheering[];
 }) {
   const [scope, animate] = useAnimate();
