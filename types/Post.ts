@@ -1,13 +1,15 @@
 import type { Category } from "./Categories";
 import type { Cheering } from "./responses";
+import type { Book } from "./Book";
 
 export type Post = {
   titleImageUrl: string;
   title: string;
   category: Category;
+  book: Book;
   backgroundColor: BackgroundColor;
   pages: PostPage[];
-};
+}; //book이 들어가게 수정해야 함.
 
 export type DraftPost = Partial<Post> & {
   categoryCount?: number;

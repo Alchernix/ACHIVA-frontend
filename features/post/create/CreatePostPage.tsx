@@ -1,6 +1,8 @@
 // pc용 - use client를 위한...
 "use client";
 
+import BookSelector from "./BookSelector";
+import CreateBookPage from "./CreateBookPage";
 import CategorySelector from "./CategorySelector";
 import SubtitlesSelector from "./SubtitlesSelector";
 import {
@@ -8,6 +10,7 @@ import {
   useDraftPostStore,
 } from "@/store/CreatePostStore";
 import type { CategoryCount } from "@/types/Post";
+import type { Book } from "@/types/Book";
 import Modal from "@/components/Modal";
 import { useEffect, useState } from "react";
 import BgColorSelector from "./BgColorSelector";
@@ -30,6 +33,37 @@ export default function CreatePostPage({
   const resetPost = useDraftPostStore.use.resetPost();
   const [isCloseModalOpen, setIsCloseModalOpen] = useState(false);
 
+  const books: Book[] = [
+    {
+      id: 1,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+    {
+      id: 2,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+    {
+      id: 3,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+    {
+      id: 4,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+  ];
+
   // 글쓰기 버튼 클릭 시 작성상태 리셋
   useEffect(() => {
     resetStep();
@@ -42,16 +76,39 @@ export default function CreatePostPage({
     </div>
   );
   let content: React.ReactNode;
+  let size: string = "";
   switch (currentStep) {
-    case 0:
-      title = "작성할 성취 카테고리를 선택해주세요";
+    case 2:
+      title = "작성할 이야기를 선택해주세요";
       content = (
-        <div className="h-100">
+        <div>
+          <BookSelector books={books} categoryCounts={categoryCounts} />
+        </div>
+      );
+      size = "w-2xl flex items-center justify-center mt-8";
+      break;
+
+    case 0:
+      title = "성취 카테고리를 선택해주세요";
+      content = (
+        <div>
           <CategorySelector categoryCounts={categoryCounts} />
         </div>
       );
+      size = "w-lg h-[20rem] mt-8 flex";
       break;
+
     case 1:
+      title = "표지 미리보기";
+      content = (
+        <div className="h-100">
+          <CreateBookPage />
+        </div>
+      );
+      size = "w-lg h-[32rem] mt-8";
+      break;
+
+    case 3:
       title = "작성할 내용들을 선택해주세요";
       content = (
         <div className="h-120">
@@ -59,7 +116,8 @@ export default function CreatePostPage({
         </div>
       );
       break;
-    case 2:
+
+    case 4:
       title = "배경색을 선택해주세요";
       content = (
         <div className="h-100">
@@ -67,21 +125,25 @@ export default function CreatePostPage({
         </div>
       );
       break;
-    case 3:
+
+    case 5:
       content = (
         <div>
           <Writing />
         </div>
       );
       break;
-    case 4:
+
+    case 6:
       title = "사진 추가";
       content = <ImageUploader isMobile={false} />;
       break;
-    case 5:
+
+    case 7:
       title = "표지 미리보기";
       content = <TitleEditor />;
       break;
+
     default:
       title = "에러";
       content = null;
@@ -98,7 +160,7 @@ export default function CreatePostPage({
           )
         }
       >
-        {currentStep !== 0 && (
+        {currentStep !== 0 && currentStep !== 2 && (
           <button className="absolute top-8 left-8" onClick={handlePrevStep}>
             <svg
               width="12"
@@ -115,7 +177,7 @@ export default function CreatePostPage({
           </button>
         )}
 
-        <div className="w-lg mt-8">{content}</div>
+        <div className={size !== "" ? size : "w-lg mt-8"}>{content}</div>
       </Modal>
       {isCloseModalOpen && (
         <ModalWithoutCloseBtn

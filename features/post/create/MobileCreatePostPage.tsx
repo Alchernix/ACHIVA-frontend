@@ -17,6 +17,10 @@ import TitleEditor from "./TitleEditor";
 import ModalWithoutCloseBtn from "@/components/ModalWithoutCloseBtn";
 import { useRouter } from "next/navigation";
 import MobileHeader from "@/components/MobileHeader";
+import MobileCreateBookPage from "./MobileCreateBookPage";
+import MobileBookSelector from "./MobileBookSelector";
+import { Book } from "@/types/Book";
+import { CloseIcon } from "@/components/Icons";
 
 export default function MobileCreatePostPage({
   categoryCounts,
@@ -30,6 +34,37 @@ export default function MobileCreatePostPage({
   const resetPost = useDraftPostStore.use.resetPost();
   const [isCloseModalOpen, setIsCloseModalOpen] = useState(false);
 
+  const books: Book[] = [
+    {
+      id: 1,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+    {
+      id: 2,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+    {
+      id: 3,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+    {
+      id: 4,
+      title: "테스트",
+      category: "공부",
+      count: 1,
+      color: "#77B5C1",
+    },
+  ];
+
   // 글쓰기 버튼 클릭 시 작성상태 리셋
   useEffect(() => {
     resetStep();
@@ -40,15 +75,31 @@ export default function MobileCreatePostPage({
   let title: React.ReactNode;
   let content: React.ReactNode;
   switch (currentStep) {
-    case 0:
-      title = "작성할 성취 카테고리를 선택해주세요";
+    case 2:
+      title = "작성할 이야기를 선택해주세요";
       content = (
-        <div className="flex-1 flex flex-col">
+        <div>
+          <MobileBookSelector books={books} categoryCounts={categoryCounts} />
+        </div>
+      );
+      break;
+    case 0:
+      title = "원하는 성취 카테고리를 선택해주세요";
+      content = (
+        <div>
           <CategorySelector categoryCounts={categoryCounts} />
         </div>
       );
       break;
     case 1:
+      title = "표지 미리보기";
+      content = (
+        <div className="h-100">
+          <MobileCreateBookPage close={setIsCloseModalOpen} />
+        </div>
+      );
+      break;
+    case 3:
       title = "작성할 내용들을 선택해주세요";
       content = (
         <div className="flex-1 flex flex-col">
@@ -56,7 +107,7 @@ export default function MobileCreatePostPage({
         </div>
       );
       break;
-    case 2:
+    case 4:
       title = "배경색을 선택해주세요";
       content = (
         <div className="flex-1 flex flex-col">
@@ -64,18 +115,18 @@ export default function MobileCreatePostPage({
         </div>
       );
       break;
-    case 3:
+    case 5:
       content = (
         <div>
           <MobileWriting />
         </div>
       );
       break;
-    case 4:
+    case 6:
       headerTitle = "사진 추가";
       content = <ImageUploader isMobile={true} />;
       break;
-    case 5:
+    case 7:
       headerTitle = "표지 미리보기";
       content = <TitleEditor />;
       break;
@@ -84,14 +135,36 @@ export default function MobileCreatePostPage({
       content = null;
   }
   return (
-    <div className="flex-1 flex flex-col">
-      <MobileHeader onClick={currentStep !== 0 ? handlePrevStep : undefined}>
-        {headerTitle ?? null}
-      </MobileHeader>
-      <div className="w-full flex-1 flex flex-col px-5 pb-15">
-        {title && <h1 className="text-xl font-semibold mb-5">{title}</h1>}
-        {content}
-      </div>
+    <div className="h-full flex-1 flex flex-col">
+      {currentStep > 2 ? (
+        <>
+          <MobileHeader onClick={handlePrevStep}>
+            {headerTitle ?? null}
+          </MobileHeader>
+          <div className="w-full flex-1 flex flex-col px-5 pb-15">
+            {title && <h1 className="text-xl font-semibold mb-5">{title}</h1>}
+            {content}
+          </div>
+        </>
+      ) : currentStep === 1? (<>{content}</>):(<>
+          <div className="relative bg-white w-full h-14 mb-5 flex items-center justify-center z-50">
+            <div className="flex items-center justify-center relative w-full">
+              <button
+                onClick={() => setIsCloseModalOpen(true)}
+                className="absolute left-4 top-1/2 -translate-y-1/2"
+              >
+                <CloseIcon />
+              </button>
+            </div>
+          </div>
+          <div className="w-full h-full flex flex-col px-5 pb-15">
+            {title && <h1 className="text-xl font-semibold mb-5">{title}</h1>}
+            <div className="flex-1 flex flex-col">{content}</div>
+          </div>
+        </>)
+        
+      }
+
       {isCloseModalOpen && (
         <ModalWithoutCloseBtn
           title={<p className="w-xs">글쓰기를 중단하시겠어요?</p>}

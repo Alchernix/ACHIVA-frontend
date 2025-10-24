@@ -6,7 +6,6 @@ import {
 import type { Book } from "@/types/Book";
 import type { CategoryCount } from "@/types/Post";
 
-
 //background: linear-gradient(298.33deg, #79B9C5 13.91%, #7CBCC8 89.44%);
 //background: linear-gradient(270deg, rgba(124, 188, 200, 0) 0%, rgba(24, 109, 125, 0.6) 35.42%, rgba(24, 109, 125, 0.6) 64.06%, rgba(124, 188, 200, 0) 100%);
 //background: linear-gradient(270deg, rgba(124, 188, 200, 0) 0%, #155662 61.46%);
@@ -25,9 +24,9 @@ export default function BookSelector({
   const handlePrevStep = useCreatePostStepStore.use.handlePrevStep();
 
   return (
-    <div className="w-xl h-full flex-1 flex flex-col justify-between gap-8">
+    <div className="h-full flex-1 flex flex-col justify-between gap-8 m-4">
       {books.length !== 0 && (
-        <div className="grid grid-cols-3 gap-8 w-full">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {books.map((book) => (
             <div
               key={book.id}
@@ -52,7 +51,7 @@ export default function BookSelector({
               handlePrevStep();
             }}
           >
-            <div className="aspect-[3/4] h-[217px] rounded-md relative shadow-sm bg-[#EDEDED]">
+            <div className="aspect-[3/4] rounded-md relative shadow-sm bg-[#EDEDED]">
               <div className="absolute top-2 right-[3px] px-[11px] py-[2px] gap-2 text-[#412A2A] bg-white border border-[#D9D9D9] rounded-md font-semibold">
                 운동 {/*이거 필요한가...?*/}
               </div>
