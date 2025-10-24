@@ -16,9 +16,7 @@ import Drawer from "./Drawer";
 import Notifications from "@/features/user/Notifications";
 
 export default function Sidebar({ user }: { user: User }) {
-  const [openedDrawer, setOpenedDrawer] = useState<"응원" | null>(
-    null
-  );
+  const [openedDrawer, setOpenedDrawer] = useState<"응원" | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 
   // flickering 제거 위한 코드
@@ -35,13 +33,13 @@ export default function Sidebar({ user }: { user: User }) {
   // 현재 drawer 관련해서 어색한 UI가 조금 보입니다..만
   // 나중에 전체적으로 응원탭을 변경하게 되지 않을까 싶어서 일단 그대로 두겠습니다
   const drawerContent = (
-      <Drawer title="응원" onClose={handleCloseDrawer}>
-        <Notifications />
-      </Drawer>
-    );
+    <Drawer title="응원" onClose={handleCloseDrawer}>
+      <Notifications />
+    </Drawer>
+  );
 
   const pathname = usePathname();
-  
+
   let selected;
   if (openedDrawer === "응원" || isClosing) {
     selected = "응원";
@@ -51,20 +49,20 @@ export default function Sidebar({ user }: { user: User }) {
     selected = "목표";
   } else if (pathname === `/${user.nickName}`) {
     selected = "MY";
-  // 사이드바에서 설정 버튼 빠짐 -> 임시로 MY로 처리
-  } else if (pathname.startsWith('/settings')) {
+    // 사이드바에서 설정 버튼 빠짐 -> 임시로 MY로 처리
+  } else if (pathname.startsWith("/settings")) {
     selected = "MY";
-  // 현재는 피드가 기본화면에 묶여 있어서 이렇게 처리했는데
-  // 나중에 기능 추가되면 아마 다른 페이지로 분리될 거 같아서 그때 다시 수정해야할듯?
+    // 현재는 피드가 기본화면에 묶여 있어서 이렇게 처리했는데
+    // 나중에 기능 추가되면 아마 다른 페이지로 분리될 거 같아서 그때 다시 수정해야할듯?
   } else {
     selected = "피드";
   }
-  
+
   return (
     <>
       <motion.nav
         layoutScroll
-        className={`text-theme z-50 h-dvh fixed bottom-0 top-0 flex flex-col items-center w-auto lg:w-[250px] ${
+        className={`text-theme z-10 h-dvh fixed bottom-0 top-0 flex flex-col items-center w-auto lg:w-[250px] ${
           openedDrawer ? "!w-auto" : ""
         } py-8 border-r border-r-[#412A2A] bg-white`}
       >
