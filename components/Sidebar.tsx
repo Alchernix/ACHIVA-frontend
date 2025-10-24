@@ -38,7 +38,7 @@ export default function Sidebar({ user }: { user: User }) {
     </Drawer>
   );
 
-  const pathname = usePathname();
+  const pathname = decodeURIComponent(usePathname());
 
   let selected;
   if (openedDrawer === "응원" || isClosing) {
