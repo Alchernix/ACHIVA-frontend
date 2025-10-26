@@ -32,4 +32,3 @@ const MobileGoalArchivePage: React.FC<MobileGoalArchivePageProps> = ({
 };
 
 export default MobileGoalArchivePage;
-

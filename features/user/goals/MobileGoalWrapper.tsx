@@ -71,4 +71,3 @@ const MobileGoalWrapper: React.FC<MobileGoalWrapperProps> = ({
 };
 
 export default MobileGoalWrapper;
-

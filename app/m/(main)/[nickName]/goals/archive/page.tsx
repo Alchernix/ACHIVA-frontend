@@ -35,4 +35,3 @@ export default async function MobileGoalArchivePageRoute({
 
   return <MobileGoalArchivePage initialData={processedInitialData} />;
 }
-

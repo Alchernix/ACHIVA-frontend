@@ -45,4 +45,3 @@ const MobileMindsetCard: React.FC = () => {
 };
 
 export default MobileMindsetCard;
-

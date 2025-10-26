@@ -39,4 +39,3 @@ const MobileVisionCard: React.FC = () => {
 };
 
 export default MobileVisionCard;
-

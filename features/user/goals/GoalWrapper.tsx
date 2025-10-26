@@ -27,28 +27,29 @@ const GoalWrapper: React.FC<GoalWrapperProps> = ({ initialData }) => {
   }, [initialData, setInitialData]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 space-y-4">
-      <div className="flex justify-end items-center gap-4">
-        <button
-          onClick={() => toggleArchiveModal(true)}
-          className="w-6 h-6 flex items-center justify-center text-[#412A2A] hover:opacity-70"
-        >
-          <GoalArchiveIcon />
-        </button>
-        <button
-          onClick={() => toggleModal(true)}
-          className="w-6 h-6 flex items-center justify-center text-[#412A2A] hover:opacity-70"
-        >
-          <GoalEditIcon />
-        </button>
-      </div>
+    <div className="w-full flex-1 flex flex-col">
+      <div className="w-full max-w-4xl mx-auto p-4 sm:p-6 space-y-4 flex-1">
+        <div className="flex justify-end items-center gap-4">
+          <button
+            onClick={() => toggleArchiveModal(true)}
+            className="w-6 h-6 flex items-center justify-center text-[#412A2A] hover:opacity-70"
+          >
+            <GoalArchiveIcon />
+          </button>
+          <button
+            onClick={() => toggleModal(true)}
+            className="w-6 h-6 flex items-center justify-center text-[#412A2A] hover:opacity-70"
+          >
+            <GoalEditIcon />
+          </button>
+        </div>
 
-      <VisionCard />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <MissionCard />
-        <MindsetCard />
+        <VisionCard />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <MissionCard />
+          <MindsetCard />
+        </div>
       </div>
-
       <Footer />
       <GoalEditModal />
       <GoalArchiveModal />

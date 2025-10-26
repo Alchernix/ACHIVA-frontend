@@ -333,4 +333,3 @@ const GoalEditContent: React.FC<GoalEditContentProps> = ({
 };
 
 export default GoalEditContent;
-

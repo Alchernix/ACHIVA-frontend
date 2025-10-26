@@ -100,7 +100,7 @@ const GoalArchiveContent: React.FC<GoalArchiveContentProps> = ({
         }
         onClick={(e) => e.stopPropagation()}
       >
-        {allArchivedItems.length === 0 ? (  
+        {allArchivedItems.length === 0 ? (
           <div className="text-center py-10 text-[#808080]">
             보관된 항목이 없습니다
           </div>
@@ -169,4 +169,3 @@ const GoalArchiveContent: React.FC<GoalArchiveContentProps> = ({
 };
 
 export default GoalArchiveContent;
-

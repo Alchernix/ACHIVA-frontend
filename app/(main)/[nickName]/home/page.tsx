@@ -38,7 +38,7 @@ export default async function HomePage({
             </Link>
           </div>
         </div>
-        
+
         <div className="flex justify-center py-6">
           <Link
             href="/post/create"

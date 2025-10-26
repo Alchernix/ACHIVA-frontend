@@ -27,11 +27,11 @@ export default async function MobileHomePageRoute({
   return (
     <div className="min-h-dvh bg-white pt-14 pb-[104px] flex flex-col">
       <div className="flex-1" />
-      
+
       <GoalSummary summaryData={mySummaryData} />
-      
+
       <div className="h-6" />
-      
+
       <div className="flex justify-center pb-[22px]">
         <Link
           href="/post/create"

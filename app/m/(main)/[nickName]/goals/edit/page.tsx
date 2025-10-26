@@ -35,4 +35,3 @@ export default async function MobileGoalEditPageRoute({
 
   return <MobileGoalEditPage initialData={processedInitialData} />;
 }
-

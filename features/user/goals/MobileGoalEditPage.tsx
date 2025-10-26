@@ -36,4 +36,3 @@ const MobileGoalEditPage: React.FC<MobileGoalEditPageProps> = ({
 };
 
 export default MobileGoalEditPage;
-

@@ -45,4 +45,3 @@ const MobileMissionCard: React.FC = () => {
 };
 
 export default MobileMissionCard;
-
