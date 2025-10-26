@@ -17,7 +17,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // 포스트 캐시
-const postCache = new Map<number, PostRes | undefined>();
+const postCache = new Map<string, PostRes | undefined>();
 
 export default function Notifications() {
   const router = useRouter();
