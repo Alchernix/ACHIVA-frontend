@@ -4,6 +4,7 @@ import getAuthStatus from "@/lib/getAuthStatus";
 import GoalSummary from "@/features/user/goals/GoalSummary";
 import Footer from "@/components/Footer";
 import Banner from "@/features/event/Banner";
+import { CaretRight24pxIcon } from "@/components/Icons";
 
 export default async function HomePage({
   params,
@@ -17,7 +18,7 @@ export default async function HomePage({
   }
 
   const { nickName } = await params; // 이 페이지 유저 닉네임
-  const isOwner = currentUser.nickName === nickName; // 본인 아닐 때 어디까지 조회 가능? -> 나중에 물어봐야함
+  const isOwner = currentUser.nickName === nickName; // 본인 아닐 때 어디까지 조회 가능?
 
   // 나중에 API로 받아와야 함
   const mySummaryData = {
@@ -37,6 +38,19 @@ export default async function HomePage({
             </Link>
           </div>
         </div>
+        
+        <div className="flex justify-center py-6">
+          <Link
+            href="/post/create"
+            className="flex flex-row justify-center items-center gap-1 w-[272px] h-14 px-12 bg-[#412A2A] rounded-[64px]"
+          >
+            <span className="font-['Pretendard'] font-semibold text-xl leading-6 text-white text-center">
+              오늘의 이야기 작성
+            </span>
+            <CaretRight24pxIcon />
+          </Link>
+        </div>
+        {/* Footer 크기 디자인 따라서 다름 -> 문의해봐야 */}
         <Footer />
       </div>
       <div className="bg-[#fafafa] w-60 hidden md:flex justify-center">

@@ -1,9 +1,9 @@
 import { notFound, redirect } from "next/navigation";
 import getAuthStatus from "@/lib/getAuthStatus";
 import useGoalStore from "@/store/GoalStore";
-import MobileGoalWrapper from "@/features/user/goals/MobileGoalWrapper"
+import MobileGoalEditPage from "@/features/user/goals/MobileGoalEditPage";
 
-export default async function MobileGoalsPage({
+export default async function MobileGoalEditPageRoute({
   params,
 }: {
   params: Promise<{ nickName: string }>;
@@ -33,5 +33,6 @@ export default async function MobileGoalsPage({
     mindsets: initialData.mindsets,
   };
 
-  return <MobileGoalWrapper initialData={processedInitialData} />;
+  return <MobileGoalEditPage initialData={processedInitialData} />;
 }
+
