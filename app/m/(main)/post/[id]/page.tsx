@@ -1,5 +1,5 @@
 import MobileHeader from "@/components/MobileHeader";
-import { cookies } from "next/headers";
+import { auth } from "@/auth";
 import type { PostRes } from "@/types/Post";
 import HomePost from "@/features/home/Post";
 import { notFound } from "next/navigation";
@@ -7,11 +7,11 @@ import { notFound } from "next/navigation";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: number }>;
+  params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const session = await auth();
+  const token = session?.access_token;
 
   async function getPost() {
     const postRes = await fetch(

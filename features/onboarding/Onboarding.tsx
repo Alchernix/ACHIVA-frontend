@@ -1,13 +1,12 @@
 "use client";
 
 import { useSignupInfoStore, useSignupStepStore } from "@/store/SignupStore";
-import { useAuth } from "react-oidc-context";
+import { handleSignIn } from "./handleSignIn";
 import { TextLogoWhite } from "@/components/Logo";
 
 export default function Onboarding() {
   const resetStep = useSignupStepStore.use.resetStep();
   const resetUser = useSignupInfoStore.use.resetUser();
-  const auth = useAuth();
 
   return (
     <div className="h-dvh bg-theme flex flex-col items-center p-10">
@@ -21,43 +20,34 @@ export default function Onboarding() {
         </div>
       </div>
       <div className="flex flex-col justify-start items-center w-[359px] relative gap-5">
-        <button
-          onClick={async () => {
-            resetStep();
-            resetUser();
+        <form action={handleSignIn}>
+          <button
+            onClick={async () => {
+              resetStep();
+              resetUser();
+            }}
+            className="flex-grow-0 flex-shrink-0 w-[359px] h-[46px]"
+          >
+            <div className="flex justify-center items-center w-[359px] h-[46px] px-[63px] py-2.5 rounded-[5px] bg-white/90">
+              <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-center text-theme">
+                회원가입
+              </p>
+            </div>
+          </button>
+        </form>
 
-            if (auth.isAuthenticated) {
-              await auth.signoutRedirect(); // 기존 세션 정리
-            }
-
-            auth.signinRedirect({
-              state: { from: "/signup" },
-            });
-          }}
-          className="flex-grow-0 flex-shrink-0 w-[359px] h-[46px]"
-        >
-          <div className="flex justify-center items-center w-[359px] h-[46px] px-[63px] py-2.5 rounded-[5px] bg-white/90">
-            <p className="flex-grow-0 flex-shrink-0 text-lg font-bold text-center text-theme">
-              회원가입
-            </p>
-          </div>
-        </button>
-        <p className="self-stretch flex-grow-0 flex-shrink-0 w-[359px] h-[23px] text-base text-center flex justify-center items-center gap-2">
+        <div className="self-stretch flex-grow-0 flex-shrink-0 w-[359px] h-[23px] text-base text-center flex justify-center items-center gap-2">
           <span className=" text-sm text-center text-white/50">
             이미 계정이 있나요?
           </span>
-          <button
-            onClick={async () => {
-              auth.signinRedirect({
-                state: { from: "/" },
-              });
-            }}
-          >
-            <span className=" h-[23px] text-sm font-bold text-center text-white">
-              로그인
-            </span>
-          </button>
-        </p>
+          <form action={handleSignIn}>
+            <button>
+              <span className=" h-[23px] text-sm font-bold text-center text-white">
+                로그인
+              </span>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

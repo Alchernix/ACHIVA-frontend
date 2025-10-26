@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { pretendard } from "@/lib/fonts";
 import "./globals.css";
 import Wrapper from "@/QueryClientProvider";
-import AuthProviderWrapper from "@/AuthProviderWrapper";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 
@@ -44,9 +43,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={`${pretendard.className} antialiased min-h-dvh`}>
-        <Wrapper>
-          <AuthProviderWrapper>{children}</AuthProviderWrapper>
-        </Wrapper>
+        <Wrapper>{children}</Wrapper>
         <Analytics />
       </body>
     </html>

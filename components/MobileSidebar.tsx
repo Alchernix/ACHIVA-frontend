@@ -9,37 +9,13 @@ import {
   SideBarHeartIcon,
   MyPageIcon,
 } from "./Icons";
-import { AnimatePresence, motion } from "motion/react";
-import { useState } from "react";
-import Drawer from "./Drawer";
-import Notifications from "@/features/user/Notifications";
+import { motion } from "motion/react";
 
 export default function Sidebar({ user }: { user: User }) {
-  const [openedDrawer, setOpenedDrawer] = useState<"응원" | null>(
-    null
-  );
-  const [isClosing, setIsClosing] = useState(false);
+  const pathname = decodeURIComponent(usePathname());
 
-  // flickering 제거 위한 코드
-  const handleCloseDrawer = () => {
-    setIsClosing(true);
-    setOpenedDrawer(null);
-  };
-
-  const handleExitComplete = () => {
-    setIsClosing(false);
-  };
-
-  const drawerContent = (
-      <Drawer title="응원" onClose={handleCloseDrawer}>
-        <Notifications />
-      </Drawer>
-    );
-
-  const pathname = usePathname();
-  
   let selected;
-  if (openedDrawer === "응원" || isClosing) {
+  if (pathname === `/accounts/notifications`) {
     selected = "응원";
   } else if (pathname === `/${user.nickName}/home`) {
     selected = "홈";
@@ -47,9 +23,10 @@ export default function Sidebar({ user }: { user: User }) {
     selected = "목표";
   } else if (pathname === `/${user.nickName}`) {
     selected = "MY";
-  } else if (pathname.startsWith('/settings')) {
+  } else if (pathname.startsWith("/settings")) {
     selected = "MY";
   } else {
+    selected = "피드";
     selected = "피드";
   }
 
@@ -98,13 +75,13 @@ export default function Sidebar({ user }: { user: User }) {
               selected={selected === "피드"}
             />
           </Link>
-          <button onClick={() => setOpenedDrawer("응원")}>
+          <Link href={`/accounts/notifications`}>
             <ListItem
               label="응원"
               icon={<SideBarHeartIcon fill={selected === "응원"} />}
               selected={selected === "응원"}
             />
-          </button>
+          </Link>
           <Link href={`/${user.nickName}`}>
             <ListItem
               label="MY"
@@ -114,9 +91,6 @@ export default function Sidebar({ user }: { user: User }) {
           </Link>
         </ul>
       </motion.nav>
-      <AnimatePresence onExitComplete={handleExitComplete}>
-        {openedDrawer && drawerContent}
-      </AnimatePresence>
     </>
   );
 }
@@ -139,9 +113,7 @@ function ListItem({ label, icon, selected }: ListItemProps) {
           className="absolute -top-[19px] left-0 right-0 h-[3px] bg-theme rounded-b-sm"
         />
       )}
-      <div className="w-8 h-8 flex items-center justify-center">
-        {icon}
-      </div>
+      <div className="w-8 h-8 flex items-center justify-center">{icon}</div>
       <span
         className={`text-[15px] leading-[18px] whitespace-nowrap ${
           selected ? "font-semibold" : "font-light"
