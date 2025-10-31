@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { Area } from "react-easy-crop";
 
 type Props = {
@@ -18,6 +18,36 @@ export default function useImageUploader({ apiUrl, onUploadCompleted }: Props) {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   const [isUploading, setIsUploading] = useState(false);
+
+  // 앱으로부터 메시지를 받기 위한 로직 추가
+  useEffect(() => {
+    const handleMessageFromApp = (event: MessageEvent) => {
+      const message = event.data;
+
+      // 약속된 'IMAGE_DATA' 타입인지, 데이터가 있는지 확인합니다.
+      if (message && message.type === "IMAGE_DATA" && message.data) {
+        console.log("앱으로부터 이미지 데이터를 받았습니다.");
+        const imageBase64 = message.data;
+
+        // 1. 받은 Base64 데이터로 Cropper의 이미지 소스를 설정합니다.
+        //    (Data URL 형식에 맞게 접두사를 붙여줘야 합니다.)
+        setImageSrc(`data:image/jpeg;base64,${imageBase64}`);
+
+        // 2. 앱에서는 File 객체가 없으므로 originalFile 상태는 null로 설정합니다.
+        setOriginalFile(null);
+
+        // 3. 크롭 상태를 초기화합니다.
+        setCrop({ x: 0, y: 0 });
+      }
+    };
+
+    window.addEventListener("message", handleMessageFromApp);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너를 정리합니다.
+    return () => {
+      window.removeEventListener("message", handleMessageFromApp);
+    };
+  }, []); // 빈 배열을 전달하여 컴포넌트가 처음 로드될 때 한 번만 실행되도록 설정
 
   /** 파일 선택 -> dataURL로 미리보기 세팅 */
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +86,7 @@ export default function useImageUploader({ apiUrl, onUploadCompleted }: Props) {
         croppedAreaPixels,
         originalFile?.type
       );
-      const fileNameBase = (originalFile?.name ?? "image")
+      const fileNameBase = (originalFile?.name ?? "image-from-app")
         .replace(/\.[^/.]+$/, "")
         .slice(0, 80);
       const ext = mimeToExt(blob.type) || "jpg";

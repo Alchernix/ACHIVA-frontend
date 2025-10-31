@@ -90,7 +90,14 @@ export default function ImageUploader() {
           isLoading={isUploading}
           onClick={() => {
             if (!imageSrc) {
-              input.current?.click();
+              // RN 환경에서는 카메라 요청, 아니면 파일인풋 클릭
+              if (window.ReactNativeWebView) {
+                window.ReactNativeWebView.postMessage(
+                  JSON.stringify({ type: "REQUEST_CAMERA" })
+                );
+              } else {
+                input.current?.click();
+              }
             } else {
               onUpload();
             }

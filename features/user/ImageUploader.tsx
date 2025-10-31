@@ -41,7 +41,15 @@ export default function ImageUploader({ setProfileImageUrl }: Props) {
     <>
       <button
         type="button"
-        onClick={() => input.current?.click()}
+        onClick={() => {
+          if (window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({ type: "REQUEST_CAMERA" })
+            );
+          } else {
+            input.current?.click();
+          }
+        }}
         className="absolute bottom-0 right-0"
       >
         <ProfileImgUploadIcon />
