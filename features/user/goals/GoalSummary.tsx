@@ -26,7 +26,7 @@ const GoalSummaryCard: React.FC<GoalSummaryProps> = ({
     <div className="flex justify-center items-center w-full max-w-[844px] min-h-[88px] bg-white border rounded-lg md:rounded-[10px] py-4 px-4 md:px-4 md:sm:px-6 border-[#E6E6E6] md:border-[#E4E4E4]">
       <div className="flex justify-between items-center w-full gap-4">
         <div className="flex items-center gap-3 md:gap-3 md:sm:gap-6">
-          <div className="font-semibold font-['Urbanist'] leading-[130%] text-2xl md:text-2xl md:sm:text-3xl">
+          <div className="w-11 h-14 text-[43px] flex items-center justify-center overflow-hidden">
             {icon}
           </div>
           <div className="flex flex-col gap-1">

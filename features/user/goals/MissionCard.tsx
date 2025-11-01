@@ -19,7 +19,7 @@ const MissionCard: React.FC = () => {
         {activeMissions.map((mission) => (
           <li key={mission.id} className="flex justify-between items-center">
             <div className="flex items-center gap-4">
-              <span className="w-9 h-9 text-[36px] flex items-center pr-1">
+              <span className="w-9 h-9 text-[36px] flex items-center justify-center overflow-hidden">
                 🎯
               </span>
               <div className="flex flex-col gap-1">

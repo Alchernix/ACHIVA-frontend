@@ -15,7 +15,9 @@ const VisionCard: React.FC = () => {
       <h2 className="text-xl font-bold mb-4 text-black">나의 꿈</h2>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <span className="w-9 h-9 text-[36px] flex items-center pr-1">💫</span>
+          <span className="w-9 h-9 text-[36px] flex items-center justify-center overflow-hidden">
+            💫
+          </span>
           <div className="flex flex-col gap-1">
             <p className="font-medium text-[18px] leading-[21px] text-black">
               {vision.text}
